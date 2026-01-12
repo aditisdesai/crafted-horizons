@@ -24,9 +24,48 @@ body {
   margin: 0 auto;
 }
 
-.header {
-  padding: 64px 0 28px;
+.hero {
+  padding: 56px 0 22px;
   border-bottom: 1px solid var(--line);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 560px;
+}
+
+.hero-media {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+}
+
+.hero-media::after {
+  /* subtle overlay to keep the image calm + premium */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15,17,21,0.00) 0%,
+    rgba(15,17,21,0.10) 45%,
+    rgba(15,17,21,0.22) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-media img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .kicker {
@@ -116,7 +155,30 @@ li { margin: 6px 0; }
   color: var(--muted);
 }
 
+/* Desktop split layout */
 @media (min-width: 860px) {
   .grid { grid-template-columns: 1fr 1fr; }
-  .header { padding-top: 78px; }
+
+  .hero {
+    padding: 78px 0 28px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 22px;
+  }
+
+  .hero-media img {
+    /* keeps the portrait looking editorial */
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+}
+
+/* Mobile: use square crop */
+@media (max-width: 720px) {
+  .hero-media img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
 }
