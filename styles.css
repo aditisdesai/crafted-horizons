@@ -24,6 +24,57 @@ body {
   margin: 0 auto;
 }
 
+/* Navigation */
+.nav {
+  position: sticky;
+  top: 0;
+  background: rgba(15, 17, 21, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  z-index: 100;
+  padding: 16px 0;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+  border: none;
+}
+
+.logo:hover {
+  border: none;
+  opacity: 0.8;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-link {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  border: none;
+}
+
 .hero {
   padding: 56px 0 22px;
   border-bottom: 1px solid var(--line);
@@ -140,6 +191,66 @@ a:hover { border-bottom-color: rgba(255,255,255,0.35); }
   letter-spacing: 0.01em;
 }
 
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+}
+
+/* Story Card */
+.story-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 28px 24px;
+}
+
+.highlight {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 17px;
+  margin-top: 16px;
+  padding-left: 18px;
+  border-left: 3px solid rgba(255,255,255,0.25);
+}
+
+/* Pillar Sections */
+.pillar-section {
+  margin: 42px 0;
+  scroll-margin-top: 80px;
+}
+
+.pillar-header {
+  margin-bottom: 20px;
+}
+
+.pillar-number {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.pillar-header h2 {
+  font-size: 28px;
+  margin: 6px 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.pillar-intro {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0;
+}
+
+.cta-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  margin-top: 16px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -180,5 +291,28 @@ li { margin: 6px 0; }
   .hero-media img {
     aspect-ratio: 1 / 1;
     object-fit: cover;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-inner {
+    justify-content: center;
+  }
+
+  .pillar-header h2 {
+    font-size: 24px;
+  }
+}
+
+/* Tablet navigation */
+@media (max-width: 860px) and (min-width: 721px) {
+  .nav-links {
+    gap: 18px;
+  }
+
+  .nav-link {
+    font-size: 13px;
   }
 }
