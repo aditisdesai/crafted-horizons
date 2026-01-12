@@ -39,11 +39,24 @@
       <section class="destinations-grid">
         <!-- Hanoi, Vietnam -->
         <article class="destination-card">
-          <div class="destination-image">
-            <img src="images/inspiration/C27140EB-5B12-433E-B48B-D749959B8255_1_105_c.jpeg" alt="Street food restaurant in Hanoi" loading="lazy" />
+          <div class="destination-carousel">
+            <div class="carousel-track">
+              <div class="carousel-slide" data-caption="Street food here isn't just eating—it's the whole experience. Small family-run spots, the sounds, the smells, conversations over bowls that cost less than a coffee back home but taste like they contain generations of knowledge.">
+                <img src="images/inspiration/C27140EB-5B12-433E-B48B-D749959B8255_1_105_c.jpeg" alt="Street food restaurant in Hanoi" loading="lazy" />
+              </div>
+              <div class="carousel-slide" data-caption="Hanoi Train Street. One of the city's most famous — and now carefully managed — experiences, where trains pass just inches from homes and cafés in the Old Quarter. Watching my 13-year-old wait for the train, I was reminded that travel isn't about spectacle alone, but about being present in places that carry real stories and lived realities.">
+                <img src="images/inspiration/D9AE0217-82F5-4DBF-BA7D-043BA2B2CBCF_1_105_c.jpeg" alt="Hanoi Train Street" loading="lazy" />
+              </div>
+              <div class="carousel-slide" data-caption="Temple of Literature. Built in the 11th century and dedicated to learning, this was Vietnam's first university. Hearing its story through an exceptional local guide — knowledgeable, articulate, and deeply respectful of the space — reminded us how much context matters when we travel.">
+                <img src="images/inspiration/780D2265-CE76-4130-A503-9655550FCBFB_1_102_o.jpeg" alt="Temple of Literature, Hanoi" loading="lazy" />
+              </div>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous image">‹</button>
+            <button class="carousel-btn next" aria-label="Next image">›</button>
+            <div class="carousel-dots"></div>
           </div>
           <div class="destination-content">
-            <h2 class="destination-name">Hanoi, Vietnam</h2>
+            <h3 class="destination-name">Hanoi, Vietnam</h3>
             <p class="destination-caption">Street food here isn't just eating—it's the whole experience. Small family-run spots, the sounds, the smells, conversations over bowls that cost less than a coffee back home but taste like they contain generations of knowledge.</p>
           </div>
         </article>
@@ -74,6 +87,74 @@
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Carousel functionality
+      function initCarousels() {
+        const carousels = document.querySelectorAll('.destination-carousel');
+
+        carousels.forEach(carousel => {
+          const track = carousel.querySelector('.carousel-track');
+          const slides = carousel.querySelectorAll('.carousel-slide');
+          const prevBtn = carousel.querySelector('.prev');
+          const nextBtn = carousel.querySelector('.next');
+          const dotsContainer = carousel.querySelector('.carousel-dots');
+          const captionElement = carousel.parentElement.querySelector('.destination-caption');
+
+          let currentSlide = 0;
+          const totalSlides = slides.length;
+
+          // Only show controls if there are multiple slides
+          if (totalSlides > 1) {
+            carousel.setAttribute('data-slides', 'multiple');
+
+            // Create dots
+            for (let i = 0; i < totalSlides; i++) {
+              const dot = document.createElement('span');
+              dot.classList.add('carousel-dot');
+              if (i === 0) dot.classList.add('active');
+              dot.addEventListener('click', () => goToSlide(i));
+              dotsContainer.appendChild(dot);
+            }
+
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+            function updateCarousel() {
+              track.style.transform = `translateX(-${currentSlide * 100}%)`;
+              dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+              });
+
+              // Update caption if slide has data-caption attribute
+              const currentSlideElement = slides[currentSlide];
+              const caption = currentSlideElement.getAttribute('data-caption');
+              if (caption && captionElement) {
+                captionElement.textContent = caption;
+              }
+            }
+
+            function goToSlide(n) {
+              currentSlide = n;
+              updateCarousel();
+            }
+
+            function nextSlide() {
+              currentSlide = (currentSlide + 1) % totalSlides;
+              updateCarousel();
+            }
+
+            function prevSlide() {
+              currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+              updateCarousel();
+            }
+
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+          }
+        });
+      }
+
+      // Initialize carousels when page loads
+      initCarousels();
     </script>
   </body>
 </html>
