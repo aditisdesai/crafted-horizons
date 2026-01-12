@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Inspiration — Crafted Horizons by Aditi</title>
+    <meta
+      name="description"
+      content="A curated portfolio of destinations, moments, and travel styles — Crafted Horizons by Aditi."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Simple top nav -->
+    <header class="wrap topbar">
+      <a class="topbar-brand" href="index.html">
+        <span class="kicker">Crafted Horizons</span>
+        <span class="topbar-sub">by Aditi</span>
+      </a>
+
+      <nav class="topbar-nav">
+        <a href="index.html">Home</a>
+        <a class="active" href="inspiration.html">Inspiration</a>
+      </nav>
+    </header>
+
+    <main class="wrap page">
+      <section class="page-hero">
+        <h1>Need inspiration?</h1>
+        <p class="subhead">
+          Browse a curated selection of destinations, moments, and travel styles—culture, food, slower mornings, and the
+          stories in between.
+        </p>
+
+        <div class="cta-row">
+          <!-- TODO: replace with your intake form link -->
+          <a class="btn primary" href="PASTE_YOUR_TYPEFORM_LINK_HERE" target="_blank" rel="noreferrer">
+            Plan your journey
+          </a>
+          <a class="btn" href="#gallery">Explore the gallery</a>
+        </div>
+      </section>
+
+      <!-- Optional filters (simple + effective) -->
+      <section class="filters" aria-label="Filter inspiration gallery">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="culture">Culture</button>
+        <button class="chip" data-filter="food">Food</button>
+        <button class="chip" data-filter="city">City breaks</button>
+        <button class="chip" data-filter="nature">Nature</button>
+        <button class="chip" data-filter="slow">Slow travel</button>
+      </section>
+
+      <!-- Gallery -->
+      <section id="gallery" class="gallery" aria-label="Inspiration gallery">
+        <!--
+          HOW TO ADD ITEMS:
+          - data-tags is used for filtering
+          - Replace image paths + captions
+          - Use your own photos first (best for trust)
+        -->
+
+        <figure class="tile" data-tags="culture city">
+          <img
+            src="images/inspiration/temple-01.jpg"
+            alt="Exploring historic architecture and quiet corners"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            <p class="cap-title">Historic & immersive</p>
+            <p class="cap-sub">Culture-led days with space to wander.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="tile" data-tags="food city slow">
+          <img
+            src="images/inspiration/food-01.jpg"
+            alt="Local food experience and markets"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            <p class="cap-title">Food-first travel</p>
+            <p class="cap-sub">Markets, cafés, and meals with stories.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="tile" data-tags="city">
+          <img
+            src="images/inspiration/city-01.jpg"
+            alt="City streets and everyday moments"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            <p class="cap-title">City breaks</p>
+            <p class="cap-sub">Walkable, well-paced, beautifully planned.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="tile" data-tags="nature slow">
+          <img
+            src="images/inspiration/nature-01.jpg"
+            alt="Nature and scenic viewpoints"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            <p class="cap-title">Quiet horizons</p>
+            <p class="cap-sub">Views that reset your pace.</p>
+          </figcaption>
+        </figure>
+
+        <!-- Duplicate tiles as needed -->
+      </section>
+
+      <!-- Conversion section -->
+      <section class="card page-cta">
+        <h2>See something you like?</h2>
+        <p class="note">
+          Tell me what sparked your interest—destination, dates, travel style, and budget—and I'll curate options that
+          fit your pace and preferences.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="PASTE_YOUR_TYPEFORM_LINK_HERE" target="_blank" rel="noreferrer">
+            Share your travel idea
+          </a>
+          <a class="btn" href="index.html#about">Read my story</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close image">×</button>
+      <img id="lightboxImg" alt="" />
+      <div class="lightboxCaption" id="lightboxCaption"></div>
+    </div>
+
+    <footer class="wrap footer">
+      <p>© <span id="year"></span> Crafted Horizons — by Aditi</p>
+      <p class="small">Independent Travel Advisor · In partnership with The Latitude Collective</p>
+    </footer>
+
+    <script>
+      // year
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // filtering
+      const chips = document.querySelectorAll(".chip");
+      const tiles = document.querySelectorAll(".tile");
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chips.forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+
+          const filter = chip.dataset.filter;
+          tiles.forEach((tile) => {
+            const tags = tile.dataset.tags || "";
+            const show = filter === "all" || tags.includes(filter);
+            tile.style.display = show ? "" : "none";
+          });
+        });
+      });
+
+      // lightbox
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      const lightboxClose = document.getElementById("lightboxClose");
+
+      tiles.forEach((tile) => {
+        tile.addEventListener("click", () => {
+          const img = tile.querySelector("img");
+          const title = tile.querySelector(".cap-title")?.textContent || "";
+          const sub = tile.querySelector(".cap-sub")?.textContent || "";
+
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt || title;
+          lightboxCaption.textContent = [title, sub].filter(Boolean).join(" — ");
+
+          lightbox.classList.add("open");
+          lightbox.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImg.src = "";
+      }
+
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    </script>
+  </body>
+</html>
