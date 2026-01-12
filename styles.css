@@ -420,7 +420,7 @@ li { margin: 6px 0; }
 .destination-carousel {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   background: var(--card);
 }
 
