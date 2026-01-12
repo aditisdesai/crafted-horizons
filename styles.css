@@ -420,7 +420,8 @@ li { margin: 6px 0; }
 .destination-carousel {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3 / 2;
+  min-height: 320px;
+  aspect-ratio: 16 / 10;
   background: var(--card);
 }
 
@@ -514,7 +515,7 @@ li { margin: 6px 0; }
 
 /* Destination Content - More Compact */
 .destination-content {
-  padding: 16px 18px 18px;
+  padding: 18px 20px 20px;
 }
 
 .destination-name {
@@ -530,10 +531,6 @@ li { margin: 6px 0; }
   line-height: 1.6;
   color: var(--muted);
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Responsive: 3 columns on desktop, 2 on tablet, 1 on mobile */
