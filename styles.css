@@ -75,6 +75,11 @@ body {
   border: none;
 }
 
+.nav-link.active {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .hero {
   padding: 56px 0 22px;
   border-bottom: 1px solid var(--line);
@@ -257,6 +262,64 @@ a:hover { border-bottom-color: rgba(255,255,255,0.35); }
   gap: 16px;
 }
 
+/* Page Header */
+.page-header {
+  padding: 28px 0 22px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  margin: 6px 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.page-intro {
+  color: var(--muted);
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Offerings Section */
+.offerings-section {
+  margin: 32px 0;
+}
+
+.offerings-section h2 {
+  font-size: 24px;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.offerings-grid {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.offering-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.offering-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.offering-card h3 {
+  color: var(--text);
+  margin: 8px 0 6px;
+}
+
+.offering-card p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 14px;
+}
+
 ul, ol { margin: 10px 0 0; padding-left: 20px; }
 li { margin: 6px 0; }
 
@@ -269,6 +332,8 @@ li { margin: 6px 0; }
 /* Desktop split layout */
 @media (min-width: 860px) {
   .grid { grid-template-columns: 1fr 1fr; }
+
+  .offerings-grid { grid-template-columns: 1fr 1fr; }
 
   .hero {
     padding: 78px 0 28px;
