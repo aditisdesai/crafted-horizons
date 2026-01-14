@@ -19,7 +19,7 @@ body {
 }
 
 .wrap {
-  width: min(980px, calc(100% - 48px));
+  width: min(1280px, calc(100% - 48px));
   margin: 0 auto;
 }
 
@@ -533,10 +533,10 @@ li { margin: 6px 0; }
   margin: 0;
 }
 
-/* Responsive: 3 columns on desktop, 2 on tablet, 1 on mobile */
+/* Responsive: 4 columns on desktop, 2 on tablet, 1 on mobile */
 @media (min-width: 1024px) {
   .destinations-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 18px;
   }
 }
@@ -578,7 +578,7 @@ li { margin: 6px 0; }
   line-height: 1.6;
   color: var(--fg-muted);
   margin: 0 0 8px;
-  max-width: 720px;
+  max-width: 100%;
 }
 
 .destination-group .trip-bridge {
