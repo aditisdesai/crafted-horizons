@@ -416,101 +416,101 @@ li { margin: 6px 0; }
   box-shadow: 0 8px 20px rgba(27,31,36,0.10);
 }
 
-/* Carousel Container */
+/* === Destination Carousel (stable + responsive) === */
 .destination-carousel {
   position: relative;
+  border-radius: 22px;
   overflow: hidden;
-  min-height: 320px;
-  aspect-ratio: 16 / 10;
   background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 30px rgba(27,31,36,0.08);
 }
 
+/* Track holds slides horizontally */
 .carousel-track {
   display: flex;
-  transition: transform 0.3s ease;
-  height: 100%;
+  transition: transform 350ms ease;
+  will-change: transform;
 }
 
+/* Each slide takes full width of the carousel */
 .carousel-slide {
-  min-width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--card);
+  flex: 0 0 100%;
+  position: relative;
 }
 
 .carousel-slide img {
   width: 100%;
-  height: 100%;
+  height: clamp(240px, 42vw, 520px); /* responsive travel-friendly height */
   object-fit: cover;
   object-position: center;
   display: block;
 }
 
-/* Carousel Navigation Buttons */
+/* Prev/Next buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.9);
-  border: 1px solid var(--line);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(27,31,36,0.12);
+  background: rgba(255,255,255,0.86);
   color: var(--text);
-  transition: all 0.2s;
-  z-index: 10;
+  font-size: 22px;
+  cursor: pointer;
+  display: grid;            /* always visible by default */
+  place-items: center;
+  z-index: 20;
+  box-shadow: 0 6px 18px rgba(27,31,36,0.12);
 }
 
 .carousel-btn:hover {
-  background: white;
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) translateY(-1px);
 }
 
-.carousel-btn.prev {
-  left: 8px;
+.carousel-btn:active {
+  transform: translateY(-50%);
 }
 
-.carousel-btn.next {
-  right: 8px;
-}
+.carousel-btn.prev { left: 12px; }
+.carousel-btn.next { right: 12px; }
 
-/* Show buttons when there are multiple slides */
-.destination-carousel[data-slides="multiple"] .carousel-btn {
-  display: flex;
+/* Optional: hide buttons if only one slide (JS can toggle this) */
+.destination-carousel[data-slides="single"] .carousel-btn {
+  display: none;
 }
 
 /* Carousel Dots */
 .carousel-dots {
   position: absolute;
-  bottom: 8px;
   left: 50%;
+  bottom: 12px;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 8px;
   z-index: 10;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(27,31,36,0.10);
 }
 
 .carousel-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.5);
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(27,31,36,0.25);
+  border: 0;
   cursor: pointer;
-  transition: all 0.2s;
-  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0;
+  transition: transform 150ms ease, background 150ms ease;
 }
 
 .carousel-dot.active {
-  background: white;
-  width: 20px;
-  border-radius: 3px;
+  background: rgba(27,31,36,0.85);
+  transform: scale(1.05);
 }
 
 /* Destination Content - More Compact */
@@ -552,4 +552,38 @@ li { margin: 6px 0; }
   .inspiration-header h1 {
     font-size: 28px;
   }
+}
+
+.destination-group {
+  grid-column: 1 / -1; /* Span all columns in the grid */
+  margin: 48px 0 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.destination-group:first-child {
+  margin-top: 0; /* Remove top margin for first group */
+}
+
+.destination-group h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.destination-group p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin: 0 0 8px;
+  max-width: 720px;
+}
+
+.destination-group .trip-bridge {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--fg-subtle);
+  margin-top: 12px;
 }
