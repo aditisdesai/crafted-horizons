@@ -587,3 +587,130 @@ li { margin: 6px 0; }
   color: var(--fg-subtle);
   margin-top: 12px;
 }
+/* =========================
+   More Holiday Experiences Slider (Alt 1: minimal labels)
+   Paste into styles.css
+========================= */
+
+.more-slider {
+  margin: 30px 0 46px;
+}
+
+.more-rail {
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.65);
+  overflow: hidden; /* hides the looping seam */
+}
+
+/* Horizontal scroller with auto-scroll */
+.more-track {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  overflow-x: auto;
+  scroll-behavior: auto; /* Changed from smooth for auto-scroll */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge */
+.more-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each item is a clickable card (image + label) */
+.more-item {
+  flex: 0 0 auto;
+  width: 210px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .more-item {
+    width: 240px;
+  }
+}
+
+.more-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid rgba(27, 31, 36, 0.10);
+  box-shadow: 0 12px 28px rgba(27, 31, 36, 0.08);
+  transition: transform 140ms ease;
+}
+
+.more-item:hover img {
+  transform: translateY(-2px);
+}
+
+/* Alternative 1: Ultra-minimal label */
+.more-label {
+  margin: 8px 4px 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: rgba(27, 31, 36, 0.70);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Lightbox */
+.more-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 17, 21, 0.82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 2000;
+}
+
+.more-lightbox.open {
+  display: flex;
+}
+
+.more-lightbox img {
+  max-width: min(1100px, 92vw);
+  max-height: 78vh;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.more-lb-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.more-lb-cap {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(1100px, 92vw);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 700;
+  font-size: 13px;
+}
+/* =========================
+   End More Holiday Experiences Slider
+   Paste into styles.css
