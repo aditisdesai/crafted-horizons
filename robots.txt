@@ -1,0 +1,5 @@
+# Block all search engines from indexing the site
+# Remove this file when ready to launch
+
+User-agent: *
+Disallow: /
