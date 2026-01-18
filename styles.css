@@ -945,13 +945,20 @@ li { margin: 6px 0; }
   gap: 22px;
 }
 
-.hero--compact .hero-copy h1 {
+/* Hero title: smaller + less bold */
+.hero h1 {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 650;
   letter-spacing: -0.02em;
   line-height: 1.05;
 }
 
-.hero--compact .subhead {
-  max-width: 52ch;
+/* Optional: make subhead a touch calmer */
+.hero .subhead {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: 42ch;
+  opacity: 0.9;
 }
 
 .hero--compact .hero-media {
@@ -970,10 +977,17 @@ li { margin: 6px 0; }
   display: block;
 }
 
-/* Make the email line quieter */
 .note.subtle {
   margin-top: 14px;
-  color: rgba(0, 0, 0, 0.55);
+  opacity: 0.75;
+}
+
+/* Optional: make external nav link feel intentional */
+.nav-link-external {
+  opacity: 0.9;
+}
+.nav-link-external:hover {
+  opacity: 1;
 }
 
 /* Reduce repeated link "noise" */
@@ -1004,4 +1018,164 @@ li { margin: 6px 0; }
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+/* =========================
+   Two Ways Section (Image Cards)
+   ========================= */
+.two-ways {
+  margin: 3rem 0;
+}
+
+.two-ways-head h2 {
+  margin-bottom: 0.5rem;
+}
+
+.two-ways-head p {
+  max-width: 70ch;
+  opacity: 0.9;
+}
+
+.two-ways-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.two-way-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  height: 100%;
+}
+
+.two-way-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.two-way-media {
+  /* consistent image height across cards */
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  background: #f8f8f8;
+  position: relative;
+  overflow: hidden;
+}
+
+.two-way-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Helps prevent awkward crops */
+  object-position: center;
+}
+
+/* Optional subtle gradient to make images feel premium */
+.two-way-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.12), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+.two-way-body {
+  padding: 1.5rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.two-way-body h3 {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 1.35rem;
+}
+
+.two-way-body p {
+  margin: 0;
+  opacity: 0.88;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.two-way-body p.note {
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.two-way-link {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: inherit;
+}
+
+/* Custom image cropping options */
+.two-way-media.crop-top img {
+  object-position: 50% 25%;
+}
+
+.two-way-media.crop-left img {
+  object-position: 25% 50%;
+}
+
+/* For the Latitude card only */
+.two-way-card.latitude .two-way-media img {
+  object-position: 65% 50%;
+}
+
+/* Mobile */
+@media (max-width: 860px) {
+  .two-ways-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .two-way-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .two-way-body h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* =========================
+   Longer Horizon Section
+   ========================= */
+.longer-horizon {
+  max-width: 68ch;
+  margin: 3rem auto;
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+}
+
+.longer-horizon h3 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.longer-horizon p {
+  margin: 0 0 1rem;
+  line-height: 1.65;
+}
+
+.longer-horizon .note {
+  margin-top: 1.5rem;
 }
