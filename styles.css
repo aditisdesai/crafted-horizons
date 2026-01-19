@@ -1405,8 +1405,14 @@ li { margin: 6px 0; }
   margin-bottom: 0.4rem;
 }
 
-.trip-form .hp-field {
-  display: none !important;
+/* Honeypot spam protection field - must be hidden */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .form-progress {
