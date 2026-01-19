@@ -1547,3 +1547,130 @@ li { margin: 6px 0; }
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================
+   Form Validation & Error Handling
+   ========================= */
+
+/* Error state for input fields */
+.field input.error,
+.field textarea.error,
+.field select.error {
+  border-color: #d32f2f;
+  background: rgba(211, 47, 47, 0.05);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+.field input.error:focus,
+.field textarea.error:focus,
+.field select.error:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
+}
+
+/* Error message styling */
+.error-message {
+  color: #d32f2f;
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.error-message::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+/* Consent checkbox error */
+.consent input[type="checkbox"].error {
+  outline: 2px solid #d32f2f;
+  outline-offset: 2px;
+}
+
+/* Form-level messages */
+.form-message {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-message-error {
+  background: rgba(211, 47, 47, 0.1);
+  border: 1px solid rgba(211, 47, 47, 0.3);
+  color: #c62828;
+}
+
+.form-message-error::before {
+  content: "⚠";
+  font-size: 1.5rem;
+}
+
+.form-message-success {
+  background: rgba(46, 125, 50, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.3);
+  color: #2e7d32;
+}
+
+.form-message-success::before {
+  content: "✓";
+  font-size: 1.5rem;
+}
+
+/* Loading state for submit button */
+.btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.btn.loading::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Focus visible improvements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(46, 111, 143, 0.25);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+.field input,
+.field textarea,
+.field select {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}

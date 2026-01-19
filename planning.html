@@ -36,21 +36,16 @@
     <p class="note subtle">This takes ~3–5 minutes. You can keep it high-level if you prefer.</p>
   </header>
 
-  <!-- FORM: Formspree recommended for GitHub Pages -->
-<form action="https://formsubmit.co/aditi@crafted-horizons.com" method="POST"></form>
-<!-- Disable captcha -->
-<input type="hidden" name="_captcha" value="false">
+  <!-- FORM: FormSubmit.co -->
+  <form action="https://formsubmit.co/aditi@crafted-horizons.com" method="POST">
+    <!-- FormSubmit Configuration -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New trip enquiry — Crafted Horizons">
+    <input type="hidden" name="_next" value="thankyou.html">
+    <input type="hidden" name="_template" value="table">
 
-<!-- Email subject -->
-<input type="hidden" name="_subject" value="New trip enquiry — Crafted Horizons">
-
-<!-- Redirect after submit -->
-<input type="hidden" name="_next" value="https://crafted-horizons.com/thank-you.html">
     <!-- Honeypot (spam protection) -->
     <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
-
-    <!-- Optional: subject line in your inbox -->
-    <input type="hidden" name="_subject" value="New trip enquiry — Crafted Horizons" />
 
     <!-- Progress -->
     <div class="form-progress" aria-hidden="true">
@@ -320,5 +315,8 @@
     </main>    <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
     <script src="footer-loader.js"></script>
+
+    <!-- Form validation -->
+    <script src="form-validation.js"></script>
   </body>
 </html>

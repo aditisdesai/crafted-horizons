@@ -20,7 +20,7 @@ const footerHTML = `<footer class="site-footer">
           <h4>Explore</h4>
           <ul>
             <li><a href="inspiration.html">Inspiration</a></li>
-            <li><a href="experiences.html">Experiences</a></li>
+            <li><a href="planning.html">Travel Planning</a></li>
             <li><a href="about.html">About</a></li>
           </ul>
         </div>
