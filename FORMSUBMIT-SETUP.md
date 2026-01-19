@@ -106,13 +106,15 @@ After verification, all future submissions work automatically.
 
 ## Current Configuration
 
-Your form is currently set up for **local testing** with the redirect commented out:
+Your form is now configured for **production** with custom redirect:
 
 ```html
-<!-- Option 1: For testing locally - comment out _next to use FormSubmit's default thank you page -->
-<!-- Option 2: For production - uncomment and replace with your actual deployed URL -->
-<!-- <input type="hidden" name="_next" value="https://your-actual-domain.com/thankyou.html"> -->
+<input type="hidden" name="_next" value="https://crafted-horizons.com/thankyou.html">
 ```
+
+**Important:** This redirect will only work when your site is deployed to `https://crafted-horizons.com`.
+
+For local testing, the form will still submit successfully, but FormSubmit will show its default thank you page because it can't redirect to a domain that's not yet live.
 
 ## Troubleshooting
 
