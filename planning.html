@@ -5,24 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Travel Planning — Crafted Horizons by Aditi</title>
-    <meta name="description" content="How I remove the stress and research burden from your next trip — Crafted Horizons by Aditi." />
+    <meta name="description" content="Thoughtful travel, booked with care — Crafted Horizons by Aditi." />
     <link rel="stylesheet" href="styles.css" />
   </head>
 
-  <body>
-    <!-- Navigation -->
-    <nav class="nav">
-      <div class="wrap nav-inner">
-        <a href="index.html" class="logo">Crafted Horizons</a>
-        <div class="nav-links">
-          <a href="inspiration.html" class="nav-link">Inspiration</a>
-          <a href="planning.html" class="nav-link active">Travel Planning</a>
-          <a href="deals.html" class="nav-link">Deals</a>
-          <a href="opportunity.html" class="nav-link">Business Opportunity</a>
-          <a href="about.html" class="nav-link">About</a>
-        </div>
-      </div>
-    </nav>
+  <body>    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+    <script src="header-loader.js"></script>
 
     <main class="wrap main">
       <!-- Planning Intro -->
@@ -33,23 +22,268 @@
           Share a few details and I'll help shape the best route, pacing, and bookings — without the overwhelm.
           No pressure, just a good conversation.
         </p>
+        <p class="page-intro">Thoughtful travel, booked with care — starting with a simple conversation.</p>
       </header>
 
       <!-- Form + Side Info -->
       <section class="planning-layout">
-        <section class="card form-card" aria-label="Trip enquiry form">
-          <h2>Tell me what you're thinking</h2>
-          <p class="muted">
-            You can be as specific or as vague as you like — even "somewhere warm in August" is a great start.
-          </p>
+        <section class="card trip-form-card" id="trip-form">
+  <header class="trip-form-head">
+    <h1>Let’s start planning</h1>
+    <p class="subhead">
+      A few quick questions so I can suggest the right options and take the overwhelm off your plate.
+    </p>
+    <p class="note subtle">This takes ~3–5 minutes. You can keep it high-level if you prefer.</p>
+  </header>
 
-          <!-- Embed your Typeform -->
-          <div class="embed-wrap">
-            <!-- Replace YOUR_TYPEFORM_ID with your actual form ID -->
-            <div data-tf-live="YOUR_TYPEFORM_ID"></div>
-            <script src="//embed.typeform.com/next/embed.js"></script>
-          </div>
-        </section>
+  <!-- FORM: Formspree recommended for GitHub Pages -->
+<form action="https://formsubmit.co/aditi@crafted-horizons.com" method="POST"></form>
+<!-- Disable captcha -->
+<input type="hidden" name="_captcha" value="false">
+
+<!-- Email subject -->
+<input type="hidden" name="_subject" value="New trip enquiry — Crafted Horizons">
+
+<!-- Redirect after submit -->
+<input type="hidden" name="_next" value="https://crafted-horizons.com/thank-you.html">
+    <!-- Honeypot (spam protection) -->
+    <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" />
+
+    <!-- Optional: subject line in your inbox -->
+    <input type="hidden" name="_subject" value="New trip enquiry — Crafted Horizons" />
+
+    <!-- Progress -->
+    <div class="form-progress" aria-hidden="true">
+      <div class="form-progress-bar" id="formProgress"></div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <fieldset class="form-section">
+      <legend>1) You & how to reach you</legend>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Your name *</label>
+          <input id="name" name="name" type="text" required autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label for="email">Email *</label>
+          <input id="email" name="email" type="email" required autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone (optional)</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+
+        <div class="field">
+          <label for="contactPref">How should I reach you?</label>
+          <select id="contactPref" name="contact_preference">
+            <option value="Email">Email</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Phone call">Phone call</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 2 -->
+    <fieldset class="form-section">
+      <legend>2) Trip basics</legend>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="tripType">What are you planning?</label>
+          <select id="tripType" name="trip_type">
+            <option value="Family holiday">Family holiday</option>
+            <option value="Couples getaway">Couples getaway</option>
+            <option value="City break">City break</option>
+            <option value="Beach / all-inclusive">Beach / all-inclusive</option>
+            <option value="Culture & history">Culture & history</option>
+            <option value="Adventure / nature">Adventure / nature</option>
+            <option value="Cruise">Cruise</option>
+            <option value="Work trip add-on">Work trip add-on</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fromAirport">Flying from (city/airport)</label>
+          <input id="fromAirport" name="departure_city_airport" type="text" placeholder="e.g., London / Heathrow" />
+        </div>
+
+        <div class="field">
+          <label for="dates">Dates *</label>
+          <input id="dates" name="dates" type="text" required placeholder="e.g., 12–19 July (or month only)" />
+          <p class="help">Don’t know yet? Put an estimate — I’ll help refine.</p>
+        </div>
+
+        <div class="field">
+          <label for="flexibility">How flexible are you?</label>
+          <select id="flexibility" name="date_flexibility">
+            <option value="Fixed dates">Fixed dates</option>
+            <option value="A little flexible (±2–3 days)">A little flexible (±2–3 days)</option>
+            <option value="Very flexible">Very flexible</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="travellers">Who’s travelling? *</label>
+          <input id="travellers" name="travellers" type="text" required placeholder="e.g., 2 adults + 2 kids (13 & 7)" />
+        </div>
+
+        <div class="field">
+          <label for="budget">Budget range (total, approx)</label>
+          <select id="budget" name="budget_range">
+            <option value="Not sure yet">Not sure yet</option>
+            <option value="Under £1,000">Under £1,000</option>
+            <option value="£1,000–£2,000">£1,000–£2,000</option>
+            <option value="£2,000–£4,000">£2,000–£4,000</option>
+            <option value="£4,000–£7,000">£4,000–£7,000</option>
+            <option value="£7,000+">£7,000+</option>
+          </select>
+          <p class="help">An estimate helps me suggest options that actually fit.</p>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 3 -->
+    <fieldset class="form-section">
+      <legend>3) Destination & vibe</legend>
+
+      <div class="field">
+        <label for="destinations">Where are you thinking? (or what vibe?)</label>
+        <textarea
+          id="destinations"
+          name="destination_ideas"
+          rows="3"
+          placeholder="e.g., Greece islands / somewhere warm with culture + good food…"
+        ></textarea>
+        <p class="help">If you’re unsure, describe the vibe and I’ll suggest destinations.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="pace">Preferred pace</label>
+          <select id="pace" name="pace">
+            <option value="Balanced">Balanced</option>
+            <option value="Slow & relaxed">Slow & relaxed</option>
+            <option value="Full & packed">Full & packed</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="style">Travel style</label>
+          <select id="style" name="travel_style">
+            <option value="Comfortable">Comfortable</option>
+            <option value="Luxury">Luxury</option>
+            <option value="Value-focused">Value-focused</option>
+            <option value="Boutique">Boutique</option>
+            <option value="All-inclusive">All-inclusive</option>
+            <option value="Mix of everything">Mix of everything</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="accom">Accommodation preference</label>
+          <select id="accom" name="accommodation">
+            <option value="Hotel">Hotel</option>
+            <option value="Resort">Resort</option>
+            <option value="Apartment / aparthotel">Apartment / aparthotel</option>
+            <option value="Villa">Villa</option>
+            <option value="Open to ideas">Open to ideas</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="board">Board basis</label>
+          <select id="board" name="board_basis">
+            <option value="Room only">Room only</option>
+            <option value="Bed & breakfast">Bed & breakfast</option>
+            <option value="Half board">Half board</option>
+            <option value="Full board">Full board</option>
+            <option value="All-inclusive">All-inclusive</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What matters most? (pick up to 3)</label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="priorities" value="Great food" /> Great food</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Culture & history" /> Culture & history</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Beach & downtime" /> Beach & downtime</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Family-friendly" /> Family-friendly</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Great hotels" /> Great hotels</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Easy logistics" /> Easy logistics</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Unique experiences" /> Unique experiences</label>
+          <label class="chip"><input type="checkbox" name="priorities" value="Value for money" /> Value for money</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="mustDos">Must-dos / non-negotiables</label>
+        <textarea id="mustDos" name="must_dos" rows="3" placeholder="e.g., Kids club, walkable city centre, tennis courts, vegetarian options…"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- OPTIONAL DETAILS -->
+    <details class="form-details">
+      <summary>Want to share a few more details? (optional)</summary>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="flights">Flights</label>
+          <select id="flights" name="flights">
+            <option value="Please include flights">Please include flights</option>
+            <option value="Land-only (no flights)">Land-only (no flights)</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="rooms">Rooms</label>
+          <input id="rooms" name="rooms" type="text" placeholder="e.g., 1 room / 2 rooms / connecting if possible" />
+        </div>
+
+        <div class="field">
+          <label for="occasion">Occasion</label>
+          <input id="occasion" name="occasion" type="text" placeholder="e.g., birthday, anniversary, first big family trip..." />
+        </div>
+
+        <div class="field">
+          <label for="access">Accessibility / mobility needs</label>
+          <input id="access" name="accessibility_needs" type="text" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Anything else I should know?</label>
+        <textarea id="notes" name="extra_notes" rows="4" placeholder="Share anything at all — I read everything."></textarea>
+      </div>
+    </details>
+
+    <!-- Consent -->
+    <div class="consent">
+      <label class="check">
+        <input type="checkbox" name="consent" required />
+        <span>I consent to being contacted about this enquiry. *</span>
+      </label>
+      <p class="help">
+        Your details are used only to respond to your enquiry and arrange travel. See <a href="privacy.html">Privacy</a>.
+      </p>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn primary" type="submit">Send my enquiry</button>
+      <p class="note subtle">You’ll hear back from me within 24–48 hours.</p>
+    </div>
+  </form>
+</section>
 
         <aside class="card support-card" aria-label="What happens next">
           <h3>What happens next</h3>
@@ -83,17 +317,8 @@
           </p>
         </aside>
       </section>
-    </main>
-
-    <footer class="wrap footer">
-      <p>© <span id="year"></span> Crafted Horizons — by Aditi</p>
-      <p class="small">
-        Independent Travel Advisor · In partnership with The Latitude Collective
-      </p>
-    </footer>
-
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+    </main>    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+    <script src="footer-loader.js"></script>
   </body>
 </html>
