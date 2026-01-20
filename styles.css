@@ -54,29 +54,12 @@ body {
 }
 
 .logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   font-weight: 600;
   font-size: 16px;
   letter-spacing: 0.02em;
   color: var(--text);
   text-decoration: none;
   border: none;
-}
-
-.logo-mark {
-  width: 24px;
-  height: 24px;
-  display: block;
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.logo-text {
-  line-height: 1;
-  display: inline-block;
-  padding-top: 2px;
 }
 
 .logo:hover {
