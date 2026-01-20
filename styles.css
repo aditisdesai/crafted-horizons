@@ -1406,13 +1406,20 @@ li { margin: 6px 0; }
 }
 
 /* Honeypot spam protection field - must be hidden */
-.hp-field {
+input.hp-field,
+input[name="_gotcha"] {
   position: absolute !important;
   left: -9999px !important;
+  top: 0 !important;
   width: 1px !important;
   height: 1px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  visibility: hidden !important;
+  overflow: hidden !important;
 }
 
 .form-progress {
