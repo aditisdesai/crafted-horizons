@@ -1687,3 +1687,219 @@ select:focus-visible {
 .field select {
   transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
+
+/* ===================================
+   WhatsApp & Contact Options
+   =================================== */
+
+/* WhatsApp nav link: subtle and consistent */
+.nav-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.6);
+}
+
+.nav-whatsapp:hover {
+  background: rgba(255,255,255,0.9);
+}
+
+.wa-icon svg {
+  display: block;
+  opacity: 0.85;
+}
+
+/* Contact options card */
+.contact-options {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.contact-options h2 {
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+}
+
+.contact-options .muted {
+  margin-top: 0;
+  margin-bottom: 20px;
+  opacity: 0.85;
+  font-size: 1rem;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-options .fineprint {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+/* Sidebar contact actions */
+.support-card .contact-actions {
+  margin: 16px 0;
+}
+
+.support-card .contact-actions .btn {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.support-card .fineprint {
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+/* WhatsApp icon link in sidebar */
+.whatsapp-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 12px;
+  transition: all 200ms ease;
+}
+
+.whatsapp-link:hover {
+  background: rgba(37, 211, 102, 0.05);
+  transform: translateY(-2px);
+}
+
+.whatsapp-link svg {
+  transition: transform 200ms ease;
+}
+
+.whatsapp-link:hover svg {
+  transform: scale(1.1);
+}
+
+.whatsapp-link span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #25D366;
+}
+
+/* Mobile: stack nicely */
+@media (max-width: 720px) {
+  .contact-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-whatsapp {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .contact-options h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ===================================
+   Planning Page Hero
+   =================================== */
+
+.planning-hero {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin: -2rem -2rem 3rem;
+  overflow: hidden;
+  border-radius: 0 0 16px 16px;
+}
+
+.planning-hero picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.planning-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.planning-hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+  color: white;
+}
+
+.planning-hero-content .kicker {
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.planning-hero-content h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin: 0 0 0.75rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.planning-hero-content .subhead {
+  color: rgba(255,255,255,0.95);
+  font-size: 1.125rem;
+  margin: 0;
+  max-width: 600px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Subtle form sections */
+.form-section legend {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .planning-hero {
+    height: 320px;
+    margin: -1.5rem -1.5rem 2rem;
+  }
+
+  .planning-hero-content {
+    padding: 1.5rem;
+  }
+
+  .planning-hero-content h1 {
+    font-size: 1.875rem;
+  }
+
+  .planning-hero-content .subhead {
+    font-size: 1rem;
+  }
+}
