@@ -22,7 +22,7 @@ const headerHTML = `<!-- Navigation -->
         target="_blank"
         rel="noopener"
       >
-        A longer-term horizon ✨
+        The Latitude Collective ✨
       </a>
       <a
         href="https://wa.me/447825422655?text=Hi%20Aditi%2C%20I%27d%20love%20help%20planning%20a%20trip."
