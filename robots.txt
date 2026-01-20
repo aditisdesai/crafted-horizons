@@ -1,5 +1,6 @@
-# Block all search engines from indexing the site
-# Remove this file when ready to launch
-
+# robots.txt for Crafted Horizons
 User-agent: *
-Disallow: /
+Allow: /
+
+# Sitemap location
+Sitemap: https://crafted-horizons.com/sitemap.xml

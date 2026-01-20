@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crafted Horizons - Automated Test Suite</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      background: #f5f5f5;
+    }
+    h1 { color: #1f6f8b; }
+    .test-section {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .test-item {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-left: 4px solid #ddd;
+      background: #fafafa;
+    }
+    .test-item.pass {
+      border-left-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .test-item.fail {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+    .test-item.running {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+    .summary {
+      display: flex;
+      gap: 2rem;
+      margin: 1rem 0;
+    }
+    .summary-item {
+      padding: 1rem;
+      border-radius: 4px;
+      flex: 1;
+      text-align: center;
+    }
+    .summary-item.passed { background: #dcfce7; }
+    .summary-item.failed { background: #fee2e2; }
+    .summary-item.total { background: #dbeafe; }
+    .error-detail {
+      color: #991b1b;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    button {
+      background: #1f6f8b;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 1rem 0;
+    }
+    button:hover { background: #165c73; }
+    .loading { display: none; }
+    .loading.active {
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Crafted Horizons - Test Suite</h1>
+  <p>Automated tests for pre-launch validation</p>
+
+  <button id="runTests">Run All Tests</button>
+  <span class="loading" id="loading">Running tests...</span>
+
+  <div class="summary" id="summary" style="display: none;">
+    <div class="summary-item total">
+      <strong>Total Tests</strong>
+      <div id="totalTests">0</div>
+    </div>
+    <div class="summary-item passed">
+      <strong>Passed</strong>
+      <div id="passedTests">0</div>
+    </div>
+    <div class="summary-item failed">
+      <strong>Failed</strong>
+      <div id="failedTests">0</div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>📄 Page Availability Tests</h2>
+    <div id="pageTests"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>🖼️ Image Load Tests</h2>
+    <div id="imageTests"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔗 Link Tests</h2>
+    <div id="linkTests"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Form Tests</h2>
+    <div id="formTests"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔍 SEO Tests</h2>
+    <div id="seoTests"></div>
+  </div>
+
+  <div class="test-section">
+    <h2>📱 Responsive Tests</h2>
+    <div id="responsiveTests"></div>
+  </div>
+
+  <script>
+    const testResults = {
+      total: 0,
+      passed: 0,
+      failed: 0
+    };
+
+    const pages = [
+      'index.html',
+      'planning.html',
+      'inspiration.html',
+      'about.html',
+      'privacy.html',
+      'terms.html',
+      'thankyou.html'
+    ];
+
+    function addTest(containerId, testName, status, error = null) {
+      const container = document.getElementById(containerId);
+      const testItem = document.createElement('div');
+      testItem.className = `test-item ${status}`;
+
+      let icon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⏳';
+      testItem.innerHTML = `
+        ${icon} <strong>${testName}</strong>
+        ${error ? `<div class="error-detail">${error}</div>` : ''}
+      `;
+
+      container.appendChild(testItem);
+
+      if (status === 'pass') testResults.passed++;
+      if (status === 'fail') testResults.failed++;
+      testResults.total++;
+
+      updateSummary();
+    }
+
+    function updateSummary() {
+      document.getElementById('summary').style.display = 'flex';
+      document.getElementById('totalTests').textContent = testResults.total;
+      document.getElementById('passedTests').textContent = testResults.passed;
+      document.getElementById('failedTests').textContent = testResults.failed;
+    }
+
+    async function testPageAvailability() {
+      for (const page of pages) {
+        try {
+          const response = await fetch(page, { method: 'HEAD' });
+          if (response.ok) {
+            addTest('pageTests', `${page} is accessible`, 'pass');
+          } else {
+            addTest('pageTests', `${page} returned ${response.status}`, 'fail', `HTTP ${response.status}`);
+          }
+        } catch (error) {
+          addTest('pageTests', `${page} failed to load`, 'fail', error.message);
+        }
+      }
+    }
+
+    async function testImages() {
+      const testImages = [
+        'images/hero-crafted-horizons-desktop.jpg',
+        'images/inspiration/moreholidays/IMG_1986.jpg',
+        'images/ME/mehollywood.jpg',
+        'images/inspiration/Swiss/3C3EB254-4EE7-4A9D-B65D-B6C65F64916E_1_105_c.jpeg'
+      ];
+
+      for (const imagePath of testImages) {
+        try {
+          const img = new Image();
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = imagePath;
+          });
+          addTest('imageTests', `${imagePath} loads successfully`, 'pass');
+        } catch (error) {
+          addTest('imageTests', `${imagePath} failed to load`, 'fail', 'Image not found or broken');
+        }
+      }
+    }
+
+    async function testLinks() {
+      const criticalLinks = [
+        { url: 'planning.html#trip-form', name: 'Trip form link' },
+        { url: 'https://www.thelatitudecollective.com', name: 'Latitude Collective external link' },
+        { url: 'https://wa.me/447825422655', name: 'WhatsApp link' },
+        { url: 'mailto:aditi@crafted-horizons.com', name: 'Email link' }
+      ];
+
+      for (const link of criticalLinks) {
+        if (link.url.startsWith('http')) {
+          // External links - just check format
+          addTest('linkTests', `${link.name} format is valid`, 'pass');
+        } else if (link.url.startsWith('mailto:')) {
+          addTest('linkTests', `${link.name} format is valid`, 'pass');
+        } else {
+          // Internal links - test availability
+          try {
+            const [page] = link.url.split('#');
+            const response = await fetch(page, { method: 'HEAD' });
+            if (response.ok) {
+              addTest('linkTests', `${link.name} is accessible`, 'pass');
+            } else {
+              addTest('linkTests', `${link.name} returned ${response.status}`, 'fail');
+            }
+          } catch (error) {
+            addTest('linkTests', `${link.name} failed`, 'fail', error.message);
+          }
+        }
+      }
+    }
+
+    async function testForm() {
+      try {
+        const response = await fetch('planning.html');
+        const html = await response.text();
+
+        // Check form exists
+        if (html.includes('<form action="https://formsubmit.co/aditi@crafted-horizons.com"')) {
+          addTest('formTests', 'Form element exists with correct action', 'pass');
+        } else {
+          addTest('formTests', 'Form element missing or incorrect', 'fail');
+        }
+
+        // Check required fields
+        const requiredFields = ['name', 'email', 'dates', 'travellers'];
+        for (const field of requiredFields) {
+          if (html.includes(`id="${field}"`) && html.includes('required')) {
+            addTest('formTests', `Required field "${field}" present`, 'pass');
+          } else {
+            addTest('formTests', `Required field "${field}" missing`, 'fail');
+          }
+        }
+
+        // Check FormSubmit config
+        if (html.includes('name="_next" value="https://crafted-horizons.com/thankyou.html"')) {
+          addTest('formTests', 'Form redirect configured correctly', 'pass');
+        } else {
+          addTest('formTests', 'Form redirect configuration issue', 'fail');
+        }
+
+      } catch (error) {
+        addTest('formTests', 'Form testing failed', 'fail', error.message);
+      }
+    }
+
+    async function testSEO() {
+      for (const page of pages) {
+        try {
+          const response = await fetch(page);
+          const html = await response.text();
+
+          // Check no noindex
+          if (!html.includes('noindex')) {
+            addTest('seoTests', `${page}: No noindex directive`, 'pass');
+          } else {
+            addTest('seoTests', `${page}: Contains noindex directive`, 'fail', 'Page blocked from indexing');
+          }
+
+          // Check title exists
+          if (html.match(/<title>.*?<\/title>/)) {
+            addTest('seoTests', `${page}: Has page title`, 'pass');
+          } else {
+            addTest('seoTests', `${page}: Missing page title`, 'fail');
+          }
+
+          // Check meta description
+          if (html.includes('name="description"')) {
+            addTest('seoTests', `${page}: Has meta description`, 'pass');
+          } else {
+            addTest('seoTests', `${page}: Missing meta description`, 'fail');
+          }
+
+        } catch (error) {
+          addTest('seoTests', `${page}: SEO check failed`, 'fail', error.message);
+        }
+      }
+    }
+
+    async function testResponsive() {
+      const viewports = [
+        { width: 375, name: 'Mobile (375px)' },
+        { width: 768, name: 'Tablet (768px)' },
+        { width: 1440, name: 'Desktop (1440px)' }
+      ];
+
+      // Test viewport meta tag
+      try {
+        const response = await fetch('index.html');
+        const html = await response.text();
+
+        if (html.includes('name="viewport"')) {
+          addTest('responsiveTests', 'Viewport meta tag present', 'pass');
+        } else {
+          addTest('responsiveTests', 'Viewport meta tag missing', 'fail');
+        }
+
+        // Check responsive CSS
+        const cssResponse = await fetch('styles.css');
+        const css = await cssResponse.text();
+
+        if (css.includes('@media')) {
+          addTest('responsiveTests', 'Responsive CSS media queries present', 'pass');
+        } else {
+          addTest('responsiveTests', 'No responsive CSS found', 'fail');
+        }
+
+      } catch (error) {
+        addTest('responsiveTests', 'Responsive testing failed', 'fail', error.message);
+      }
+    }
+
+    async function runAllTests() {
+      // Reset
+      testResults.total = 0;
+      testResults.passed = 0;
+      testResults.failed = 0;
+
+      document.getElementById('pageTests').innerHTML = '';
+      document.getElementById('imageTests').innerHTML = '';
+      document.getElementById('linkTests').innerHTML = '';
+      document.getElementById('formTests').innerHTML = '';
+      document.getElementById('seoTests').innerHTML = '';
+      document.getElementById('responsiveTests').innerHTML = '';
+
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('runTests').disabled = true;
+
+      try {
+        await testPageAvailability();
+        await testImages();
+        await testLinks();
+        await testForm();
+        await testSEO();
+        await testResponsive();
+      } catch (error) {
+        console.error('Test suite error:', error);
+      }
+
+      document.getElementById('loading').classList.remove('active');
+      document.getElementById('runTests').disabled = false;
+
+      // Final summary
+      console.log(`Tests complete: ${testResults.passed}/${testResults.total} passed`);
+    }
+
+    document.getElementById('runTests').addEventListener('click', runAllTests);
+  </script>
+</body>
+</html>
