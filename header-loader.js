@@ -3,6 +3,15 @@ const headerHTML = `<!-- Navigation -->
 <nav class="nav">
   <div class="wrap nav-inner">
     <a href="index.html" class="logo">Crafted Horizons</a>
+
+    <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
     <div class="nav-links">
       <a href="inspiration.html" class="nav-link">Inspiration</a>
       <a href="planning.html" class="nav-link">Travel Planning</a>
@@ -47,5 +56,27 @@ document.addEventListener('DOMContentLoaded', function() {
         link.classList.add('active');
       }
     });
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinksContainer = document.querySelector('.nav-links');
+
+    if (menuToggle && navLinksContainer) {
+      menuToggle.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+        navLinksContainer.classList.toggle('nav-links--open');
+        this.classList.toggle('mobile-menu-toggle--open');
+      });
+
+      // Close menu when clicking a link
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinksContainer.classList.remove('nav-links--open');
+          menuToggle.classList.remove('mobile-menu-toggle--open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
   }
 });
