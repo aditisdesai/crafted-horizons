@@ -1,8 +1,13 @@
+// Determine base path based on current location
+const isInPagesFolder = window.location.pathname.includes('/pages/');
+const basePath = isInPagesFolder ? '../' : '';
+const pagesPath = isInPagesFolder ? '' : 'pages/';
+
 // Header HTML content
 const headerHTML = `<!-- Navigation -->
 <nav class="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="logo">Crafted Horizons</a>
+    <a href="${basePath}index.html" class="logo">Crafted Horizons</a>
 
     <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span class="hamburger-icon">
@@ -13,9 +18,9 @@ const headerHTML = `<!-- Navigation -->
     </button>
 
     <div class="nav-links">
-      <a href="inspiration.html" class="nav-link">Inspiration</a>
-      <a href="planning.html" class="nav-link">Travel Planning</a>
-      <a href="about.html" class="nav-link">About</a>
+      <a href="${basePath}${pagesPath}inspiration.html" class="nav-link">Inspiration</a>
+      <a href="${basePath}${pagesPath}planning.html" class="nav-link">Travel Planning</a>
+      <a href="${basePath}${pagesPath}about.html" class="nav-link">About</a>
       <a
         href="https://www.thelatitudecollective.com"
         class="nav-link nav-link-external"

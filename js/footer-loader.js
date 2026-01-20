@@ -1,3 +1,8 @@
+// Determine base path based on current location
+const isInPagesFolder = window.location.pathname.includes('/pages/');
+const basePath = isInPagesFolder ? '../' : '';
+const pagesPath = isInPagesFolder ? '' : 'pages/';
+
 // Footer HTML content
 const footerHTML = `<footer class="site-footer">
   <div class="wrap footer-inner">
@@ -7,17 +12,17 @@ const footerHTML = `<footer class="site-footer">
         <div class="footer-col">
           <h4>Explore</h4>
           <ul>
-            <li><a href="inspiration.html">Inspiration</a></li>
-            <li><a href="planning.html">Travel Planning</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="${basePath}${pagesPath}inspiration.html">Inspiration</a></li>
+            <li><a href="${basePath}${pagesPath}planning.html">Travel Planning</a></li>
+            <li><a href="${basePath}${pagesPath}about.html">About</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Important</h4>
           <ul>
-            <li><a href="privacy.html">Privacy</a></li>
-            <li><a href="terms.html">Terms</a></li>
+            <li><a href="${basePath}${pagesPath}privacy.html">Privacy</a></li>
+            <li><a href="${basePath}${pagesPath}terms.html">Terms</a></li>
           </ul>
         </div>
 
@@ -66,7 +71,7 @@ const footerHTML = `<footer class="site-footer">
         Crafted Horizons is a registered trade name. Content and images may not be reproduced without permission.
       </p>
       <p class="footer-small">
-        <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+        <a href="${basePath}${pagesPath}privacy.html">Privacy</a> · <a href="${basePath}${pagesPath}terms.html">Terms</a>
       </p>
     </div>
   </div>

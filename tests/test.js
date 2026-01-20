@@ -43,11 +43,11 @@ function fail(testName, error = '') {
 }
 
 function fileExists(filePath) {
-  return fs.existsSync(path.join(__dirname, filePath));
+  return fs.existsSync(path.join(__dirname, '..', filePath));
 }
 
 function readFile(filePath) {
-  return fs.readFileSync(path.join(__dirname, filePath), 'utf-8');
+  return fs.readFileSync(path.join(__dirname, '..', filePath), 'utf-8');
 }
 
 // TEST 1: File Existence Tests
@@ -57,18 +57,18 @@ function testFileExistence() {
 
   const requiredFiles = [
     'index.html',
-    'planning.html',
-    'inspiration.html',
-    'about.html',
-    'privacy.html',
-    'terms.html',
-    'thankyou.html',
-    'styles.css',
+    'pages/planning.html',
+    'pages/inspiration.html',
+    'pages/about.html',
+    'pages/privacy.html',
+    'pages/terms.html',
+    'pages/thankyou.html',
+    'css/styles.css',
     'robots.txt',
     'sitemap.xml',
-    'header-loader.js',
-    'footer-loader.js',
-    'carousel.js'
+    'js/header-loader.js',
+    'js/footer-loader.js',
+    'js/carousel.js'
   ];
 
   requiredFiles.forEach(file => {
@@ -87,9 +87,9 @@ function testHTMLStructure() {
 
   const pages = [
     'index.html',
-    'planning.html',
-    'inspiration.html',
-    'about.html'
+    'pages/planning.html',
+    'pages/inspiration.html',
+    'pages/about.html'
   ];
 
   pages.forEach(page => {
@@ -137,11 +137,11 @@ function testSEO() {
 
   const pages = [
     'index.html',
-    'planning.html',
-    'inspiration.html',
-    'about.html',
-    'privacy.html',
-    'terms.html'
+    'pages/planning.html',
+    'pages/inspiration.html',
+    'pages/about.html',
+    'pages/privacy.html',
+    'pages/terms.html'
   ];
 
   pages.forEach(page => {
@@ -214,12 +214,12 @@ function testForm() {
   log('\n📋 Form Tests', colors.cyan);
   log('─'.repeat(50));
 
-  if (!fileExists('planning.html')) {
+  if (!fileExists('pages/planning.html')) {
     fail('planning.html not found for form testing');
     return;
   }
 
-  const content = readFile('planning.html');
+  const content = readFile('pages/planning.html');
 
   // Check form action
   if (content.includes('action="https://formsubmit.co/aditi@crafted-horizons.com"')) {
@@ -282,8 +282,8 @@ function testLinks() {
   log('─'.repeat(50));
 
   // Check WhatsApp link in header loader (used across all pages)
-  if (fileExists('header-loader.js')) {
-    const headerContent = readFile('header-loader.js');
+  if (fileExists('js/header-loader.js')) {
+    const headerContent = readFile('js/header-loader.js');
     if (headerContent.includes('wa.me/447825422655')) {
       pass('Header: WhatsApp link present (loads on all pages)');
     } else {
@@ -291,7 +291,7 @@ function testLinks() {
     }
   }
 
-  const pages = ['index.html', 'planning.html', 'about.html'];
+  const pages = ['index.html', 'pages/planning.html', 'pages/about.html'];
 
   pages.forEach(page => {
     if (!fileExists(page)) return;
@@ -307,8 +307,8 @@ function testLinks() {
   });
 
   // Check planning page has WhatsApp in form area
-  if (fileExists('planning.html')) {
-    const content = readFile('planning.html');
+  if (fileExists('pages/planning.html')) {
+    const content = readFile('pages/planning.html');
     if (content.includes('wa.me/447825422655')) {
       pass('planning.html: WhatsApp link in support card');
     }
@@ -330,12 +330,12 @@ function testCSS() {
   log('\n🎨 CSS Tests', colors.cyan);
   log('─'.repeat(50));
 
-  if (!fileExists('styles.css')) {
+  if (!fileExists('css/styles.css')) {
     fail('styles.css not found');
     return;
   }
 
-  const css = readFile('styles.css');
+  const css = readFile('css/styles.css');
 
   // Check CSS variables
   if (css.includes('--accent:')) {
@@ -368,10 +368,10 @@ function testJavaScript() {
   log('─'.repeat(50));
 
   const jsFiles = [
-    'header-loader.js',
-    'footer-loader.js',
-    'carousel.js',
-    'form-validation.js'
+    'js/header-loader.js',
+    'js/footer-loader.js',
+    'js/carousel.js',
+    'js/form-validation.js'
   ];
 
   jsFiles.forEach(file => {
