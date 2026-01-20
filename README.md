@@ -1,33 +1,63 @@
-# Crafted Horizons — by Aditi
+# Crafted Horizons
 
-Thoughtfully designed travel experiences.
+**Personal travel advisory website for Aditi Desai**
 
-## About
+🌍 Live site: [crafted-horizons.com](https://crafted-horizons.com)
 
-This is the official website for Crafted Horizons, a travel advisory service by Aditi. The site provides information about custom travel planning services and how to get in touch.
+---
 
-## Setup
+## ⚠️ COPYRIGHT & LEGAL NOTICE
 
-This is a static website that can be hosted on GitHub Pages.
+**© 2026 Aditi Desai. All rights reserved.**
 
-### To view locally:
+### This is NOT Open Source
 
-Simply open `index.html` in your web browser.
+This repository is publicly visible **only because GitHub Pages requires public repositories** for hosting. The code, content, branding, and images are **protected intellectual property** and are **NOT available for use, modification, or distribution**.
 
-### To deploy to GitHub Pages:
+### Protected Content
 
-1. Push this repository to GitHub
-2. Go to repository Settings → Pages
-3. Under "Source", select the branch (usually `main` or `gh-pages`)
-4. Your site will be published at `https://[username].github.io/crafted-horizons/`
+- **Brand Name:** "Crafted Horizons" is a registered trade name
+- **All Content:** Written copy, travel descriptions, personal stories
+- **All Images:** Personal photographs and travel images
+- **Design & Code:** Website design, structure, and implementation
 
-## Customization
+### Legal Restrictions
 
-Before publishing, update the following in `index.html`:
+**You may NOT:**
+- ❌ Copy, fork, or clone this repository for your own use
+- ❌ Use the "Crafted Horizons" name or branding
+- ❌ Copy or use any text, images, or content from this website
+- ❌ Create a derivative work or competing service
+- ❌ Use this code for commercial purposes
 
-- Replace `PASTE_YOUR_TRAVEL_INTAKE_FORM_LINK` with your actual intake form URL
-- Replace `YOUR_EMAIL_HERE` with your contact email address
+**Violations will result in:**
+- DMCA takedown notices
+- Legal action for trademark infringement
+- Pursuit of damages under copyright law
 
-## License
+### Why This Code is Public
 
-© 2026 Crafted Horizons — by Aditi
+This repository is public solely to enable GitHub Pages hosting. The code is shared for **transparency** with clients and **educational reference only** - not for reuse.
+
+See [LICENSE.md](LICENSE.md) for full legal terms.
+
+---
+
+## 📧 Contact
+
+For business inquiries or licensing questions:
+- **Email:** aditi@crafted-horizons.com
+- **WhatsApp:** +44 7825 422655
+
+---
+
+## Technical Stack
+
+- Static HTML/CSS/JavaScript
+- GitHub Pages hosting
+- FormSubmit.co for form handling
+- Responsive design with mobile navigation
+
+---
+
+**Built with care for travelers seeking thoughtful, personalized trip planning.**

@@ -73,7 +73,10 @@ const footerHTML = `<footer class="site-footer">
     </div>
 
     <div class="footer-bottom">
-      <p>© <span id="year"></span> Crafted Horizons — by Aditi</p>
+      <p>© <span id="year"></span> Aditi Desai. All rights reserved.</p>
+      <p class="footer-small">
+        Crafted Horizons is a registered trade name. Content and images may not be reproduced without permission.
+      </p>
       <p class="footer-small">
         <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
       </p>
