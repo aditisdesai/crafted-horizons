@@ -57,12 +57,12 @@ function testFileExistence() {
 
   const requiredFiles = [
     'index.html',
-    'pages/planning.html',
-    'pages/inspiration.html',
-    'pages/about.html',
-    'pages/privacy.html',
-    'pages/terms.html',
-    'pages/thankyou.html',
+    'planning.html',
+    'inspiration.html',
+    'about.html',
+    'privacy.html',
+    'terms.html',
+    'thankyou.html',
     'css/styles.css',
     'robots.txt',
     'sitemap.xml',
@@ -87,9 +87,9 @@ function testHTMLStructure() {
 
   const pages = [
     'index.html',
-    'pages/planning.html',
-    'pages/inspiration.html',
-    'pages/about.html'
+    'planning.html',
+    'inspiration.html',
+    'about.html'
   ];
 
   pages.forEach(page => {
@@ -137,11 +137,11 @@ function testSEO() {
 
   const pages = [
     'index.html',
-    'pages/planning.html',
-    'pages/inspiration.html',
-    'pages/about.html',
-    'pages/privacy.html',
-    'pages/terms.html'
+    'planning.html',
+    'inspiration.html',
+    'about.html',
+    'privacy.html',
+    'terms.html'
   ];
 
   pages.forEach(page => {
@@ -214,12 +214,12 @@ function testForm() {
   log('\n📋 Form Tests', colors.cyan);
   log('─'.repeat(50));
 
-  if (!fileExists('pages/planning.html')) {
+  if (!fileExists('planning.html')) {
     fail('planning.html not found for form testing');
     return;
   }
 
-  const content = readFile('pages/planning.html');
+  const content = readFile('planning.html');
 
   // Check form action
   if (content.includes('action="https://formsubmit.co/aditi@crafted-horizons.com"')) {
@@ -291,7 +291,7 @@ function testLinks() {
     }
   }
 
-  const pages = ['index.html', 'pages/planning.html', 'pages/about.html'];
+  const pages = ['index.html', 'planning.html', 'about.html'];
 
   pages.forEach(page => {
     if (!fileExists(page)) return;
@@ -307,8 +307,8 @@ function testLinks() {
   });
 
   // Check planning page has WhatsApp in form area
-  if (fileExists('pages/planning.html')) {
-    const content = readFile('pages/planning.html');
+  if (fileExists('planning.html')) {
+    const content = readFile('planning.html');
     if (content.includes('wa.me/447825422655')) {
       pass('planning.html: WhatsApp link in support card');
     }

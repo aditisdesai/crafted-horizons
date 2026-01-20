@@ -7,31 +7,31 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://crafted-horizons.com/pages/planning.html</loc>
+    <loc>https://crafted-horizons.com/planning.html</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://crafted-horizons.com/pages/inspiration.html</loc>
+    <loc>https://crafted-horizons.com/inspiration.html</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crafted-horizons.com/pages/about.html</loc>
+    <loc>https://crafted-horizons.com/about.html</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crafted-horizons.com/pages/privacy.html</loc>
+    <loc>https://crafted-horizons.com/privacy.html</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://crafted-horizons.com/pages/terms.html</loc>
+    <loc>https://crafted-horizons.com/terms.html</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
