@@ -56,7 +56,7 @@ body {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
   font-size: 16px;
   letter-spacing: 0.02em;
@@ -66,9 +66,14 @@ body {
 }
 
 .logo-mark {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   display: block;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  line-height: 1;
 }
 
 .logo:hover {

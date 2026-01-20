@@ -2,18 +2,6 @@
 const footerHTML = `<footer class="site-footer">
   <div class="wrap footer-inner">
     <div class="footer-top">
-      <div class="footer-brand">
-        <p class="footer-kicker">Crafted Horizons</p>
-        <p class="footer-title">Thoughtful travel, booked with care — without the overwhelm.</p>
-
-        <p class="footer-desc">
-          Independent Travel Advisor · UK-based · Support from enquiry to booking.
-        </p>
-
-        <div class="footer-contact">
-          <a class="footer-link" href="mailto:aditi@crafted-horizons.com">aditi@crafted-horizons.com</a>
-        </div>
-      </div>
 
       <div class="footer-columns">
         <div class="footer-col">
