@@ -3,7 +3,7 @@ const headerHTML = `<!-- Navigation -->
 <nav class="nav">
   <div class="wrap nav-inner">
     <a href="index.html" class="logo">
-      <img class="logo-mark" src="assets/brand/favicon-64x64.png" alt="" aria-hidden="true">
+      <img class="logo-mark" src="assets/brand/favicon-256x256.png" alt="" aria-hidden="true">
       <span class="logo-text">Crafted Horizons</span>
     </a>
 
