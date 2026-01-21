@@ -284,7 +284,7 @@ function testLinks() {
   // Check WhatsApp link in header loader (used across all pages)
   if (fileExists('js/header-loader.js')) {
     const headerContent = readFile('js/header-loader.js');
-    if (headerContent.includes('wa.me/447825422655')) {
+    if (headerContent.includes('wa.me/447424907184')) {
       pass('Header: WhatsApp link present (loads on all pages)');
     } else {
       fail('Header: WhatsApp link missing');
@@ -309,7 +309,7 @@ function testLinks() {
   // Check planning page has WhatsApp in form area
   if (fileExists('planning.html')) {
     const content = readFile('planning.html');
-    if (content.includes('wa.me/447825422655')) {
+    if (content.includes('wa.me/447424907184')) {
       pass('planning.html: WhatsApp link in support card');
     }
   }

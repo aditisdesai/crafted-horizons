@@ -16,7 +16,7 @@ This repository is publicly visible **only because GitHub Pages requires public 
 
 ### Protected Content
 
-- **Brand Name:** "Crafted Horizons" is a registered trade name
+- **Brand Name:** "Crafted Horizons" branding and identity
 - **All Content:** Written copy, travel descriptions, personal stories
 - **All Images:** Personal photographs and travel images
 - **Design & Code:** Website design, structure, and implementation
@@ -32,7 +32,7 @@ This repository is publicly visible **only because GitHub Pages requires public 
 
 **Violations will result in:**
 - DMCA takedown notices
-- Legal action for trademark infringement
+- Legal action for copyright infringement
 - Pursuit of damages under copyright law
 
 ### Why This Code is Public
@@ -47,7 +47,7 @@ See [LICENSE.md](LICENSE.md) for full legal terms.
 
 For business inquiries or licensing questions:
 - **Email:** aditi@crafted-horizons.com
-- **WhatsApp:** +44 7825 422655
+- **WhatsApp:** +44 7424 907184
 
 ---
 

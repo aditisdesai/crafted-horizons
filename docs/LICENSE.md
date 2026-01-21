@@ -6,7 +6,7 @@
 
 ## Brand Protection
 
-**"Crafted Horizons"** is a registered trade name owned by Aditi Desai. The brand name, logo, and associated visual identity are protected intellectual property and may not be used without explicit written permission.
+**"Crafted Horizons"** is a brand name owned by Aditi Desai. The brand name, logo, and associated visual identity are protected intellectual property and may not be used without explicit written permission.
 
 ## Content License
 
