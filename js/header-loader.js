@@ -25,7 +25,7 @@ const headerHTML = `<!-- Navigation -->
         The Latitude Collective ✨
       </a>
       <a
-        href="https://wa.me/447825422655?text=Hi%20Aditi%2C%20I%27d%20love%20help%20planning%20a%20trip."
+        href="https://wa.me/447424907184?text=Hi%20Aditi%2C%20I%27d%20love%20help%20planning%20a%20trip."
         class="nav-link nav-whatsapp"
         target="_blank"
         rel="noopener"
