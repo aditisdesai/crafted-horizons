@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
     const filled = Array.from(inputs).filter(input => {
       if (input.type === 'checkbox') return input.checked;
+      if (input.tagName === 'SELECT') return input.value !== '';
       return input.value.trim() !== '';
     }).length;
     const progress = (filled / inputs.length) * 100;
@@ -26,7 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     name: 'Please enter your name',
     email: 'Please enter a valid email address',
     dates: 'Please provide approximate dates for your trip',
-    travellers: 'Please tell us who will be travelling',
+    adults: 'Please select number of adults',
+    kids: 'Please select number of kids',
+    kidsAges: 'Please enter the ages of the children',
     consent: 'You must consent to being contacted to submit this enquiry'
   };
 
@@ -54,11 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       input.parentNode.insertBefore(errorDiv, input.nextSibling);
     }
-
-    // Focus the first error field
-    if (!document.querySelector('.error:focus')) {
-      input.focus();
-    }
   };
 
   // Remove error message
@@ -78,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const value = input.value.trim();
     const type = input.type;
     const name = input.name;
+    const id = input.id;
 
     // Remove existing error
     removeError(input);
@@ -85,12 +84,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Required field validation
     if (input.hasAttribute('required')) {
       if (type === 'checkbox' && !input.checked) {
-        showError(input, validationMessages[name] || 'This field is required');
+        showError(input, validationMessages[name] || validationMessages[id] || 'This field is required');
         return false;
       }
 
-      if (value === '' && type !== 'checkbox') {
-        showError(input, validationMessages[name] || 'This field is required');
+      if (input.tagName === 'SELECT' && value === '') {
+        showError(input, validationMessages[name] || validationMessages[id] || 'Please make a selection');
+        return false;
+      }
+
+      if (value === '' && type !== 'checkbox' && input.tagName !== 'SELECT') {
+        showError(input, validationMessages[name] || validationMessages[id] || 'This field is required');
         return false;
       }
     }
@@ -115,15 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
     return true;
   };
 
-  // Add blur validation for all inputs
+  // Clear errors when user starts typing/changing (non-blocking)
   const inputs = form.querySelectorAll('input, textarea, select');
   inputs.forEach(input => {
-    input.addEventListener('blur', () => validateField(input));
-    input.addEventListener('input', () => {
-      if (input.classList.contains('error')) {
-        validateField(input);
-      }
-    });
+    // Remove error as soon as user interacts
+    input.addEventListener('input', () => removeError(input));
+    input.addEventListener('change', () => removeError(input));
   });
 
   // Form submission handling
@@ -164,11 +165,11 @@ document.addEventListener('DOMContentLoaded', function() {
       // Scroll to first error
       if (firstError) {
         firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstError.focus();
+        setTimeout(() => firstError.focus(), 300);
       }
 
       // Show general error message
-      showFormMessage('Please fix the errors above before submitting', 'error');
+      showFormMessage('Please fix the highlighted fields before submitting', 'error');
       return false;
     }
 
@@ -206,6 +207,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Scroll to message
     msgDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Auto-remove error messages after 8 seconds
+    if (type === 'error') {
+      setTimeout(() => {
+        if (msgDiv.parentNode) msgDiv.remove();
+      }, 8000);
+    }
 
     // Auto-remove success messages after 5 seconds
     if (type === 'success') {
