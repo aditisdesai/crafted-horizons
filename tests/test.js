@@ -236,7 +236,7 @@ function testForm() {
   }
 
   // Check required fields
-  const requiredFields = ['name', 'email', 'dates', 'travellers'];
+  const requiredFields = ['name', 'email', 'dates', 'adults', 'kids'];
   requiredFields.forEach(field => {
     if (content.includes(`id="${field}"`) && content.includes('required')) {
       pass(`Form: Required field "${field}" present`);
@@ -291,7 +291,7 @@ function testLinks() {
     }
   }
 
-  const pages = ['index.html', 'planning.html', 'about.html'];
+  const pages = ['index.html', 'planning.html'];
 
   pages.forEach(page => {
     if (!fileExists(page)) return;
