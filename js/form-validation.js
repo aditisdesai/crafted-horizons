@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
     adults: 'Please select number of adults',
     kids: 'Please select number of kids',
     kidsAges: 'Please enter the ages of the children',
+    kidsAgesAlt: 'Please enter the ages of the children',
+    kids_ages: 'Please enter the ages of the children',
     consent: 'You must consent to being contacted to submit this enquiry'
   };
 
