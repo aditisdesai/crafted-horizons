@@ -128,12 +128,6 @@
           </select>
         </div>
 
-        <div class="field" id="kids-ages-field" style="display: none;">
-          <label for="kidsAges">Kids ages *</label>
-          <input id="kidsAges" name="kids_ages" type="text" placeholder="e.g., 7, 13" />
-          <p class="help">Helps with room configurations and activities.</p>
-        </div>
-
         <div class="field">
           <label for="budget">Rough budget (total)</label>
           <select id="budget" name="budget_range">
@@ -146,6 +140,13 @@
           </select>
           <p class="help">Helps me suggest options that fit.</p>
         </div>
+      </div>
+
+      <!-- Kids ages row (outside grid for full width when visible) -->
+      <div class="field field-full" id="kids-ages-row" style="display: none;">
+        <label for="kidsAgesAlt">Kids ages *</label>
+        <input id="kidsAgesAlt" name="kids_ages" type="text" placeholder="e.g., 7, 13" />
+        <p class="help">Helps with room configurations and activities.</p>
       </div>
     </fieldset>
 
@@ -228,13 +229,13 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const kidsSelect = document.getElementById('kids');
-        const kidsAgesField = document.getElementById('kids-ages-field');
-        const kidsAgesInput = document.getElementById('kidsAges');
+        const kidsAgesRow = document.getElementById('kids-ages-row');
+        const kidsAgesInput = document.getElementById('kidsAgesAlt');
 
-        if (kidsSelect && kidsAgesField && kidsAgesInput) {
+        if (kidsSelect && kidsAgesRow && kidsAgesInput) {
           kidsSelect.addEventListener('change', function() {
             const hasKids = this.value !== '' && this.value !== '0';
-            kidsAgesField.style.display = hasKids ? 'block' : 'none';
+            kidsAgesRow.style.display = hasKids ? 'block' : 'none';
             kidsAgesInput.required = hasKids;
             if (!hasKids) {
               kidsAgesInput.value = '';
