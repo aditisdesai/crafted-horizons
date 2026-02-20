@@ -2,7 +2,10 @@
 const headerHTML = `<!-- Navigation -->
 <nav class="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="logo">Crafted Horizons</a>
+    <a href="index.html" class="logo">
+      <img src="assets/brand/crafted-horizons-icon-1024.png" alt="Crafted Horizons" class="logo-img" />
+      <span>Crafted Horizons</span>
+    </a>
 
     <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span class="hamburger-icon">

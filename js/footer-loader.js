@@ -59,8 +59,8 @@ const footerHTML = `<footer class="site-footer">
     <div class="footer-compliance">
       <p class="compliance-title">Travel protection &amp; compliance</p>
       <p class="compliance-text">
-        Crafted Horizons is an affiliate of <strong>InteleTravel</strong>, who are <strong>ABTA &amp; ATOL-protected</strong>.
-        Flight-inclusive package holidays are protected by our <strong>ATOL-protected partners</strong>.
+        All travel bookings are made through <strong>ABTA &amp; ATOL-protected partners</strong> where applicable.
+        Flight-inclusive package holidays are financially protected.
       </p>
       <p class="compliance-note">
         Protections apply through the relevant supplier or provider used for your booking.
