@@ -2040,3 +2040,27 @@ select:focus-visible {
   height: 18px;
   opacity: 0.9;
 }
+
+/* Travel, thoughtfully */
+.mindful-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.mindful-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(800px 400px at 15% 10%, rgba(255, 255, 255, 0.06), transparent 60%);
+  pointer-events: none;
+}
+
+.mindful-list {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.1rem;
+}
+
+.mindful-list li {
+  margin: 0.4rem 0;
+  line-height: 1.5;
+}
