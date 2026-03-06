@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://crafted-horizons.com/travel-quiz.html" />
+  <title>What kind of traveller are you? — Crafted Horizons</title>
+  <meta name="description" content="Five questions. No wrong answers. Discover your travel persona with the Crafted Horizons quiz." />
+  <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
+  <style>
+    /* ── Site design tokens — identical to styles.css ── */
+    :root {
+      --bg:     #fbf7f2;
+      --card:   #ffffff;
+      --text:   #1b1f24;
+      --muted:  #5b6775;
+      --line:   rgba(27,31,36,0.10);
+      --teal:   #1f6f8b;
+      --terra:  #c26d3b;
+      --ease:   cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav — mirrors site nav exactly ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(251,247,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0;
+    }
+    .nav-inner {
+      width: min(1280px, calc(100% - 48px));
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 15px; letter-spacing: 0.02em;
+      color: var(--text); text-decoration: none;
+    }
+    .logo img { width: 28px; height: 28px; object-fit: contain; }
+    .logo:hover { opacity: 0.8; text-decoration: none; }
+    .back-link {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      transition: color 160ms;
+    }
+    .back-link:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Page layout ── */
+    #app {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 90px 1.25rem 4rem;
+      background: linear-gradient(180deg, rgba(31,111,139,0.07) 0%, transparent 38%);
+    }
+    #screen { width: 100%; max-width: 544px; }
+
+    /* ── Intro screen ── */
+    .kicker {
+      font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 12px; font-weight: 500;
+    }
+    .intro-h1 {
+      font-size: clamp(32px, 6vw, 50px);
+      font-weight: 700; line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+    .intro-h1 em { font-style: italic; font-weight: 400; color: var(--teal); }
+    .intro-sub {
+      font-size: 16px; color: var(--muted); line-height: 1.65;
+      max-width: 440px; margin-bottom: 22px;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 12px; background: var(--card);
+      border: 1px solid var(--line); border-radius: 999px;
+      font-size: 12px; color: var(--muted);
+    }
+    .chip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+
+    /* ── Card — matches site .card ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px 26px 22px;
+      box-shadow: 0 10px 30px rgba(27,31,36,0.06);
+    }
+
+    /* ── Progress ── */
+    .prog-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .prog-lbl { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .prog-track { height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 22px; }
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), rgba(31,111,139,0.55));
+      border-radius: 2px;
+      transition: width 500ms var(--ease);
+    }
+
+    /* ── Question ── */
+    .q-text {
+      font-size: clamp(17px, 2.8vw, 22px);
+      font-weight: 600; line-height: 1.36;
+      letter-spacing: -0.01em; margin-bottom: 18px;
+    }
+
+    /* ── Options ── */
+    .opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .opt {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 15px;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; cursor: pointer; text-align: left;
+      font-family: inherit; color: var(--text); width: 100%;
+      transition: border-color 160ms var(--ease), background 160ms var(--ease),
+                  transform 130ms var(--ease), box-shadow 160ms var(--ease);
+    }
+    .opt:hover {
+      border-color: rgba(31,111,139,0.32);
+      background: rgba(31,111,139,0.03);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(31,111,139,0.09);
+    }
+    .opt.selected {
+      border-color: var(--teal);
+      background: rgba(31,111,139,0.05);
+      box-shadow: 0 0 0 1px rgba(31,111,139,0.18), 0 4px 14px rgba(31,111,139,0.09);
+    }
+    .opt-letter {
+      width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%;
+      border: 1.5px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 1px;
+      transition: background 160ms, border-color 160ms, color 160ms;
+    }
+    .opt.selected .opt-letter { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .opt-text { font-size: 14px; line-height: 1.5; color: var(--muted); transition: color 160ms; }
+    .opt.selected .opt-text { color: var(--text); font-weight: 500; }
+
+    /* ── Buttons — pill style matching site .btn.primary ── */
+    .btn-next {
+      width: 100%; padding: 13px 20px;
+      background: var(--teal); border: 1px solid var(--teal);
+      border-radius: 999px; font-family: inherit;
+      font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform 150ms var(--ease), box-shadow 150ms var(--ease),
+                  background 150ms, opacity 220ms var(--ease);
+      opacity: 0; pointer-events: none;
+    }
+    .btn-next.show, .btn-next.always { opacity: 1; pointer-events: all; }
+    .btn-next:hover { background: #185d76; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(31,111,139,0.24); }
+    .btn-next:active { transform: translateY(0); }
+    .btn-next svg { transition: transform 160ms var(--ease); }
+    .btn-next:hover svg { transform: translateX(3px); }
+
+    /* ── Result: persona-coloured share card ── */
+    /*    Designed to look great as an Instagram screenshot    */
+    .share-card {
+      border-radius: 22px 22px 0 0;
+      padding: 30px 26px 26px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 196px;
+    }
+    .share-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 85% 5%, rgba(255,255,255,0.16) 0%, transparent 58%);
+      pointer-events: none;
+    }
+    .share-card-eyebrow {
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 600; opacity: 0.65; margin-bottom: 8px;
+    }
+    .share-card-title {
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: 700; line-height: 1.10; letter-spacing: -0.025em;
+    }
+    .share-card-sub {
+      font-size: 14px; font-style: italic; font-weight: 400;
+      margin-top: 5px; opacity: 0.82;
+    }
+    .share-card-foot {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-top: 22px;
+    }
+    .share-card-handle { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.72; }
+    .share-card-url    { font-size: 11px; opacity: 0.55; }
+
+    /* Persona gradient palettes */
+    .persona-luxury   .share-card { background: linear-gradient(135deg, #1a3848 0%, #1f6f8b 100%); color: #fff; }
+    .persona-cultural .share-card { background: linear-gradient(135deg, #2c1c0c 0%, #c26d3b 100%); color: #fff; }
+    .persona-adventure .share-card { background: linear-gradient(135deg, #0f281b 0%, #1d6b4a 100%); color: #fff; }
+    .persona-sun      .share-card { background: linear-gradient(135deg, #3a1c00 0%, #d4874a 100%); color: #fff; }
+
+    /* ── Result body ── */
+    .result-card { border-radius: 0 0 22px 22px; border-top: none; }
+    .result-desc { font-size: 14.5px; line-height: 1.72; color: var(--muted); margin-bottom: 18px; }
+    .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+    .result-tag {
+      padding: 4px 12px; border: 1px solid var(--line);
+      border-radius: 999px; font-size: 12px; color: var(--muted);
+    }
+
+    /* ── Instagram nudge block ── */
+    .insta-nudge {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(31,111,139,0.05);
+      border: 1px solid rgba(31,111,139,0.14);
+      border-radius: 14px;
+      padding: 13px 14px; margin-bottom: 14px;
+    }
+    .insta-icon-wrap {
+      width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px;
+      background: linear-gradient(135deg, #f09433, #e6683c 30%, #dc2743 55%, #cc2366 78%, #bc1888);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .insta-copy strong { display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 1px; }
+    .insta-copy span   { font-size: 12px; color: var(--muted); }
+
+    /* ── Action buttons ── */
+    .btn-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .btn-share {
+      flex: 1; padding: 12px 16px;
+      background: var(--terra); border: 1px solid var(--terra);
+      border-radius: 999px; font-family: inherit; font-size: 14px;
+      font-weight: 700; color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      transition: background 150ms, transform 130ms var(--ease), box-shadow 150ms;
+    }
+    .btn-share:hover { background: #a85c2e; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(194,109,59,0.22); }
+    .btn-plan {
+      flex: 1; padding: 12px 16px;
+      background: var(--teal); border: 1px solid var(--teal);
+      border-radius: 999px; font-family: inherit; font-size: 14px;
+      font-weight: 700; color: #fff; cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      transition: background 150ms, transform 130ms var(--ease), box-shadow 150ms;
+    }
+    .btn-plan:hover { background: #185d76; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(31,111,139,0.22); text-decoration: none; }
+    .btn-ghost {
+      display: block; width: 100%; padding: 10px;
+      background: none; border: none; font-family: inherit;
+      font-size: 13px; color: var(--muted); cursor: pointer; text-align: center;
+      transition: color 160ms; margin-top: 2px;
+    }
+    .btn-ghost:hover { color: var(--text); }
+
+    /* ── Toast notification ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--text); color: #fff;
+      padding: 10px 22px; border-radius: 999px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none; z-index: 200; white-space: nowrap;
+      transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Transitions ── */
+    @keyframes slideUp   { from { opacity:0; transform: translateY(18px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity:1; transform: translateY(0); } to { opacity:0; transform: translateY(-14px); } }
+    .fade-in  { animation: slideUp   360ms var(--ease) forwards; }
+    .fade-out { animation: slideDown 240ms var(--ease) forwards; }
+
+    /* ── Mobile ── */
+    @media (max-width: 580px) {
+      #app { padding: 80px 1rem 3.5rem; }
+      .card { padding: 20px 16px 18px; }
+      .share-card { padding: 24px 18px 20px; }
+      .btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav identical to site -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/brand/crafted-horizons-icon-1024.png" alt="Crafted Horizons">
+        <span>Crafted Horizons</span>
+      </a>
+      <a href="index.html" class="back-link">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to site
+      </a>
+    </div>
+  </nav>
+
+  <div id="app">
+    <div id="screen" class="fade-in"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+
+    // ── Data ──────────────────────────────────────────────────────────────────
+
+    const QUESTIONS = [
+      {
+        q: "Be honest — what does your ideal travel day actually look like?",
+        opts: [
+          { text: "A proper sleep in. Breakfast somewhere nice. No plan, no pressure. Just somewhere pleasant to exist for a while.", p: "luxury" },
+          { text: "Wandering somewhere I don't know, with no real agenda other than to find somewhere good to eat and see what happens.", p: "cultural" },
+          { text: "Up early, somewhere new, working out the day as I go. That uncertainty is the bit I actually like.", p: "adventure" },
+          { text: "Sand. Sea. A book I've been meaning to read for months. Phone on silent. Genuinely, that's it.", p: "sun" },
+        ]
+      },
+      {
+        q: "Where do you want to sleep?",
+        opts: [
+          { text: "Somewhere you can tell someone has actually thought about — good bed, decent bathroom, service that doesn't make you feel like a bother.", p: "luxury" },
+          { text: "Somewhere with a bit of character. A riad, a ryokan, an old building that feels like it belongs where it is.", p: "cultural" },
+          { text: "Honestly, anywhere I'm not spending too long in. Good enough is fine. The point is what's outside.", p: "adventure" },
+          { text: "As close to the water as possible. If I can hear the sea from my room, I'm sorted.", p: "sun" },
+        ]
+      },
+      {
+        q: "What do you usually come home talking about?",
+        opts: [
+          { text: "How well I slept. The meal. The moment somewhere got it exactly right. That I actually switched off, which doesn't happen often.", p: "luxury" },
+          { text: "Something I saw or someone I spoke to that I'm still thinking about weeks later. A place I want to go back to.", p: "cultural" },
+          { text: "The thing I nearly didn't do. The slightly chaotic day that turned into the best one.", p: "adventure" },
+          { text: "That I need to go back. Probably sooner than is realistic. Also how unfair it is to have to return to normal life.", p: "sun" },
+        ]
+      },
+      {
+        q: "How do you decide where to go?",
+        opts: [
+          { text: "A proper recommendation from someone whose opinion I actually trust — not a best-of list, someone who's been there.", p: "luxury" },
+          { text: "I think about what's on. Festivals, food seasons, events. I like going somewhere with a reason to be there right now.", p: "cultural" },
+          { text: "A map, usually. I find somewhere I haven't been and start wondering what it's actually like.", p: "adventure" },
+          { text: "Temperature first. Then beauty. Then flights. If those three work out, I'm in.", p: "sun" },
+        ]
+      },
+      {
+        q: "What do you need a trip to do for you?",
+        opts: [
+          { text: "Give me a proper break. Not just a change of scene — actual rest. I need to come home feeling like a different person.", p: "luxury" },
+          { text: "Change how I'm thinking. I always come back wanting to read more, learn more, go back.", p: "cultural" },
+          { text: "Remind me there's a version of me that's more capable than my day-to-day life suggests. Sounds cheesy but it's true.", p: "adventure" },
+          { text: "Sort me out. Warmth and time away does something for me that nothing else quite manages.", p: "sun" },
+        ]
+      },
+    ];
+
+    const PERSONAS = {
+      luxury: {
+        title:   "The Luxury Traveller",
+        sub:     "You travel to actually switch off.",
+        desc:    "Not in a high-maintenance way — you've just figured out what makes a trip worth it for you. The bed matters. The service matters. A restaurant someone has actually thought about matters. You've had trips that left you exhausted and trips that left you genuinely restored, and you know exactly which things made the difference. That's not fussy. That's just knowing yourself.",
+        tags:    ["Boutique Hotels", "Private Villas", "Good Restaurants", "Indian Ocean", "Italy", "Anywhere the Bed is Brilliant"],
+        cta:     "Tell me what you're after and I'll find something properly good.",
+        nudge:   "Tag someone who has opinions about thread counts 😂",
+        caption: (url) => `Took this travel quiz and apparently I'm a Luxury Traveller 😅 honestly fair.\n\nNot about being flashy — I just know what makes a trip worth it. Good sleep, decent service, food that someone's actually thought about.\n\nQuiz is from @craftedhorizonsbyaditi — link in her bio if you want to find out yours 👇\n\n${url}\n\n#craftedhorizons #travelquiz #luxurytravel`,
+      },
+      cultural: {
+        title:   "The Cultural Wanderer",
+        sub:     "You travel because you're curious.",
+        desc:    "Not in a 'ticking off countries' way — you genuinely want to understand what a place is like. The food, the neighbourhoods people actually live in, the small museum nobody else visits. You ask locals where they eat. You come back with a reading list and two new things you want to learn about. You've spent too long somewhere you only meant to pass through, and you'd do it again.",
+        tags:    ["Japan", "Morocco", "Istanbul", "Food Markets", "Local Neighbourhoods", "Anywhere with a Good Story"],
+        cta:     "Tell me where you've been thinking about. Let's make it work.",
+        nudge:   "Tag someone who disappears down a side street and comes back two hours later with a story 🗺️",
+        caption: (url) => `Apparently I'm a Cultural Wanderer 🌍 which feels very accurate.\n\nI travel because I'm nosy, basically. I want to know what a place is actually like — not just the nice photos of it.\n\nQuiz is from @craftedhorizonsbyaditi — worth doing if you want to figure out what kind of trips suit you 👇\n\n${url}\n\n#craftedhorizons #travelquiz #culturaltravel`,
+      },
+      adventure: {
+        title:   "The Adventure Seeker",
+        sub:     "You travel to feel something.",
+        desc:    "You want something to actually happen. It doesn't have to be extreme — you just want to come back with a proper story. You say yes more than you probably should. You've had days that were slightly all over the place and turned out to be the best ones. You're probably already thinking about where to go next.",
+        tags:    ["Vietnam", "Patagonia", "Iceland", "Long Road Trips", "Mountains", "Somewhere New"],
+        cta:     "Tell me where you haven't been yet. We'll figure out the rest.",
+        nudge:   "Tag someone who came back from holiday and immediately started planning the next one 🧭",
+        caption: (url) => `The quiz said I'm an Adventure Seeker and I'm not going to argue 😄\n\nI just want something to happen on a trip. New place, loose plan, figure it out as I go.\n\nTook this from @craftedhorizonsbyaditi — link in her bio if you want to find out yours 👇\n\n${url}\n\n#craftedhorizons #travelquiz #adventuretravel`,
+      },
+      sun: {
+        title:   "The Sun Seeker",
+        sub:     "You know exactly what works for you.",
+        desc:    "Warm weather. Somewhere nice to swim. Good food within walking distance. No alarm. You've probably tried the city breaks and the cultural trips and they're perfectly fine — but honestly, nothing sorts you out like actually being somewhere warm for a week. That's not boring. That's self-awareness. Everyone should be this honest about what they need from a holiday.",
+        tags:    ["Maldives", "Greece", "Bali", "Menorca", "Anywhere Warm", "Somewhere with a Pool"],
+        cta:     "Let's get you somewhere warm. Tell me the rest.",
+        nudge:   "Tag someone who checks the weather before deciding if a trip is worth it ☀️",
+        caption: (url) => `Sun Seeker. 100%. No notes. ☀️\n\nI tried the city break thing. I tried broadening my horizons. Genuinely, nothing works like warmth and water and switching off for a week.\n\nTook this from @craftedhorizonsbyaditi — she built a travel quiz and it's actually spot on 👇\n\n${url}\n\n#craftedhorizons #travelquiz #sunseeker`,
+      },
+    };
+
+    const LETTERS = ['A', 'B', 'C', 'D'];
+    const QUIZ_URL = 'https://crafted-horizons.com/travel-quiz.html';
+    const ARROW = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+    const IG_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`;
+
+    // ── State ─────────────────────────────────────────────────────────────────
+
+    let S = freshState();
+    function freshState() {
+      return { q: 0, scores: { luxury:0, cultural:0, adventure:0, sun:0 }, sel: null, busy: false };
+    }
+
+    const screenEl = document.getElementById('screen');
+    const toastEl  = document.getElementById('toast');
+
+    // ── Renders ───────────────────────────────────────────────────────────────
+
+    function renderIntro() {
+      screenEl.innerHTML = `
+        <p class="kicker">Crafted Horizons</p>
+        <h1 class="intro-h1">What kind of<br>traveller <em>are you?</em></h1>
+        <p class="intro-sub">The first thing I ask anyone before planning their trip is: what kind of traveller are you, really? Five questions gets us pretty close. No wrong answers — just pick what actually sounds like you.</p>
+        <div class="chips">
+          <span class="chip"><span class="chip-dot"></span>5 questions</span>
+          <span class="chip"><span class="chip-dot"></span>Under 2 minutes</span>
+          <span class="chip"><span class="chip-dot"></span>4 travel personas</span>
+        </div>
+        <button class="btn-next always" id="js-start" type="button"
+          style="border-radius:22px;font-size:16px;padding:18px 24px;">
+          Begin ${ARROW}
+        </button>
+      `;
+      document.getElementById('js-start').addEventListener('click', startQuiz);
+    }
+
+    function renderQuestion() {
+      S.sel = null;
+      const qd    = QUESTIONS[S.q];
+      const n     = S.q + 1;
+      const tot   = QUESTIONS.length;
+      const p0    = (S.q / tot) * 100;
+      const p1    = (n / tot) * 100;
+      const last  = S.q === tot - 1;
+
+      screenEl.innerHTML = `
+        <div class="card">
+          <div class="prog-row">
+            <span class="prog-lbl">Question ${n} of ${tot}</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" id="js-fill" style="width:${p0}%"></div>
+          </div>
+          <p class="q-text">${qd.q}</p>
+          <div class="opts" id="js-opts">
+            ${qd.opts.map((o,i) => `
+              <button class="opt" data-i="${i}" data-p="${o.p}" type="button">
+                <span class="opt-letter">${LETTERS[i]}</span>
+                <span class="opt-text">${o.text}</span>
+              </button>
+            `).join('')}
+          </div>
+          <button class="btn-next" id="js-next" type="button">
+            ${last ? 'See my result' : 'Next question'} ${ARROW}
+          </button>
+        </div>
+      `;
+
+      // Animate progress bar after paint
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const f = document.getElementById('js-fill');
+        if (f) f.style.width = p1 + '%';
+      }));
+
+      document.getElementById('js-opts').addEventListener('click', e => {
+        const b = e.target.closest('.opt');
+        if (!b || S.busy) return;
+        pickOpt(parseInt(b.dataset.i, 10), b.dataset.p);
+      });
+      document.getElementById('js-next').addEventListener('click', advance);
+    }
+
+    function renderResult() {
+      const ORDER  = ['luxury', 'cultural', 'adventure', 'sun'];
+      const winner = ORDER.reduce((a, b) => S.scores[b] > S.scores[a] ? b : a);
+      const p = PERSONAS[winner];
+
+      screenEl.innerHTML = `
+        <div class="persona-${winner}">
+
+          <!-- Screenshot-ready share card -->
+          <div class="share-card" id="js-card">
+            <div>
+              <div class="share-card-eyebrow">Your travel persona</div>
+              <div class="share-card-title">${p.title}</div>
+              <div class="share-card-sub">${p.sub}</div>
+            </div>
+            <div class="share-card-foot">
+              <span class="share-card-handle">@craftedhorizonsbyaditi</span>
+              <span class="share-card-url">crafted-horizons.com/travel-quiz</span>
+            </div>
+          </div>
+
+          <!-- Result detail card -->
+          <div class="card result-card">
+            <p class="result-desc">${p.desc}</p>
+            <div class="result-tags">
+              ${p.tags.map(t => `<span class="result-tag">${t}</span>`).join('')}
+            </div>
+
+            <!-- Instagram engagement nudge -->
+            <div class="insta-nudge">
+              <div class="insta-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+              </div>
+              <div class="insta-copy">
+                <strong>${p.nudge}</strong>
+                <span>Screenshot &amp; share to your Instagram Stories</span>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button class="btn-share" id="js-share" type="button">
+                ${IG_SVG} Share result
+              </button>
+              <a class="btn-plan" href="planning.html">
+                ${p.cta.split(' ').slice(0,3).join(' ')} ${ARROW}
+              </a>
+            </div>
+            <button class="btn-ghost" id="js-retake" type="button">← Take the quiz again</button>
+          </div>
+
+        </div>
+      `;
+
+      document.getElementById('js-share').addEventListener('click',  () => shareResult(winner, p));
+      document.getElementById('js-retake').addEventListener('click', resetQuiz);
+    }
+
+    // ── Actions ───────────────────────────────────────────────────────────────
+
+    function startQuiz() {
+      S = freshState();
+      transition(renderQuestion);
+    }
+
+    function pickOpt(i, persona) {
+      if (S.busy) return;
+      S.sel = { i, persona };
+      document.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+      document.querySelector(`.opt[data-i="${i}"]`).classList.add('selected');
+      const n = document.getElementById('js-next');
+      if (n) n.classList.add('show');
+    }
+
+    function advance() {
+      if (!S.sel || S.busy) return;
+      S.scores[S.sel.persona]++;
+      if (S.q + 1 >= QUESTIONS.length) {
+        transition(renderResult);
+      } else {
+        S.q++;
+        transition(renderQuestion);
+      }
+    }
+
+    function resetQuiz() {
+      S = freshState();
+      transition(renderIntro);
+    }
+
+    function transition(fn) {
+      if (S.busy) return;
+      S.busy = true;
+      screenEl.classList.remove('fade-in');
+      screenEl.classList.add('fade-out');
+      setTimeout(() => {
+        screenEl.classList.remove('fade-out');
+        fn();
+        void screenEl.offsetWidth; // force reflow
+        screenEl.classList.add('fade-in');
+        S.busy = false;
+      }, 250);
+    }
+
+    async function shareResult(winner, p) {
+      const caption = p.caption(QUIZ_URL);
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: p.title, text: caption, url: QUIZ_URL });
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') return; // user cancelled
+        }
+      }
+      // Fallback: copy caption to clipboard
+      try {
+        await navigator.clipboard.writeText(caption);
+        showToast('Caption copied — paste into your Instagram post ✓');
+      } catch {
+        showToast('Visit: crafted-horizons.com/travel-quiz');
+      }
+    }
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      setTimeout(() => toastEl.classList.remove('show'), 3500);
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    renderIntro();
+  </script>
+</body>
+</html>
