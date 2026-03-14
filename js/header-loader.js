@@ -17,6 +17,7 @@ const headerHTML = `<!-- Navigation -->
 
     <div class="nav-links">
       <a href="inspiration.html" class="nav-link">Inspiration</a>
+      <a href="deals.html" class="nav-link">Live Deals</a>
       <a href="planning.html" class="nav-link">Travel Planning</a>
       <a href="about.html" class="nav-link">About</a>
       <a

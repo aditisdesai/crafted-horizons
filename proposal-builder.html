@@ -253,6 +253,29 @@
     .qr-panel-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
     .qr-panel-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
+    /* ── Export modal ── */
+    .export-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(13,31,45,0.65);
+      z-index: 500; display: flex; align-items: flex-start; justify-content: center;
+      padding: 24px 16px; overflow-y: auto;
+    }
+    .export-modal {
+      background: #fff; border-radius: 20px; width: min(680px, 100%);
+      padding: 28px; box-shadow: 0 12px 48px rgba(0,0,0,0.25);
+      position: relative; margin: auto;
+    }
+    .export-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .export-modal-title { font-size: 18px; font-weight: 700; color: var(--teal); }
+    .export-modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); padding: 0 4px; line-height: 1; }
+    .export-modal-close:hover { color: var(--text); }
+    .export-modal-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .export-steps { background: #f0f4f7; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .export-step { font-size: 13px; color: var(--text); display: flex; gap: 10px; align-items: flex-start; }
+    .export-step-num { background: var(--teal); color: #fff; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .export-code-area { width: 100%; background: #1b1f24; color: #a8d8ea; border: none; border-radius: 10px; padding: 14px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.6; resize: vertical; min-height: 200px; margin-bottom: 14px; outline: none; }
+    .export-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .export-copied { font-size: 13px; font-weight: 600; color: #059669; }
+
     /* ── Validation errors ── */
     .field-error {
       font-size: 12px; color: #c0392b; margin-top: 4px; display: none;
@@ -482,7 +505,36 @@
       <div class="qr-panel-actions">
         <button class="btn btn-primary" onclick="downloadQrCode()">Download QR code</button>
         <button class="btn btn-secondary" onclick="previewProposal()">Preview proposal ↗</button>
+        <button class="btn btn-secondary" onclick="openExportModal()" title="Export deal objects to paste into js/deals.js">Export as deals →</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Export-as-deals modal -->
+<div class="export-modal-backdrop" id="export-backdrop" style="display:none" onclick="handleBackdropClick(event)">
+  <div class="export-modal" id="export-modal">
+    <div class="export-modal-header">
+      <div class="export-modal-title">Export deals to your website</div>
+      <button class="export-modal-close" onclick="closeExportModal()">×</button>
+    </div>
+    <p class="export-modal-desc">
+      Copy the code below and paste it into the <strong>deals</strong> array in <strong>js/deals.js</strong> on GitHub.
+      Each option in the proposal becomes one deal card on your deals page.
+    </p>
+    <div class="export-steps">
+      <div class="export-step"><span class="export-step-num">1</span><span>Open <strong>js/deals.js</strong> in GitHub and click the pencil (edit) icon</span></div>
+      <div class="export-step"><span class="export-step-num">2</span><span>Find the <code>deals: [</code> array and paste below after the last deal (before the closing <code>]</code>)</span></div>
+      <div class="export-step"><span class="export-step-num">3</span><span>Set the <code>campaign:</code> field to match the campaign id (e.g. <code>"easter-2026"</code>)</span></div>
+      <div class="export-step"><span class="export-step-num">4</span><span>Fill in <code>travelDateRaw</code> as <code>"YYYY-MM-DD"</code> — this controls when the deal auto-expires</span></div>
+      <div class="export-step"><span class="export-step-num">5</span><span>Change <code>status: "draft"</code> to <code>"live"</code> when ready to publish</span></div>
+      <div class="export-step"><span class="export-step-num">6</span><span>Commit the change — your deals page updates automatically</span></div>
+    </div>
+    <textarea class="export-code-area" id="export-code" readonly spellcheck="false"></textarea>
+    <div class="export-modal-actions">
+      <button class="btn btn-primary" onclick="copyExportCode()">Copy to clipboard</button>
+      <span class="export-copied" id="export-copied" style="display:none">✓ Copied!</span>
+      <a class="btn btn-secondary" href="https://github.com" target="_blank" rel="noopener" style="text-decoration:none">Open GitHub →</a>
     </div>
   </div>
 </div>
@@ -1008,6 +1060,121 @@ JSON keys and rules:
     link.href = dataUrl;
     link.click();
   }
+
+  // ── Export as deals ──────────────────────────────────────────────────────
+  // Reads each proposal option and formats it as a deal object ready to paste
+  // into the deals array in js/deals.js.
+
+  function openExportModal() {
+    const lines = [];
+
+    optionIds.forEach(id => {
+      const dest  = (document.getElementById(`dest-${id}`)?.value  || '').trim();
+      const hotel = (document.getElementById(`hotel-${id}`)?.value || '').trim();
+      if (!dest && !hotel) return;
+
+      const inclusionsRaw = (document.getElementById(`inclusions-${id}`)?.value || '');
+      const includes  = inclusionsRaw.split('\n').map(s => s.trim()).filter(Boolean);
+      const highlightsRaw = (document.getElementById(`highlights-${id}`)?.value || '');
+      const highlights = highlightsRaw.split('\n').map(s => s.trim()).filter(Boolean);
+
+      const nights  = parseInt(document.getElementById(`nights-${id}`)?.value  || '0') || 0;
+      const stars   = parseInt(document.getElementById(`star-val-${id}`)?.value || '0') || 0;
+      const total   = parseFloat(document.getElementById(`total-${id}`)?.value  || '0') || 0;
+      const ppp     = parseFloat(document.getElementById(`ppp-${id}`)?.value    || '0') || 0;
+      const was     = parseFloat(document.getElementById(`was-${id}`)?.value    || '0') || 0;
+      const board   = document.getElementById(`board-${id}`)?.value  || '';
+      const room    = (document.getElementById(`room-${id}`)?.value    || '').trim();
+      const dates   = (document.getElementById(`dates-${id}`)?.value   || '').trim();
+      const flights = (document.getElementById(`flights-${id}`)?.value || '').trim();
+      const badgeVal = document.getElementById(`badge-${id}`)?.value || '';
+      const badge   = (badgeVal && badgeVal !== '— None —') ? badgeVal : 'Live deal';
+
+      // Generate a URL-safe id slug from hotel + destination
+      const slug = (hotel + '-' + dest)
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
+
+      const esc = s => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
+      lines.push(
+`  // ── ${dest} · ${hotel} ──────────────────────────────
+  {
+    id:            "${slug}",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
+    status:        "draft",         // ← change to "live" when ready to publish
+
+    badge:         "${esc(badge)}",
+    badgeStyle:    "blue",          // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "${esc(dest)}",
+    region:        "",              // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "${esc(hotel)}",
+    starRating:    ${stars},
+    roomType:      "${esc(room)}",
+    boardBasis:    "${esc(board)}",
+
+    nights:        ${nights},
+    travelDate:    "${esc(dates)}",
+    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    flightSummary: "${esc(flights.replace(/\n/g, ' | '))}",
+
+    totalPrice:    ${total},
+    pricePerPerson: ${ppp},
+    wasPrice:      ${was > 0 ? was : 'null'},
+    currency:      "GBP",
+
+    includes: [
+${includes.map(i => `      "${esc(i)}",`).join('\n')}
+    ],
+
+    highlights: [
+${highlights.map(h => `      "${esc(h)}",`).join('\n')}
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  ${flights.length > 0},
+    departureAirport: "",  // ← e.g. "London Gatwick"
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },`
+      );
+    });
+
+    if (!lines.length) {
+      alert('No options to export. Fill in at least a destination and hotel name first.');
+      return;
+    }
+
+    document.getElementById('export-code').value = lines.join('\n\n');
+    document.getElementById('export-backdrop').style.display = 'flex';
+    document.getElementById('export-copied').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeExportModal() {
+    document.getElementById('export-backdrop').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('export-backdrop')) closeExportModal();
+  }
+
+  function copyExportCode() {
+    const ta = document.getElementById('export-code');
+    ta.select();
+    try { document.execCommand('copy'); } catch(_) {}
+    const copied = document.getElementById('export-copied');
+    copied.style.display = 'inline';
+    setTimeout(() => { copied.style.display = 'none'; }, 2500);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   function encodeData(data) {
     return btoa(encodeURIComponent(JSON.stringify(data)));

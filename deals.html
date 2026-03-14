@@ -1,0 +1,1254 @@
+<!doctype html>
+<!--
+  deals.html — Crafted Horizons live deals hub
+  ─────────────────────────────────────────────────────────────────────────────
+  This page replaces easter-break-2026.html as the canonical deals hub.
+  All content is driven by js/deals.js — edit that file to add deals or campaigns.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Live Deals | Crafted Horizons</title>
+  <meta name="description" content="Hand-picked family holiday deals personally researched by Aditi at Crafted Horizons. Real pricing from professional booking platforms — no algorithms, no comparison engines." />
+  <link rel="canonical" href="https://crafted-horizons.com/deals.html" />
+
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://crafted-horizons.com/deals.html" />
+  <meta property="og:title"       content="Live Deals | Crafted Horizons" />
+  <meta property="og:description" content="Holiday deals personally researched by Aditi at Crafted Horizons. Checked against live supplier pricing — no algorithms, just an advisor who's done the legwork." />
+  <meta property="og:image"       content="https://crafted-horizons.com/assets/brand/crafted-horizons-og.jpg" />
+  <meta name="twitter:card"       content="summary_large_image" />
+
+  <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png" />
+
+  <style>
+    /* ─────────────────────────────────────────────────────────────────────────
+       CSS VARIABLES
+    ───────────────────────────────────────────────────────────────────────── */
+    :root {
+      --bg:   #fbf7f2;
+      --card: #fff;
+      --text: #1b1f24;
+      --muted:#5b6775;
+      --line: rgba(27,31,36,0.10);
+      --teal: #1f6f8b;
+      --terra:#c26d3b;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #fbf7f2;
+      color: #1b1f24;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    body { padding-bottom: 60px; }
+    @media(min-width:768px) { body { padding-bottom: 0; } }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       LAYOUT WRAPPERS
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-wrap        { width: min(1200px, calc(100% - 40px)); margin: 0 auto; }
+    .dh-wrap--narrow{ width: min(900px,  calc(100% - 40px)); margin: 0 auto; }
+    .dh-wrap--text  { width: min(680px,  calc(100% - 40px)); margin: 0 auto; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-hero {
+      background: linear-gradient(160deg, #0d1f2d 0%, #1f6f8b 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 48px 0 44px;
+    }
+    .dh-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -100px;
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, rgba(194,109,59,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .dh-hero-inner { position: relative; z-index: 1; }
+
+    .dh-hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(194,109,59,0.85);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .dh-hero-label-dot {
+      width: 7px;
+      height: 7px;
+      background: #fff;
+      border-radius: 50%;
+      animation: pulse-w 2s infinite;
+    }
+    @keyframes pulse-w {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(1.4); }
+    }
+
+    .dh-hero h1 {
+      font-size: clamp(26px, 5vw, 44px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .dh-hero-sub {
+      font-size: clamp(15px, 2.2vw, 18px);
+      color: rgba(255,255,255,0.72);
+      max-width: 580px;
+      margin-bottom: 28px;
+    }
+    .dh-hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .dh-btn-primary {
+      background: #c26d3b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 26px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .dh-btn-primary:hover { background: #a85c2e; transform: translateY(-1px); }
+
+    .dh-btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.45);
+      border-radius: 10px;
+      padding: 11px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+    .dh-btn-outline:hover { border-color: #fff; transform: translateY(-1px); }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       TAB BAR
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-tab-bar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #fff;
+      border-bottom: 1px solid rgba(27,31,36,0.10);
+      box-shadow: 0 2px 8px rgba(27,31,36,0.06);
+    }
+    .dh-tab-bar-inner {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      gap: 0;
+    }
+    .dh-tab-bar-inner::-webkit-scrollbar { display: none; }
+
+    .dh-tab {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #5b6775;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dh-tab:hover { color: #1b1f24; }
+    .dh-tab.active { color: #1f6f8b; }
+
+    .dh-tab-count {
+      background: #f0f4f7;
+      color: #5b6775;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .dh-tab.active .dh-tab-count { background: #dbeafe; color: #1e40af; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       CAMPAIGN SECTION
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-campaign { background: #fbf7f2; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       STORY BLOCK
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-story {
+      padding: 44px 0 32px;
+      position: relative;
+    }
+    .dh-story-quote {
+      font-size: 72px;
+      line-height: 1;
+      color: rgba(194,109,59,0.12);
+      font-family: Georgia, serif;
+      position: absolute;
+      top: 28px;
+      left: -10px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .dh-story-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1f6f8b;
+      margin-bottom: 10px;
+    }
+    .dh-story-title {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 800;
+      color: #1b1f24;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .dh-story-body p {
+      font-size: 16px;
+      color: #1b1f24;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .dh-story-body p:last-child { margin-bottom: 0; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       DEALS SECTION
+    ───────────────────────────────────────────────────────────────────────── */
+    #deals-section { padding: 8px 0 64px; background: #fbf7f2; }
+
+    .dh-deals-toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .dh-deals-count {
+      font-size: 13px;
+      color: #5b6775;
+      margin-bottom: 20px;
+      min-height: 20px;
+    }
+
+    .dh-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      flex: 1;
+      padding-bottom: 2px;
+    }
+    .dh-filters::-webkit-scrollbar { display: none; }
+
+    .dh-filter-chip {
+      background: #fff;
+      color: #1b1f24;
+      border: 1.5px solid rgba(27,31,36,0.15);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .dh-filter-chip:hover  { border-color: #1f6f8b; color: #1f6f8b; }
+    .dh-filter-chip.active { background: #1f6f8b; color: #fff; border-color: #1f6f8b; }
+
+    .dh-sort-wrap { flex-shrink: 0; }
+    select#deal-sort {
+      background: #fff;
+      border: 1.5px solid rgba(27,31,36,0.15);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #1b1f24;
+      cursor: pointer;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       DEALS GRID
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media(min-width:700px)  { .dh-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(min-width:1100px) { .dh-grid { grid-template-columns: repeat(3,1fr); } }
+
+    /* Empty / expired / coming-soon state */
+    .deals-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 24px;
+      background: #fff;
+      border-radius: 16px;
+    }
+    .deals-state-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .deals-state-body  { font-size: 15px; color: #5b6775; max-width: 420px; margin: 0 auto; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       DEAL CARD
+    ───────────────────────────────────────────────────────────────────────── */
+    .deal-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(27,31,36,0.09);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .deal-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(27,31,36,0.14); }
+
+    .dc-hero {
+      min-height: 140px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+    }
+    .dc-editors-pick {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #f59e0b;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .dc-dest  { font-size: 11px; color: rgba(255,255,255,0.72); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+    .dc-hotel { font-size: 19px; font-weight: 800; color: #fff; line-height: 1.2; }
+    .dc-stars { font-size: 13px; color: #fbbf24; margin-top: 4px; }
+
+    .dc-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+    .dc-meta-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dc-badge    { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .dc-live     { font-size: 11px; color: #059669; font-weight: 600; }
+
+    .dc-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .dc-chip  { background: #f0f4f7; color: #1b1f24; font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+    .dc-chip--flights { background: #dbeafe; color: #1e40af; }
+
+    .dc-dates   { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: #5b6775; }
+    .dc-airport { font-size: 12px; }
+    .dc-flight  { font-size: 12px; color: #5b6775; }
+
+    .dc-price-block {
+      background: #fbf7f2;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dc-total       { font-size: 26px; font-weight: 800; color: #1b1f24; line-height: 1; }
+    .dc-was         { font-size: 13px; color: #9ca3af; text-decoration: line-through; display: block; margin-top: 2px; }
+    .dc-price-right { text-align: right; }
+    .dc-ppp         { font-size: 13px; color: #5b6775; }
+    .dc-save        { display: inline-block; font-size: 11px; color: #059669; font-weight: 700; background: #d1fae5; padding: 2px 8px; border-radius: 20px; margin-top: 4px; }
+
+    .dc-includes-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #5b6775; margin-bottom: 7px; }
+    .dc-includes ul    { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+    .dc-includes li    { display: flex; align-items: flex-start; gap: 7px; font-size: 13px; }
+    .dc-check          { color: #1f6f8b; font-weight: 700; flex-shrink: 0; }
+
+    .dc-highlights     { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+    .dc-highlights li  { font-size: 13px; color: #1b1f24; padding-left: 14px; position: relative; }
+    .dc-highlights li::before { content: '–'; position: absolute; left: 0; color: #c26d3b; }
+
+    .dc-why   { background: #fff8f4; border-left: 3px solid #c26d3b; border-radius: 0 8px 8px 0; padding: 10px 12px; display: flex; gap: 8px; align-items: flex-start; }
+    .dc-why span { font-size: 15px; flex-shrink: 0; }
+    .dc-why p    { font-size: 13px; color: #5b6775; font-style: italic; margin: 0; line-height: 1.5; }
+
+    .dc-cta {
+      background: #1f6f8b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      margin-top: auto;
+      transition: background 0.2s;
+    }
+    .dc-cta:hover { background: #185e77; }
+    .dc-disclaimer { font-size: 11px; color: #9ca3af; text-align: center; margin: 0; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       MID-PAGE CTA BANNER
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-mid-cta { background: #1f6f8b; padding: 44px 0; }
+    .dh-mid-cta-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .dh-mid-cta h2 { font-size: clamp(18px,3vw,26px); font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .dh-mid-cta p  { font-size: 15px; color: rgba(255,255,255,0.75); }
+
+    .dh-btn-white {
+      background: #fff;
+      color: #1f6f8b;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .dh-btn-white:hover { background: #f0f4f7; transform: translateY(-1px); }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       WHY BOOK SECTION
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-why { padding: 56px 0; background: #fff; }
+    .dh-why-head { text-align: center; margin-bottom: 36px; }
+    .dh-why-head h2 { font-size: clamp(20px,3vw,28px); font-weight: 800; color: #1b1f24; margin-bottom: 8px; }
+    .dh-why-head p  { font-size: 15px; color: #5b6775; max-width: 480px; margin: 0 auto; }
+
+    .dh-why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media(min-width:900px) { .dh-why-grid { grid-template-columns: repeat(4,1fr); } }
+
+    .dh-why-card    { background: #fbf7f2; border-radius: 14px; padding: 22px 20px; }
+    .dh-why-icon    { font-size: 22px; margin-bottom: 10px; }
+    .dh-why-heading { font-size: 14px; font-weight: 700; color: #1b1f24; margin-bottom: 6px; }
+    .dh-why-body    { font-size: 13px; color: #5b6775; line-height: 1.6; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       ENQUIRY SECTION
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-enquire { background: #0d1f2d; padding: 64px 0 0; }
+    .dh-enquire-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    @media(min-width:768px) {
+      .dh-enquire-inner { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+
+    .dh-enquire-text h2 { font-size: clamp(20px,3.5vw,32px); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+    .dh-enquire-text p  { font-size: 15px; color: rgba(255,255,255,0.68); line-height: 1.7; margin-bottom: 12px; }
+
+    .dh-enquire-tips { list-style: none; padding: 0; margin: 0 0 22px; display: flex; flex-direction: column; gap: 7px; }
+    .dh-enquire-tips li { font-size: 14px; color: rgba(255,255,255,0.5); display: flex; gap: 8px; }
+    .dh-enquire-tips li::before { content: '→'; color: #c26d3b; flex-shrink: 0; }
+
+    .dh-contacts { display: flex; flex-direction: column; gap: 10px; }
+
+    .dh-wa-btn {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 22px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s;
+    }
+    .dh-wa-btn:hover { background: #1ebe5d; }
+
+    .dh-email-btn {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .dh-email-btn:hover { border-color: rgba(255,255,255,0.55); color: #fff; }
+
+    .dh-form { display: flex; flex-direction: column; gap: 14px; }
+    label.dh-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.55); margin-bottom: 4px; display: block; }
+
+    .dh-input, .dh-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .dh-input::placeholder, .dh-textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .dh-input:focus, .dh-textarea:focus { border-color: rgba(255,255,255,0.38); }
+    .dh-textarea { min-height: 100px; resize: vertical; }
+
+    .dh-form-submit {
+      background: #c26d3b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    .dh-form-submit:hover { background: #a85c2e; }
+    .dh-form-note { font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       FOOTER DISCLAIMER
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-disclaimer {
+      background: #0d1f2d;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 0 32px;
+    }
+    .dh-disclaimer p { font-size: 12px; color: rgba(255,255,255,0.28); line-height: 1.7; }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       STICKY WHATSAPP BAR (mobile only)
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-sticky-wa {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #25d366;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 200;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+    @media(min-width:768px) { .dh-sticky-wa { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div id="header-placeholder"></div>
+  <script src="js/header-loader.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <section class="dh-hero" aria-label="Page hero">
+    <div class="dh-wrap dh-hero-inner">
+      <div class="dh-hero-label">
+        <span class="dh-hero-label-dot"></span>
+        Live Deals
+      </div>
+      <h1>Holiday deals, personally researched</h1>
+      <p class="dh-hero-sub">I publish deals here as I find them — researched from real client work, checked against live pricing.</p>
+      <div class="dh-hero-ctas">
+        <a class="dh-btn-primary" href="#deals-section">See current deals</a>
+        <a class="dh-btn-outline" href="#enquire">Get personalised options</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TAB BAR — rendered by renderTabs()
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div class="dh-tab-bar-wrap" role="navigation" aria-label="Campaign tabs">
+    <div class="dh-wrap">
+      <div class="dh-tab-bar-inner" id="tab-bar" role="tablist"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       CAMPAIGN CONTENT — story + filters + deals grid
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div class="dh-campaign">
+
+    <!-- Story block — populated by renderStory() -->
+    <div id="campaign-story" class="dh-story" hidden>
+      <div class="dh-wrap--text" style="position:relative;">
+        <div class="dh-story-quote" aria-hidden="true">&ldquo;</div>
+        <div class="dh-story-eyebrow dh-story-eyebrow"></div>
+        <h2 class="dh-story-title"></h2>
+        <div class="dh-story-body"></div>
+      </div>
+    </div>
+
+    <!-- Deals section -->
+    <section id="deals-section" aria-label="Current deals">
+      <div class="dh-wrap">
+
+        <!-- Filter bar + sort -->
+        <div class="dh-deals-toolbar">
+          <div class="dh-filters" role="group" aria-label="Filter deals">
+            <button class="dh-filter-chip active" data-filter="all">All</button>
+            <button class="dh-filter-chip" data-filter="beach">Beach</button>
+            <button class="dh-filter-chip" data-filter="all-inclusive">All Inclusive</button>
+            <button class="dh-filter-chip" data-filter="self-catering">Self Catering</button>
+            <button class="dh-filter-chip" data-filter="half-board">Half Board</button>
+          </div>
+          <div class="dh-sort-wrap">
+            <label for="deal-sort" class="visually-hidden">Sort deals</label>
+            <select id="deal-sort" aria-label="Sort deals">
+              <option value="recommended">Recommended</option>
+              <option value="price-low">Lowest price</option>
+              <option value="nights">Most nights</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Deal count -->
+        <p class="dh-deals-count" id="deals-count" aria-live="polite"></p>
+
+        <!-- Deals grid — populated by renderDeals() -->
+        <div class="dh-grid" id="deals-grid" aria-label="Deal cards"></div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MID-PAGE CTA BANNER
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <section class="dh-mid-cta" aria-label="Personalised options">
+    <div class="dh-wrap dh-mid-cta-inner">
+      <div>
+        <h2>Not seeing exactly what you need?</h2>
+        <p>Tell me your airport, dates and rough budget — I'll put together options specifically for your family.</p>
+      </div>
+      <a class="dh-btn-white" href="#enquire">Get personalised options &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       WHY BOOK WITH AN ADVISOR
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <section class="dh-why" aria-label="Why book with an advisor">
+    <div class="dh-wrap">
+      <div class="dh-why-head">
+        <h2>Why use an advisor instead of a comparison site?</h2>
+        <p>There are things a search engine simply can't do for you.</p>
+      </div>
+      <div class="dh-why-grid">
+        <div class="dh-why-card">
+          <div class="dh-why-icon">🔍</div>
+          <div class="dh-why-heading">Not a search engine — an advisor</div>
+          <p class="dh-why-body">Every deal has been looked at by a human. I filter out the hotels with poor reviews, awkward connections, and hidden charges — so you don't have to.</p>
+        </div>
+        <div class="dh-why-card">
+          <div class="dh-why-icon">⏱</div>
+          <div class="dh-why-heading">Saves you hours of searching</div>
+          <p class="dh-why-body">I've already done the comparing, cross-referencing, and sense-checking. You get a shortlist worth looking at, not a wall of options to wade through.</p>
+        </div>
+        <div class="dh-why-card">
+          <div class="dh-why-icon">💬</div>
+          <div class="dh-why-heading">One-to-one — WhatsApp or email</div>
+          <p class="dh-why-body">You deal directly with me — no call centres, no queues, no being passed around. WhatsApp or email works. I respond quickly.</p>
+        </div>
+        <div class="dh-why-card">
+          <div class="dh-why-icon">✈</div>
+          <div class="dh-why-heading">Trade platform access</div>
+          <p class="dh-why-body">I book through professional platforms used by travel agents. That sometimes means better availability, better pricing, or extras the public can't see.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       ENQUIRY SECTION
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <section class="dh-enquire" id="enquire" aria-label="Contact Aditi">
+    <div class="dh-wrap">
+      <div class="dh-enquire-inner">
+
+        <!-- Left: text + contact buttons -->
+        <div class="dh-enquire-text">
+          <h2>Ready to enquire? Let's talk.</h2>
+          <p>Drop me a message with your details and I'll come back to you with availability and a tailored quote. No commitment — just a conversation.</p>
+          <p>It helps to include:</p>
+          <ul class="dh-enquire-tips">
+            <li>Your travel dates (or rough timeframe)</li>
+            <li>Nearest departure airport</li>
+            <li>Family size and children's ages</li>
+            <li>Any preferences — board basis, resort type, budget</li>
+          </ul>
+          <div class="dh-contacts">
+            <a class="dh-wa-btn"
+               href="https://wa.me/447424907184?text=Hi%20Aditi%2C%20I%27ve%20seen%20your%20deals%20page%20and%20would%20love%20some%20personalised%20options."
+               target="_blank" rel="noopener" aria-label="Message Aditi on WhatsApp">
+              <!-- WhatsApp SVG icon -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.118.549 4.107 1.51 5.833L0 24l6.343-1.487A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.802 9.802 0 01-5.006-1.374l-.359-.214-3.724.874.944-3.631-.234-.373A9.787 9.787 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+              </svg>
+              Message me on WhatsApp
+            </a>
+            <a class="dh-email-btn"
+               href="mailto:aditi@crafted-horizons.com"
+               aria-label="Email Aditi">
+              <!-- Email icon -->
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M2 7l10 7 10-7"/>
+              </svg>
+              aditi@crafted-horizons.com
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: quick enquiry form -->
+        <div>
+          <form class="dh-form" id="enquiry-form" novalidate aria-label="Enquiry form">
+            <div>
+              <label class="dh-label" for="enquiry-name">Your name</label>
+              <input class="dh-input" type="text" id="enquiry-name" name="name" placeholder="e.g. Sarah" autocomplete="given-name" />
+            </div>
+            <div>
+              <label class="dh-label" for="enquiry-message">Your message</label>
+              <textarea class="dh-textarea" id="enquiry-message" name="message"
+                placeholder="Tell me your dates, nearest airport and family size — and any specific deals you liked."
+                rows="5"></textarea>
+            </div>
+            <input type="hidden" id="enquiry-deal" name="deal" value="" />
+            <button class="dh-form-submit" type="submit">Send via WhatsApp &rarr;</button>
+            <p class="dh-form-note">Tapping send will open WhatsApp with your message pre-filled. No data is stored by this form.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FOOTER DISCLAIMER
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div class="dh-disclaimer">
+    <div class="dh-wrap">
+      <p>Prices are subject to availability and may change or sell out after the time of research. All deals shown were live and accurate at the time Aditi checked them on her professional booking platform — they are not live feeds and may no longer reflect current availability. For an up-to-date quote tailored to your family, please get in touch directly. Personalised quotes are always available on request.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <div id="footer-placeholder"></div>
+  <script src="js/footer-loader.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       STICKY WHATSAPP BAR (mobile, appears after scroll)
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <a class="dh-sticky-wa" id="sticky-wa"
+     href="https://wa.me/447424907184?text=Hi%20Aditi%2C%20I%27ve%20seen%20your%20deals%20page%20and%20would%20love%20some%20personalised%20options."
+     target="_blank" rel="noopener" aria-label="Message Aditi on WhatsApp">
+    <!-- WhatsApp SVG icon -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.118.549 4.107 1.51 5.833L0 24l6.343-1.487A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.802 9.802 0 01-5.006-1.374l-.359-.214-3.724.874.944-3.631-.234-.373A9.787 9.787 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/>
+    </svg>
+    WhatsApp Aditi
+  </a>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       SCRIPTS — deals.js MUST load before the inline page script
+  ════════════════════════════════════════════════════════════════════════════ -->
+  <script src="js/deals.js"></script>
+  <script>
+    /* ─────────────────────────────────────────────────────────────────────────
+       PAGE STATE
+    ───────────────────────────────────────────────────────────────────────── */
+    let activeTab   = null;
+    let activeFilter = 'all';
+    let activeSort   = 'recommended';
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       HELPERS
+    ───────────────────────────────────────────────────────────────────────── */
+    function fmt(n) {
+      return '£' + Number(n).toLocaleString('en-GB');
+    }
+
+    function stars(n) {
+      return n > 0 ? '★'.repeat(Math.min(5, n)) : '';
+    }
+
+    function isExpired(deal) {
+      if (!deal.travelDateRaw) return false;
+      const d = new Date(deal.travelDateRaw);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return d < today;
+    }
+
+    function liveDealCount(campaignId) {
+      return DEALS_CONFIG.deals.filter(function(d) {
+        return d.campaign === campaignId && d.status === 'live' && !isExpired(d);
+      }).length;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       BADGE COLOURS
+    ───────────────────────────────────────────────────────────────────────── */
+    var BADGE_COLORS = {
+      green: { bg: '#d1fae5', text: '#065f46' },
+      blue:  { bg: '#dbeafe', text: '#1e40af' },
+      terra: { bg: '#fde8d8', text: '#9a3412' },
+      amber: { bg: '#fef3c7', text: '#92400e' },
+    };
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       CARD GRADIENT MAP
+       Keys are substrings of deal ids. Add new entries here when you add deals
+       for new destinations that need a custom card header colour.
+    ───────────────────────────────────────────────────────────────────────── */
+    function cardGradient(id) {
+      var map = {
+        'crete':     'linear-gradient(135deg,#0d3b2e 0%,#1f6f8b 100%)',
+        'turkey':    'linear-gradient(135deg,#3d2415 0%,#c26d3b 100%)',
+        'kumkoy':    'linear-gradient(135deg,#3d2415 0%,#c26d3b 100%)',
+        'lanzarote': 'linear-gradient(135deg,#1c1a2e 0%,#6b4f9e 100%)',
+        'tenerife':  'linear-gradient(135deg,#0d2c3b 0%,#1f6f8b 100%)',
+        'rhodes':    'linear-gradient(135deg,#2d1a0e 0%,#b45309 100%)',
+        'majorca':   'linear-gradient(135deg,#0d2233 0%,#2563eb 100%)',
+        'portugal':  'linear-gradient(135deg,#1a0d2e 0%,#7c3aed 100%)',
+        'cyprus':    'linear-gradient(135deg,#1a2e0d 0%,#2d7a5a 100%)',
+        'corfu':     'linear-gradient(135deg,#0d2e1a 0%,#1f8b5a 100%)',
+        'malta':     'linear-gradient(135deg,#2e1a0d 0%,#b45309 100%)',
+        'costa':     'linear-gradient(135deg,#1c1a2e 0%,#6b4f9e 100%)',
+      };
+      var idLower = (id || '').toLowerCase();
+      for (var k of Object.keys(map)) {
+        if (idLower.includes(k)) return map[k];
+      }
+      return 'linear-gradient(135deg,#0d1f2d 0%,#1f6f8b 100%)';
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       DEAL CARD HTML
+    ───────────────────────────────────────────────────────────────────────── */
+    function dealCardHTML(deal) {
+      var badge   = BADGE_COLORS[deal.badgeStyle] || BADGE_COLORS.blue;
+      var saving  = (deal.wasPrice && deal.wasPrice > deal.totalPrice)
+                    ? deal.wasPrice - deal.totalPrice : 0;
+      var edPick  = deal.editorsPick
+                    ? '<div class="dc-editors-pick">\u2605 Editor\'s pick</div>' : '';
+      var wasHtml = saving ? '<span class="dc-was">' + fmt(deal.wasPrice) + '</span>' : '';
+      var saveHtml = saving ? '<span class="dc-save">Save ' + fmt(saving) + '</span>' : '';
+      var whyHtml = deal.whyIPicked
+        ? '<div class="dc-why"><span>\uD83D\uDCAC</span><p>' + deal.whyIPicked + '</p></div>'
+        : '';
+
+      return [
+        '<div class="deal-card">',
+          '<div class="dc-hero" style="background:' + cardGradient(deal.id) + '">',
+            edPick,
+            '<div class="dc-dest">' + deal.destination + '</div>',
+            '<div class="dc-hotel">' + deal.hotelName + '</div>',
+            '<div class="dc-stars">' + stars(deal.starRating) + '</div>',
+          '</div>',
+          '<div class="dc-body">',
+            '<div class="dc-meta-row">',
+              '<span class="dc-badge" style="background:' + badge.bg + ';color:' + badge.text + '">' + deal.badge + '</span>',
+              '<span class="dc-live">\u25CF Live price</span>',
+            '</div>',
+            '<div class="dc-chips">',
+              '<span class="dc-chip">' + deal.boardBasis + '</span>',
+              '<span class="dc-chip">' + deal.nights + ' nights</span>',
+              (deal.flightsIncluded ? '<span class="dc-chip dc-chip--flights">\u2708 Flights incl.</span>' : ''),
+            '</div>',
+            '<div class="dc-dates">',
+              '<span>\uD83D\uDCC5 ' + deal.travelDate + ' \u2192 ' + deal.returnDate + '</span>',
+              '<span class="dc-airport">from ' + deal.departureAirport + '</span>',
+            '</div>',
+            '<div class="dc-flight">' + deal.flightSummary + '</div>',
+            '<div class="dc-price-block">',
+              '<div>',
+                '<div class="dc-total">' + fmt(deal.totalPrice) + '</div>',
+                wasHtml,
+              '</div>',
+              '<div class="dc-price-right">',
+                '<div class="dc-ppp">' + fmt(deal.pricePerPerson) + ' per person</div>',
+                saveHtml,
+              '</div>',
+            '</div>',
+            '<div class="dc-includes">',
+              '<div class="dc-includes-label">What\'s included</div>',
+              '<ul>',
+                deal.includes.map(function(i) {
+                  return '<li><span class="dc-check">\u2713</span>' + i + '</li>';
+                }).join(''),
+              '</ul>',
+            '</div>',
+            '<ul class="dc-highlights">',
+              deal.highlights.map(function(h) {
+                return '<li>' + h + '</li>';
+              }).join(''),
+            '</ul>',
+            whyHtml,
+            '<button class="dc-cta" onclick="enquireAbout(\'' + deal.id + '\',\'' + deal.campaign + '\')">' + deal.ctaLabel + '</button>',
+            '<p class="dc-disclaimer">Subject to availability \u00B7 Price correct at time of research</p>',
+          '</div>',
+        '</div>',
+      ].join('');
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       RENDER DEALS
+    ───────────────────────────────────────────────────────────────────────── */
+    function renderDeals() {
+      var grid    = document.getElementById('deals-grid');
+      var countEl = document.getElementById('deals-count');
+      if (!grid) return;
+
+      // All live deals for this campaign (regardless of expiry)
+      var allDeals = DEALS_CONFIG.deals.filter(function(d) {
+        return d.campaign === activeTab && d.status === 'live';
+      });
+
+      // Non-expired live deals
+      var deals = allDeals.filter(function(d) { return !isExpired(d); });
+
+      // All deals exist but all are expired
+      if (allDeals.length > 0 && deals.length === 0) {
+        grid.innerHTML = [
+          '<div class="deals-state">',
+            '<p class="deals-state-title">These deals have now passed.</p>',
+            '<p class="deals-state-body">Get in touch and I\'ll find the best options for your next trip.</p>',
+            '<a class="dc-cta" href="#enquire" style="display:inline-block;text-decoration:none;margin-top:12px">Get in touch \u2192</a>',
+          '</div>',
+        ].join('');
+        if (countEl) countEl.textContent = '';
+        return;
+      }
+
+      // No live deals at all — coming soon
+      if (allDeals.length === 0) {
+        grid.innerHTML = [
+          '<div class="deals-state">',
+            '<p class="deals-state-title">Deals coming soon.</p>',
+            '<p class="deals-state-body">I\'m working on options for this period. Get in touch to be first to hear about them — or tell me your dates and I\'ll start searching now.</p>',
+            '<a class="dc-cta" href="#enquire" style="display:inline-block;text-decoration:none;margin-top:12px">Contact Aditi \u2192</a>',
+          '</div>',
+        ].join('');
+        if (countEl) countEl.textContent = '';
+        return;
+      }
+
+      // Apply category filter
+      if (activeFilter !== 'all') {
+        deals = deals.filter(function(d) {
+          return d.category && d.category.includes(activeFilter);
+        });
+      }
+
+      // Apply sort
+      if (activeSort === 'price-low') {
+        deals = deals.slice().sort(function(a, b) { return a.totalPrice - b.totalPrice; });
+      } else if (activeSort === 'nights') {
+        deals = deals.slice().sort(function(a, b) { return b.nights - a.nights; });
+      } else {
+        // Recommended: editor's picks first
+        deals = deals.slice().sort(function(a, b) {
+          return (b.editorsPick ? 1 : 0) - (a.editorsPick ? 1 : 0);
+        });
+      }
+
+      // Update count label
+      if (countEl) {
+        countEl.textContent = 'Showing ' + deals.length + ' deal' + (deals.length !== 1 ? 's' : '');
+      }
+
+      // No deals match filter
+      if (deals.length === 0) {
+        grid.innerHTML = [
+          '<div class="deals-state">',
+            '<p>No deals match this filter.</p>',
+            '<button class="dc-cta" onclick="setFilter(\'all\')" style="margin-top:12px">Clear filter</button>',
+          '</div>',
+        ].join('');
+        return;
+      }
+
+      grid.innerHTML = deals.map(dealCardHTML).join('');
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       RENDER STORY
+    ───────────────────────────────────────────────────────────────────────── */
+    function renderStory() {
+      var c  = DEALS_CONFIG.campaigns.find(function(x) { return x.id === activeTab; });
+      var el = document.getElementById('campaign-story');
+      if (!el || !c) return;
+
+      if (!c.storyParas || c.storyParas.length === 0) {
+        el.hidden = true;
+        return;
+      }
+
+      el.hidden = false;
+      el.querySelector('.dh-story-eyebrow').textContent = c.storyEyebrow || 'From Aditi\'s desk';
+      el.querySelector('.dh-story-title').textContent   = c.storyTitle   || '';
+      el.querySelector('.dh-story-body').innerHTML      = c.storyParas.map(function(p) {
+        return '<p>' + p + '</p>';
+      }).join('');
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SET FILTER
+    ───────────────────────────────────────────────────────────────────────── */
+    function setFilter(f) {
+      activeFilter = f;
+      document.querySelectorAll('.dh-filter-chip').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.filter === f);
+      });
+      renderDeals();
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SET SORT
+    ───────────────────────────────────────────────────────────────────────── */
+    function setSort(v) {
+      activeSort = v;
+      renderDeals();
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SET ACTIVE TAB
+    ───────────────────────────────────────────────────────────────────────── */
+    function setTab(campaignId) {
+      activeTab    = campaignId;
+      activeFilter = 'all';
+      activeSort   = 'recommended';
+
+      // Update tab styles
+      document.querySelectorAll('.dh-tab').forEach(function(el) {
+        var isActive = el.dataset.campaign === campaignId;
+        el.classList.toggle('active', isActive);
+        if (isActive) {
+          var c = DEALS_CONFIG.campaigns.find(function(x) { return x.id === campaignId; });
+          el.style.borderBottomColor = (c && c.accentColor) ? c.accentColor : '#1f6f8b';
+          el.style.color             = (c && c.accentColor) ? c.accentColor : '#1f6f8b';
+        } else {
+          el.style.borderBottomColor = 'transparent';
+          el.style.color             = '';
+        }
+      });
+
+      // Reset filter chips to "All"
+      document.querySelectorAll('.dh-filter-chip').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.filter === 'all');
+      });
+
+      // Reset sort dropdown
+      var sortEl = document.getElementById('deal-sort');
+      if (sortEl) sortEl.value = 'recommended';
+
+      // Update URL query param without full reload (bookmarkable tabs)
+      try {
+        var url = new URL(window.location.href);
+        url.searchParams.set('c', campaignId);
+        history.replaceState({}, '', url.toString());
+      } catch(_) {}
+
+      renderStory();
+      renderDeals();
+
+      // Scroll to deals section if user is already below the hero
+      var dealsEl = document.getElementById('deals-section');
+      if (dealsEl && window.scrollY > dealsEl.offsetTop - 200) {
+        dealsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       RENDER TAB BAR
+    ───────────────────────────────────────────────────────────────────────── */
+    function renderTabs() {
+      var bar = document.getElementById('tab-bar');
+      if (!bar) return;
+
+      var activeCampaigns = DEALS_CONFIG.campaigns.filter(function(c) { return c.active; });
+      bar.innerHTML = activeCampaigns.map(function(c) {
+        var count = liveDealCount(c.id);
+        var countBadge = count > 0
+          ? '<span class="dh-tab-count">' + count + '</span>'
+          : '';
+        return '<button class="dh-tab" role="tab" data-campaign="' + c.id +
+               '" onclick="setTab(\'' + c.id + '\')">' +
+               c.label + countBadge +
+               '</button>';
+      }).join('');
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       ENQUIRY FUNCTIONS
+    ───────────────────────────────────────────────────────────────────────── */
+
+    // Card CTA button — opens WhatsApp directly with deal-specific message
+    function enquireAbout(dealId, campaignId) {
+      var deal = DEALS_CONFIG.deals.find(function(d) { return d.id === dealId; });
+      var msg  = deal
+        ? 'Hi Aditi, I\'m interested in the ' + deal.hotelName + ' in ' + deal.destination +
+          ' (' + deal.travelDate + '). Can you check availability?'
+        : 'Hi Aditi, I\'ve seen your deals page and would love some personalised options.';
+      window.open(
+        'https://wa.me/447424907184?text=' + encodeURIComponent(msg),
+        '_blank', 'noopener'
+      );
+    }
+
+    // Pre-fill the enquiry form with a specific deal (called externally if needed)
+    function prefillEnquiry(dealId) {
+      var deal = DEALS_CONFIG.deals.find(function(d) { return d.id === dealId; });
+      if (!deal) return;
+      var ta  = document.getElementById('enquiry-message');
+      var hid = document.getElementById('enquiry-deal');
+      if (ta)  ta.value  = 'Hi Aditi, I\'m interested in the ' + deal.hotelName +
+                           ' in ' + deal.destination + ' deal for ' + deal.travelDate +
+                           '. Can you help me check current pricing and availability?';
+      if (hid) hid.value = dealId;
+      document.getElementById('enquire').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Form submit — builds WhatsApp message from form fields
+    function submitEnquiry(e) {
+      e.preventDefault();
+      var name = document.getElementById('enquiry-name').value.trim();
+      var msg  = document.getElementById('enquiry-message').value.trim();
+      var text = name ? 'Hi Aditi, it\'s ' + name + '. ' + msg : msg;
+      window.open(
+        'https://wa.me/447424907184?text=' + encodeURIComponent(
+          text || 'Hi Aditi, I\'ve seen your deals page and I\'d love some personalised options.'
+        ),
+        '_blank', 'noopener'
+      );
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       STICKY WHATSAPP BAR — slides up after 300px scroll on mobile
+    ───────────────────────────────────────────────────────────────────────── */
+    function initStickyWa() {
+      var bar = document.getElementById('sticky-wa');
+      if (!bar) return;
+      window.addEventListener('scroll', function() {
+        bar.style.transform = window.scrollY > 300 ? 'translateY(0)' : 'translateY(100%)';
+      }, { passive: true });
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       INIT
+    ───────────────────────────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function() {
+      renderTabs();
+
+      var activeCampaigns = DEALS_CONFIG.campaigns.filter(function(c) { return c.active; });
+      if (!activeCampaigns.length) return;
+
+      // Honour ?c= URL parameter so links to specific campaigns work
+      var urlParam = new URLSearchParams(window.location.search).get('c');
+      var start    = activeCampaigns.find(function(c) { return c.id === urlParam; })
+                     || activeCampaigns[0];
+      setTab(start.id);
+
+      // Wire up filter chips
+      document.querySelectorAll('.dh-filter-chip').forEach(function(el) {
+        el.addEventListener('click', function() { setFilter(el.dataset.filter); });
+      });
+
+      // Wire up sort dropdown
+      var sortEl = document.getElementById('deal-sort');
+      if (sortEl) sortEl.addEventListener('change', function() { setSort(sortEl.value); });
+
+      // Wire up enquiry form
+      var form = document.getElementById('enquiry-form');
+      if (form) form.addEventListener('submit', submitEnquiry);
+
+      // Init sticky WA bar
+      initStickyWa();
+    });
+  </script>
+
+</body>
+</html>
