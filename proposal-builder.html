@@ -936,26 +936,50 @@ JSON keys and rules:
     // Store full data (incl. data-URL images) for local preview
     sessionStorage.setItem('ch_proposal', JSON.stringify(data));
 
-    // Build shareable URL — exclude data-URL images (too large for QR)
+    // Build shareable URL — omit long free-text fields (highlights, personalNote)
+    // to keep QR density low and scannable. Full data is in sessionStorage for local preview.
     const shareableOptions = validOptions.map(opt => ({
-      ...opt,
-      imageUrl: (opt.imageUrl && !opt.imageUrl.startsWith('data:')) ? opt.imageUrl : '',
+      destination: opt.destination,
+      hotel:       opt.hotel,
+      stars:       opt.stars,
+      badge:       opt.badge,
+      board:       opt.board,
+      room:        opt.room,
+      dates:       opt.dates,
+      nights:      opt.nights,
+      flights:     opt.flights,
+      ppp:         opt.ppp,
+      total:       opt.total,
+      was:         opt.was,
+      inclusions:  opt.inclusions,
+      imageUrl:    (opt.imageUrl && !opt.imageUrl.startsWith('data:')) ? opt.imageUrl : '',
+      // highlights omitted — too long for QR
     }));
-    const shareableData = { ...data, options: shareableOptions };
+    const shareableData = {
+      v:           data.v,
+      clientName:  data.clientName,
+      tripDates:   data.tripDates,
+      travelers:   data.travelers,
+      budget:      data.budget,
+      createdDate: data.createdDate,
+      options:     shareableOptions,
+      // personalNote omitted — too long for QR
+    };
     const encoded     = LZString.compressToEncodedURIComponent(JSON.stringify(shareableData));
     const proposalUrl = `https://crafted-horizons.com/proposal.html#${encoded}`;
+    console.log('QR URL length:', proposalUrl.length);
 
-    // Render QR code
+    // Render QR code — use CorrectLevel.L (fewest modules) and large size for easy scanning
     const qrDiv = document.getElementById('proposal-qr');
     qrDiv.innerHTML = '';
     try {
       new QRCode(qrDiv, {
         text:         proposalUrl,
-        width:        180,
-        height:       180,
-        colorDark:    '#1b1f24',
+        width:        300,
+        height:       300,
+        colorDark:    '#000000',
         colorLight:   '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M,
+        correctLevel: QRCode.CorrectLevel.L,
       });
     } catch (e) {
       console.warn('QR code unavailable:', e.message);
