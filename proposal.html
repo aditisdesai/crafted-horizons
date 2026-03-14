@@ -354,32 +354,6 @@
     }
     .agent-pdf-btn:hover { opacity: 0.88; }
 
-    /* ── Hero QR corner ── */
-    .hero-qr-corner {
-      position: absolute;
-      top: 16px; right: 0;
-      background: #fff;
-      border-radius: 8px;
-      padding: 8px 8px 4px;
-      line-height: 0;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-    }
-    .hero-qr-corner img,
-    .hero-qr-corner canvas {
-      width: 110px !important;
-      height: 110px !important;
-      display: block;
-    }
-    .hero-qr-label {
-      display: block;
-      font-size: 9px;
-      color: #444;
-      text-align: center;
-      margin-top: 5px;
-      font-family: inherit;
-      line-height: 1.4;
-    }
-
     /* ── Print styles ── */
     @media print {
       .agent-toolbar { display: none !important; }
@@ -504,9 +478,6 @@
       <!-- Hero -->
       <div class="hero">
         <div class="hero-inner">
-          <div class="hero-qr-corner" id="qr-corner">
-            <div class="hero-qr-label">Scan to view<br>on your phone</div>
-          </div>
           <div class="hero-brand">
             <img src="assets/brand/crafted-horizons-icon-1024.png" alt="Crafted Horizons" />
             <span class="hero-brand-name">Crafted Horizons — by Aditi</span>
@@ -710,25 +681,6 @@
       return;
     }
     renderProposal(data);
-
-    // Embed QR code in hero corner — use stored URL (local preview) or current page URL (scanned link)
-    try {
-      const qrUrl = sessionStorage.getItem('ch_proposal_url') || window.location.href;
-      const cornerDiv = document.getElementById('qr-corner');
-      if (qrUrl && cornerDiv && typeof QRCode !== 'undefined') {
-        const qrHolder = document.createElement('div');
-        cornerDiv.insertBefore(qrHolder, cornerDiv.firstChild);
-        new QRCode(qrHolder, {
-          text:         qrUrl,
-          width:        110,
-          height:       110,
-          colorDark:    '#000000',
-          colorLight:   '#ffffff',
-          correctLevel: QRCode.CorrectLevel.L,
-        });
-      }
-    } catch (_) {}
-
     if (new URLSearchParams(window.location.search).has('print')) {
       setTimeout(() => window.print(), 800);
     }
