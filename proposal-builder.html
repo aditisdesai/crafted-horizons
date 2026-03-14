@@ -970,11 +970,17 @@ JSON keys and rules:
   }
 
   function downloadQrCode() {
+    // qrcodejs draws on a canvas then copies the result to an <img> and hides the canvas.
+    // The data URL is already on img.src — use that; fall back to canvas if needed.
+    const img    = document.querySelector('#proposal-qr img');
     const canvas = document.querySelector('#proposal-qr canvas');
-    if (!canvas) return;
+    const dataUrl = (img && img.src.startsWith('data:'))
+      ? img.src
+      : (canvas ? canvas.toDataURL('image/png') : null);
+    if (!dataUrl) return;
     const link = document.createElement('a');
     link.download = 'proposal-qr.png';
-    link.href = canvas.toDataURL('image/png');
+    link.href = dataUrl;
     link.click();
   }
 
