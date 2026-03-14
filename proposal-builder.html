@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Proposal Builder — Crafted Horizons Agent Tool</title>
+  <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    :root {
+      --bg:    #fbf7f2;
+      --card:  #ffffff;
+      --text:  #1b1f24;
+      --muted: #5b6775;
+      --line:  rgba(27,31,36,0.10);
+      --teal:  #1f6f8b;
+      --terra: #c26d3b;
+      --ease:  cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(251,247,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 0;
+    }
+    .nav-inner {
+      width: min(1280px, calc(100% - 48px));
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 15px; letter-spacing: 0.02em;
+      color: var(--text); text-decoration: none;
+    }
+    .logo img { width: 28px; height: 28px; object-fit: contain; }
+    .logo:hover { opacity: 0.8; }
+
+    .badge-agent {
+      display: inline-flex; align-items: center;
+      background: var(--teal); color: #fff;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px;
+    }
+
+    /* ── Layout ── */
+    .page-wrap {
+      width: min(820px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .page-title {
+      font-size: 26px; font-weight: 700; color: var(--text);
+      margin-bottom: 6px;
+    }
+    .page-subtitle {
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(27,31,36,0.07);
+      padding: 28px 28px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 20px;
+    }
+
+    /* ── Form fields ── */
+    .field-row {
+      display: grid; gap: 14px;
+      margin-bottom: 14px;
+    }
+    .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    label {
+      display: block;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: #fafafa;
+      outline: none;
+      transition: border-color 160ms var(--ease);
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--teal);
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .price-input-wrap {
+      position: relative;
+    }
+    .price-prefix {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      font-size: 14px; color: var(--muted); pointer-events: none;
+      font-weight: 500;
+    }
+    .price-input-wrap input {
+      padding-left: 26px;
+    }
+
+    /* ── Star rating ── */
+    .star-row { display: flex; gap: 4px; margin-top: 2px; }
+    .star {
+      font-size: 22px; cursor: pointer; color: #d0d4da;
+      transition: color 120ms; line-height: 1; user-select: none;
+    }
+    .star.active { color: #f4b942; }
+    .star:hover { color: #f4b942; }
+
+    /* ── Option card ── */
+    .option-card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(27,31,36,0.07);
+      margin-bottom: 16px;
+      overflow: hidden;
+      border: 1.5px solid var(--line);
+    }
+
+    .option-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      cursor: pointer;
+      user-select: none;
+      background: #fafafa;
+      border-bottom: 1.5px solid var(--line);
+      transition: background 120ms;
+    }
+    .option-header:hover { background: #f4f0eb; }
+
+    .option-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+
+    .option-header-label {
+      flex: 1; font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .option-header-preview {
+      font-size: 12px; color: var(--muted); font-weight: 400;
+    }
+    .option-chevron {
+      font-size: 12px; color: var(--muted); transition: transform 240ms var(--ease);
+    }
+    .option-card.collapsed .option-chevron { transform: rotate(-90deg); }
+
+    .option-body {
+      padding: 22px 22px;
+      transition: none;
+    }
+    .option-card.collapsed .option-body { display: none; }
+
+    .option-actions {
+      display: flex; justify-content: flex-end; padding: 0 22px 18px;
+      gap: 10px;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      border: none; border-radius: 999px; cursor: pointer;
+      padding: 10px 22px;
+      transition: opacity 160ms, transform 100ms;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: 0.88; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-secondary {
+      background: transparent; color: var(--muted);
+      border: 1.5px solid var(--line);
+    }
+    .btn-secondary:hover { color: var(--text); border-color: rgba(27,31,36,0.25); }
+    .btn-danger { background: transparent; color: #c0392b; border: 1.5px solid rgba(192,57,43,0.25); font-size: 13px; padding: 7px 16px; }
+    .btn-danger:hover { background: rgba(192,57,43,0.06); }
+    .btn-dashed {
+      background: transparent; color: var(--teal);
+      border: 2px dashed rgba(31,111,139,0.4);
+      width: 100%; justify-content: center;
+      padding: 13px 22px;
+      font-size: 14px;
+    }
+    .btn-dashed:hover { border-color: var(--teal); background: rgba(31,111,139,0.04); }
+    .btn-dashed:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    /* ── Actions bar ── */
+    .actions-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    /* ── Validation errors ── */
+    .field-error {
+      font-size: 12px; color: #c0392b; margin-top: 4px; display: none;
+    }
+    .field-error.visible { display: block; }
+    input.invalid, textarea.invalid, select.invalid {
+      border-color: #c0392b !important;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); margin: 24px 0 14px;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    /* ── Price note ── */
+    .price-note {
+      font-size: 11px; color: var(--muted); margin-top: 3px;
+    }
+
+    /* ── Hint text ── */
+    ::placeholder { color: #b0b7c0; }
+
+    /* ── Field group within option body ── */
+    .field-group { margin-bottom: 18px; }
+    .field-group:last-child { margin-bottom: 0; }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 2px dashed rgba(31,111,139,0.35);
+      border-radius: 14px;
+      padding: 22px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 160ms, background 160ms;
+      margin-bottom: 18px;
+      user-select: none;
+    }
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--teal);
+      background: rgba(31,111,139,0.04);
+    }
+    .upload-icon { font-size: 26px; margin-bottom: 7px; line-height: 1; }
+    .upload-main-text { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .upload-sub-text { font-size: 12px; color: var(--muted); }
+    .upload-paste-link {
+      color: var(--teal); cursor: pointer;
+      text-decoration: underline; text-decoration-style: dotted;
+      background: none; border: none; font-size: 12px; font-family: inherit; padding: 0;
+    }
+    .upload-paste-link:hover { text-decoration: none; }
+
+    /* ── Paste area ── */
+    .paste-area { margin-bottom: 18px; }
+    .paste-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+    /* ── Extract banner ── */
+    .extract-banner {
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .extract-banner--success {
+      background: rgba(45,122,90,0.1);
+      border: 1px solid rgba(45,122,90,0.25);
+      color: #1a5c3a;
+    }
+    .extract-banner--error {
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.2);
+      color: #a0291c;
+    }
+    .extract-banner-icon { font-weight: 700; flex-shrink: 0; }
+    .extract-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; width: 100%; }
+    .extract-tag {
+      font-size: 11px; font-weight: 600;
+      background: rgba(31,111,139,0.12);
+      color: var(--teal);
+      padding: 2px 9px; border-radius: 999px;
+    }
+
+    /* ── Processing spinner ── */
+    .extract-processing {
+      display: none; align-items: center; gap: 10px;
+      padding: 10px 0; font-size: 13px; color: var(--muted); margin-bottom: 12px;
+    }
+    .extract-spinner {
+      width: 16px; height: 16px;
+      border: 2px solid var(--line); border-top-color: var(--teal);
+      border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── AI settings bar ── */
+    .ai-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 10px 14px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .ai-bar-left { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ai-bar-label { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; }
+    .ai-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--line); flex-shrink: 0; transition: background 300ms;
+    }
+    .ai-dot--on { background: #2d7a5a; }
+    .ai-provider-select { font-size: 13px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); flex-shrink: 0; }
+    .ai-key-input { flex: 1; min-width: 180px; font-size: 13px; }
+    .ai-save-btn  { font-size: 12px !important; padding: 6px 14px !important; white-space: nowrap; }
+    .ai-clear-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: var(--muted); padding: 0 4px; line-height: 1; display: none;
+    }
+    .ai-clear-btn:hover { color: #c0392b; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .field-row.cols-2,
+      .field-row.cols-3 { grid-template-columns: 1fr; }
+      .page-wrap { padding: 24px 0 60px; }
+      .card { padding: 20px 16px; }
+      .option-body { padding: 16px 16px; }
+      .actions-bar { flex-direction: column; align-items: stretch; }
+      .actions-bar .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <img src="assets/brand/crafted-horizons-icon-1024.png" alt="Crafted Horizons icon">
+      Crafted Horizons
+    </a>
+    <span class="badge-agent">Agent Tool</span>
+  </div>
+</nav>
+
+<!-- ── Page ── -->
+<div class="page-wrap">
+  <h1 class="page-title">Proposal Builder</h1>
+  <p class="page-subtitle">Build a personalised client proposal. The generated link opens a beautiful client-facing page.</p>
+
+  <!-- Client Details -->
+  <div class="card">
+    <div class="card-title">Client Details</div>
+
+    <div class="field-row">
+      <div>
+        <label for="clientName">Client name <span style="color:#c0392b">*</span></label>
+        <input type="text" id="clientName" placeholder="e.g. Sarah Thompson" />
+        <div class="field-error" id="err-clientName">Please enter the client's name.</div>
+      </div>
+    </div>
+
+    <div class="field-row cols-3">
+      <div>
+        <label for="tripDates">Trip dates</label>
+        <input type="text" id="tripDates" placeholder="e.g. 14–21 June 2026" />
+      </div>
+      <div>
+        <label for="travelers">Travellers</label>
+        <input type="text" id="travelers" placeholder="e.g. 2 adults" />
+      </div>
+      <div>
+        <label for="budget">Budget guide</label>
+        <input type="text" id="budget" placeholder="e.g. £4,000" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label for="personalNote">Personal note to client</label>
+        <textarea id="personalNote" rows="3" placeholder="Hi Sarah, based on what you told me I've put together a few options…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Extraction Settings -->
+  <div class="ai-bar">
+    <div class="ai-bar-left">
+      <span class="ai-dot" id="ai-dot"></span>
+      <span class="ai-bar-label">AI extraction</span>
+    </div>
+    <select id="ai-provider-select" class="ai-provider-select" onchange="updateAiBar()">
+      <option value="anthropic">Anthropic (Claude)</option>
+      <option value="groq">Groq (Llama)</option>
+    </select>
+    <input type="password" id="ai-key-input" class="ai-key-input"
+           placeholder="Paste API key to enable smart quote reading…" />
+    <button class="btn btn-secondary ai-save-btn" onclick="saveApiKey()">Save key</button>
+    <button class="ai-clear-btn" id="ai-clear-btn" onclick="clearApiKey()" title="Remove saved key">×</button>
+  </div>
+
+  <!-- Options -->
+  <div class="section-label">Holiday Options</div>
+  <div id="options-container"></div>
+  <div id="err-options" class="field-error" style="margin-bottom:12px; font-size:13px;">Please add at least one complete option (destination + hotel name).</div>
+
+  <button class="btn btn-dashed" id="add-option-btn" onclick="addOption()">+ Add another option</button>
+
+  <!-- Actions -->
+  <div class="actions-bar" style="margin-top: 24px;">
+    <button class="btn btn-secondary" onclick="clearAll()">Clear all</button>
+    <button class="btn btn-primary" onclick="generateProposal()">Preview proposal →</button>
+  </div>
+</div>
+
+<script>
+  // ── Option accent colours ──
+  const ACCENT_COLORS = ['#1f6f8b', '#c26d3b', '#2d7a5a', '#6b4f9e'];
+  const ACCENT_LABELS = ['Teal', 'Terracotta', 'Forest', 'Purple'];
+
+  const BOARD_OPTIONS = ['Room only', 'Bed & Breakfast', 'Half Board', 'Full Board', 'All Inclusive', 'Self Catering'];
+  const BADGE_OPTIONS = ['— None —', 'Our Pick', 'Best Value', 'Most Popular', 'Premium'];
+
+  let optionCount = 0;
+  let optionIds = []; // track insertion order
+
+  // ── Initialise ──
+  window.addEventListener('DOMContentLoaded', () => {
+    // Restore saved provider to dropdown before updateAiBar reads it
+    const savedProvider = localStorage.getItem('crafted_horizons_ai_provider') || 'anthropic';
+    const sel = document.getElementById('ai-provider-select');
+    if (sel) sel.value = savedProvider;
+    updateAiBar();
+    addOption();
+  });
+
+  // ── AI key management (stored in localStorage, never in any file) ──
+  const AI_KEY_STORE      = 'crafted_horizons_ai_key';
+  const AI_PROVIDER_STORE = 'crafted_horizons_ai_provider';
+
+  const AI_MODELS = {
+    anthropic: 'claude-haiku-4-5-20251001',
+    groq:      'llama-3.3-70b-versatile',
+  };
+
+  function getApiKey()   { return localStorage.getItem(AI_KEY_STORE) || ''; }
+  function getProvider() { return document.getElementById('ai-provider-select')?.value || 'anthropic'; }
+
+  function saveApiKey() {
+    const val      = (document.getElementById('ai-key-input').value || '').trim();
+    const provider = document.getElementById('ai-provider-select').value;
+    if (val) localStorage.setItem(AI_KEY_STORE, val);
+    localStorage.setItem(AI_PROVIDER_STORE, provider);
+    document.getElementById('ai-key-input').value = '';
+    updateAiBar();
+  }
+
+  function clearApiKey() {
+    localStorage.removeItem(AI_KEY_STORE);
+    localStorage.removeItem(AI_PROVIDER_STORE);
+    updateAiBar();
+  }
+
+  function updateAiBar() {
+    const has           = !!getApiKey();
+    const provider      = getProvider();
+    const providerLabel = provider === 'groq' ? 'Groq' : 'Anthropic';
+    document.getElementById('ai-dot').className           = 'ai-dot' + (has ? ' ai-dot--on' : '');
+    document.getElementById('ai-clear-btn').style.display = has ? '' : 'none';
+    document.getElementById('ai-key-input').placeholder   = has
+      ? `●●●●●●●●●●●● (${providerLabel} key saved — paste a new one to replace)`
+      : 'Paste API key to enable smart quote reading…';
+  }
+
+  // ── AI-powered quote extraction ──
+  // Sends extracted text to the configured AI provider and returns a structured field object.
+  // Returns null on failure so callers can fall back to regex.
+  async function parseQuoteWithAI(text) {
+    const key      = getApiKey();
+    const provider = getProvider();
+    if (!key) return null;
+
+    const systemPrompt = `You are a travel quote data extractor for a UK travel agent.
+Extract fields from the supplier holiday quote and return ONLY a valid JSON object with no other text.
+Use null for any field not clearly stated in the quote.
+
+JSON keys and rules:
+- hotel: hotel/property name (clean, no star symbols)
+- destination: full location string e.g. "Stalis, Crete Heraklion Area"
+- stars: integer 1–5 (prefer Jet2Holidays rating if present, else official/key rating)
+- board: EXACTLY one of "Room only" | "Bed & Breakfast" | "Half Board" | "Full Board" | "All Inclusive" | "Self Catering"
+- room: room type, strip leading quantity e.g. "Apartment - Sleeps up to 4"
+- dates: trip START date only e.g. "3rd Apr 2026"
+- nights: integer
+- flights: outbound and inbound routes with times, one per line e.g.
+    "Out: London Stansted STN to Crete (Heraklion) HER | dep Fri 3rd Apr 15:30 | arr 21:35\nBack: Crete HER to London STN | dep Tue 7th Apr 12:55 | arr 15:05"
+- ppp: price per person as number (prefer "price per person payable to travel agent")
+- total: total price as number (prefer "total holiday cost" incl. local taxes over "payable to agent")
+- was: original/was price as number, null unless explicitly a prior struck price
+- inclusions: array of package entitlement strings e.g. ["1 x Free Child Place","Coach Transfers"]
+- highlights: array of property selling points e.g. ["Traditional charm","Free Wi-Fi"]
+  (NEVER include hotel name, destination, airport codes, or flight routes here)`;
+
+    const userContent = `Quote text:\n${text.substring(0, 9000)}`;
+
+    let resp;
+    if (provider === 'groq') {
+      resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'authorization': `Bearer ${key}`,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 1024,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user',   content: userContent },
+          ],
+        }),
+      });
+    } else {
+      resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1024,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userContent }],
+        }),
+      });
+    }
+
+    if (!resp.ok) {
+      let detail = '';
+      try {
+        const errBody = await resp.json();
+        detail = errBody.error?.message || '';
+      } catch (_) {}
+      throw new Error(`API ${resp.status}${detail ? ': ' + detail : ''}`);
+    }
+
+    const data = await resp.json();
+    // Anthropic: data.content[0].text  /  OpenAI-compatible (Groq): data.choices[0].message.content
+    const content = data.content?.[0]?.text ?? data.choices?.[0]?.message?.content ?? '';
+    const jsonMatch = content.match(/\{[\s\S]+\}/);
+    if (!jsonMatch) throw new Error('No JSON in AI response');
+    return JSON.parse(jsonMatch[0]);
+  }
+
+  function nextId() {
+    return ++optionCount;
+  }
+
+  function addOption() {
+    const id = nextId();
+    optionIds.push(id);
+    const idx = optionIds.length - 1;
+    renderOption(id, idx);
+    updateAddButton();
+    updateRemoveButtons();
+  }
+
+  function renderOption(id, idx) {
+    const color = ACCENT_COLORS[idx % ACCENT_COLORS.length];
+    const container = document.getElementById('options-container');
+    const div = document.createElement('div');
+    div.className = 'option-card';
+    div.id = `option-card-${id}`;
+    div.dataset.id = id;
+
+    div.innerHTML = `
+      <div class="option-header" onclick="toggleOption(${id})">
+        <div class="option-circle" style="background:${color}" id="circle-${id}">${idx + 1}</div>
+        <div class="option-header-label">
+          Option ${idx + 1}
+          <span class="option-header-preview" id="preview-${id}"></span>
+        </div>
+        <span class="option-chevron" id="chevron-${id}">▼</span>
+      </div>
+      <div class="option-body" id="body-${id}">
+
+        <div class="upload-zone" id="upload-zone-${id}"
+             ondragover="event.preventDefault(); uploadDragOver(${id})"
+             ondragleave="uploadDragLeave(${id})"
+             ondrop="event.preventDefault(); uploadDrop(${id}, event)"
+             onclick="document.getElementById('file-input-${id}').click()">
+          <input type="file" id="file-input-${id}" accept=".pdf,.txt,.text" style="display:none" onchange="handleFileSelect(${id}, this)">
+          <div class="upload-icon">📄</div>
+          <div class="upload-main-text">Drop a supplier quote here</div>
+          <div class="upload-sub-text">PDF or text file · or <button class="upload-paste-link" onclick="event.stopPropagation(); togglePasteArea(${id})">paste text instead</button></div>
+        </div>
+        <div class="paste-area" id="paste-area-${id}" style="display:none">
+          <textarea id="paste-text-${id}" rows="6" placeholder="Paste your supplier quote text here — hotel name, dates, pricing, inclusions…" onclick="event.stopPropagation()"></textarea>
+          <div class="paste-actions">
+            <button class="btn btn-primary" style="font-size:13px;padding:8px 18px" onclick="parseAndPopulate(${id})">Extract fields →</button>
+            <button class="btn btn-secondary" style="font-size:13px;padding:8px 18px" onclick="togglePasteArea(${id})">Cancel</button>
+          </div>
+        </div>
+        <div class="extract-banner" id="extract-banner-${id}"></div>
+        <div class="extract-processing" id="extract-processing-${id}" style="display:none">
+          <div class="extract-spinner"></div>
+          <span>Reading file…</span>
+        </div>
+
+        <div class="field-row cols-2">
+          <div>
+            <label>Destination</label>
+            <input type="text" id="dest-${id}" placeholder="e.g. Santorini, Greece" oninput="updateHeader(${id})" />
+          </div>
+          <div>
+            <label>Hotel name</label>
+            <input type="text" id="hotel-${id}" placeholder="e.g. Canaves Oia" oninput="updateHeader(${id})" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label>Hotel photo <span style="color:var(--muted);font-weight:400;font-size:11px">(auto-extracted from PDF, or paste a URL)</span></label>
+            <input type="text" id="imageUrl-${id}" placeholder="Extracted automatically from PDF upload…" />
+          </div>
+        </div>
+
+        <div class="field-row cols-3">
+          <div>
+            <label>Star rating</label>
+            <div class="star-row" id="stars-${id}">
+              ${[1,2,3,4,5].map(n => `<span class="star" data-val="${n}" onclick="setStar(${id},${n})">★</span>`).join('')}
+            </div>
+            <input type="hidden" id="star-val-${id}" value="0" />
+          </div>
+          <div>
+            <label>Board basis</label>
+            <select id="board-${id}">
+              ${BOARD_OPTIONS.map(o => `<option value="${o}">${o}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label>Room type</label>
+            <input type="text" id="room-${id}" placeholder="e.g. Sea View Suite" />
+          </div>
+        </div>
+
+        <div class="field-row cols-3">
+          <div>
+            <label>Dates</label>
+            <input type="text" id="dates-${id}" placeholder="e.g. 14–21 Jun 2026" />
+          </div>
+          <div>
+            <label>Nights</label>
+            <input type="number" id="nights-${id}" placeholder="7" min="1" max="365" />
+          </div>
+          <div>
+            <label>Flights</label>
+            <textarea id="flights-${id}" rows="2" placeholder="e.g. Out: London STN to Crete HER, dep 15:30&#10;Back: Crete HER to London STN, dep 12:55"></textarea>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field-row cols-3">
+          <div>
+            <label>Price per person</label>
+            <div class="price-input-wrap">
+              <span class="price-prefix">£</span>
+              <input type="number" id="ppp-${id}" placeholder="1850" min="0" />
+            </div>
+          </div>
+          <div>
+            <label>Total price <span style="color:#c0392b">*</span></label>
+            <div class="price-input-wrap">
+              <span class="price-prefix">£</span>
+              <input type="number" id="total-${id}" placeholder="3700" min="0" oninput="updateHeader(${id})" />
+            </div>
+          </div>
+          <div>
+            <label>Was / original price</label>
+            <div class="price-input-wrap">
+              <span class="price-prefix">£</span>
+              <input type="number" id="was-${id}" placeholder="4200 (optional)" min="0" />
+            </div>
+            <div class="price-note">Shows saving if greater than total</div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label>What's included</label>
+            <textarea id="inclusions-${id}" rows="3" placeholder="One item per line, e.g.&#10;Return flights&#10;7 nights B&amp;B&#10;Airport transfers"></textarea>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label>Why I recommend this</label>
+            <textarea id="highlights-${id}" rows="2" placeholder="e.g. Adults-only resort with stunning caldera views and a plunge pool on the terrace…"></textarea>
+          </div>
+        </div>
+
+        <div class="field-row cols-2">
+          <div>
+            <label>Badge</label>
+            <select id="badge-${id}">
+              ${BADGE_OPTIONS.map(o => `<option value="${o === '— None —' ? '' : o}">${o}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="option-actions">
+        <button class="btn btn-danger remove-btn" id="remove-${id}" onclick="removeOption(${id})">Remove option</button>
+      </div>
+    `;
+
+    container.appendChild(div);
+  }
+
+  function toggleOption(id) {
+    const card = document.getElementById(`option-card-${id}`);
+    card.classList.toggle('collapsed');
+  }
+
+  function updateHeader(id) {
+    const dest  = (document.getElementById(`dest-${id}`)?.value || '').trim();
+    const hotel = (document.getElementById(`hotel-${id}`)?.value || '').trim();
+    const total = document.getElementById(`total-${id}`)?.value;
+    const preview = document.getElementById(`preview-${id}`);
+    let parts = [];
+    if (dest || hotel) parts.push([hotel, dest].filter(Boolean).join(', '));
+    if (total) parts.push(`£${Number(total).toLocaleString()}`);
+    preview.textContent = parts.length ? ' · ' + parts.join(' · ') : '';
+  }
+
+  function setStar(id, val) {
+    document.getElementById(`star-val-${id}`).value = val;
+    const stars = document.querySelectorAll(`#stars-${id} .star`);
+    stars.forEach((s, i) => {
+      s.classList.toggle('active', i < val);
+    });
+  }
+
+  function removeOption(id) {
+    const idx = optionIds.indexOf(id);
+    if (idx === -1) return;
+    optionIds.splice(idx, 1);
+    const card = document.getElementById(`option-card-${id}`);
+    card.remove();
+    // Re-number remaining options
+    optionIds.forEach((oid, i) => {
+      const circle = document.getElementById(`circle-${oid}`);
+      const color = ACCENT_COLORS[i % ACCENT_COLORS.length];
+      if (circle) {
+        circle.textContent = i + 1;
+        circle.style.background = color;
+      }
+      const headerLabel = document.querySelector(`#option-card-${oid} .option-header-label`);
+      if (headerLabel) {
+        const previewSpan = headerLabel.querySelector('.option-header-preview');
+        headerLabel.childNodes[0].textContent = `Option ${i + 1} `;
+        // Restore preview span if it was changed
+        if (previewSpan) headerLabel.appendChild(previewSpan);
+      }
+    });
+    updateAddButton();
+    updateRemoveButtons();
+  }
+
+  function updateAddButton() { /* no limit on options */ }
+
+  function updateRemoveButtons() {
+    optionIds.forEach(id => {
+      const btn = document.getElementById(`remove-${id}`);
+      if (btn) btn.style.display = optionIds.length <= 1 ? 'none' : '';
+    });
+  }
+
+  // ── Generate ──
+  function generateProposal() {
+    try {
+      _generateProposal();
+    } catch (err) {
+      console.error('generateProposal error:', err);
+      alert('Something went wrong: ' + err.message);
+    }
+  }
+
+  function _generateProposal() {
+    clearErrors();
+    let valid = true;
+
+    const clientName = document.getElementById('clientName').value.trim();
+    if (!clientName) {
+      showError('err-clientName', 'clientName');
+      valid = false;
+    }
+
+    const validOptions = [];
+    let anyOptionComplete = false;
+
+    optionIds.forEach(id => {
+      const dest  = (document.getElementById(`dest-${id}`)?.value || '').trim();
+      const hotel = (document.getElementById(`hotel-${id}`)?.value || '').trim();
+      if (dest && hotel) anyOptionComplete = true;
+    });
+
+    if (!anyOptionComplete) {
+      document.getElementById('err-options').classList.add('visible');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Build data object
+    optionIds.forEach(id => {
+      const dest  = (document.getElementById(`dest-${id}`)?.value || '').trim();
+      const hotel = (document.getElementById(`hotel-${id}`)?.value || '').trim();
+      if (!dest && !hotel) return; // skip empty options
+
+      const inclusionsRaw = (document.getElementById(`inclusions-${id}`)?.value || '');
+      const inclusions = inclusionsRaw.split('\n').map(s => s.trim()).filter(Boolean);
+
+      validOptions.push({
+        destination: dest,
+        hotel:       hotel,
+        stars:       parseInt(document.getElementById(`star-val-${id}`)?.value || '0', 10),
+        board:       document.getElementById(`board-${id}`)?.value || '',
+        room:        (document.getElementById(`room-${id}`)?.value || '').trim(),
+        dates:       (document.getElementById(`dates-${id}`)?.value || '').trim(),
+        nights:      parseInt(document.getElementById(`nights-${id}`)?.value || '0', 10) || 0,
+        flights:     (document.getElementById(`flights-${id}`)?.value || '').trim(),
+        ppp:         parseFloat(document.getElementById(`ppp-${id}`)?.value || '0') || 0,
+        total:       parseFloat(document.getElementById(`total-${id}`)?.value || '0') || 0,
+        was:         parseFloat(document.getElementById(`was-${id}`)?.value || '0') || 0,
+        inclusions:  inclusions,
+        highlights:  (document.getElementById(`highlights-${id}`)?.value || '').trim(),
+        imageUrl:    (document.getElementById(`imageUrl-${id}`)?.value || '').trim(),
+        badge:       document.getElementById(`badge-${id}`)?.value || '',
+      });
+    });
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const data = {
+      v:            1,
+      clientName:   clientName,
+      personalNote: document.getElementById('personalNote').value.trim(),
+      tripDates:    document.getElementById('tripDates').value.trim(),
+      travelers:    document.getElementById('travelers').value.trim(),
+      budget:       document.getElementById('budget').value.trim(),
+      createdDate:  dateStr,
+      options:      validOptions,
+    };
+
+    sessionStorage.setItem('ch_proposal', JSON.stringify(data));
+    window.open('proposal.html', '_blank');
+  }
+  function clearAll() {
+    if (!confirm('Clear all data and start over?')) return;
+    document.getElementById('clientName').value = '';
+    document.getElementById('tripDates').value = '';
+    document.getElementById('travelers').value = '';
+    document.getElementById('budget').value = '';
+    document.getElementById('personalNote').value = '';
+    document.getElementById('options-container').innerHTML = '';
+    optionIds = [];
+    optionCount = 0;
+    clearErrors();
+    addOption();
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.field-error').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+  }
+
+  function showError(errId, fieldId) {
+    const err = document.getElementById(errId);
+    if (err) err.classList.add('visible');
+    const field = document.getElementById(fieldId);
+    if (field) field.classList.add('invalid');
+  }
+
+
+
+  // ── PDF.js worker setup ──
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  // ── Drag / drop helpers ──
+  function uploadDragOver(id) {
+    document.getElementById(`upload-zone-${id}`).classList.add('drag-over');
+  }
+  function uploadDragLeave(id) {
+    document.getElementById(`upload-zone-${id}`).classList.remove('drag-over');
+  }
+  function uploadDrop(id, event) {
+    document.getElementById(`upload-zone-${id}`).classList.remove('drag-over');
+    const files = event.dataTransfer.files;
+    if (files && files[0]) processFile(id, files[0]);
+  }
+
+  // ── File select via <input> ──
+  function handleFileSelect(id, input) {
+    if (!input.files || !input.files[0]) return;
+    processFile(id, input.files[0]);
+    input.value = ''; // reset so same file can be re-selected
+  }
+
+  // ── Paste text toggle ──
+  function togglePasteArea(id) {
+    const zone  = document.getElementById(`upload-zone-${id}`);
+    const paste = document.getElementById(`paste-area-${id}`);
+    const hiding = paste.style.display !== 'none';
+    zone.style.display  = hiding ? '' : 'none';
+    paste.style.display = hiding ? 'none' : 'block';
+  }
+
+  async function parseAndPopulate(id) {
+    const text = (document.getElementById(`paste-text-${id}`)?.value || '').trim();
+    if (!text) return;
+    document.getElementById(`paste-area-${id}`).style.display  = 'none';
+    document.getElementById(`upload-zone-${id}`).style.display = '';
+    await extractAndPopulate(id, text);
+  }
+
+  // ── Core file processor ──
+  async function processFile(id, file) {
+    showProcessing(id, true);
+    hideBanner(id);
+    try {
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      let text, imageDataUrl = null;
+      if (isPdf) {
+        if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js not loaded');
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        text         = await extractTextFromPdf(pdf);
+        imageDataUrl = await extractBestImageFromPdf(pdf);
+      } else {
+        text = await readTextFile(file);
+      }
+      if (!text.trim()) throw new Error('Empty file');
+      await extractAndPopulate(id, text);
+      // Populate hotel image if extracted and field is still empty
+      if (imageDataUrl) {
+        const imgField = document.getElementById(`imageUrl-${id}`);
+        if (imgField && !imgField.value) imgField.value = imageDataUrl;
+      }
+    } catch (e) {
+      showBanner(id, 'error', 'Could not read this file. Try saving as plain text and re-uploading, or paste the quote text instead.');
+      console.error('processFile error:', e);
+    }
+    showProcessing(id, false);
+  }
+
+  // ── Central extraction + populate ──
+  // Tries AI first (if key saved), falls back to regex parser.
+  async function extractAndPopulate(id, text) {
+    showProcessing(id, true);
+    hideBanner(id);
+    let parsed = null;
+    if (getApiKey()) {
+      const span = document.querySelector(`#extract-processing-${id} span`);
+      if (span) span.textContent = 'Reading with AI…';
+      try {
+        parsed = await parseQuoteWithAI(text);
+      } catch (e) {
+        console.warn('AI extraction failed, using regex fallback:', e.message);
+        showBanner(id, 'error', `AI extraction failed (${e.message}) — using basic parser instead.`);
+        parsed = parseQuoteText(text);
+      }
+    } else {
+      parsed = parseQuoteText(text);
+    }
+    if (parsed) populateFromParsed(id, parsed);
+    showProcessing(id, false);
+  }
+
+  function readTextFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = e => resolve(e.target.result);
+      reader.onerror = () => reject(new Error('FileReader error'));
+      reader.readAsText(file);
+    });
+  }
+
+  async function extractTextFromPdf(pdf) {
+    let fullText = '';
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page     = await pdf.getPage(pageNum);
+      const content  = await page.getTextContent();
+      const viewport = page.getViewport({ scale: 1.0 });
+
+      const allItems = content.items
+        .filter(item => item.str && item.str.trim())
+        .map(item => ({
+          str: item.str,
+          x:   item.transform ? item.transform[4]              : 0,
+          y:   item.transform ? Math.round(item.transform[5])  : 0,
+        }));
+
+      if (!allItems.length) { fullText += '\n'; continue; }
+
+      // ── Column detection ──
+      // Jet2/TUI quotes often have a two-column layout (summary left, image/
+      // highlights right). Items sharing the same y-coordinate but in different
+      // columns would otherwise be concatenated into garbled lines.
+      // Detect a significant x-gap in the middle third of the page and, if
+      // found, process each column separately so their lines don't mix.
+      const xVals = [...new Set(allItems.map(i => Math.round(i.x)))].sort((a, b) => a - b);
+      const pw    = viewport.width;
+      let columnSplit = null;
+      {
+        const midLo = pw * 0.25, midHi = pw * 0.75;
+        let maxGap = 0;
+        for (let i = 1; i < xVals.length; i++) {
+          const gap = xVals[i] - xVals[i - 1];
+          if (gap > maxGap && xVals[i - 1] >= midLo && xVals[i] <= midHi) {
+            maxGap = gap;
+            if (gap > pw * 0.12) columnSplit = (xVals[i] + xVals[i - 1]) / 2;
+          }
+        }
+      }
+
+      // ── Build line text from an item subset ──
+      const buildLines = (items) => {
+        const lineMap = new Map();
+        for (const item of items) {
+          if (!lineMap.has(item.y)) lineMap.set(item.y, []);
+          lineMap.get(item.y).push(item);
+        }
+        const sortedYs = [...lineMap.keys()].sort((a, b) => b - a);
+        let out = '';
+        for (const y of sortedYs) {
+          const lineText = lineMap.get(y).sort((a, b) => a.x - b.x)
+                                         .map(i => i.str).join(' ').trim();
+          if (lineText) out += lineText + '\n';
+        }
+        return out;
+      };
+
+      if (columnSplit) {
+        // Left column first (summary data), then right column (highlights/image)
+        fullText += buildLines(allItems.filter(i => i.x <= columnSplit));
+        fullText += buildLines(allItems.filter(i => i.x  > columnSplit));
+      } else {
+        fullText += buildLines(allItems);
+      }
+      fullText += '\n'; // page separator
+    }
+    return fullText;
+  }
+
+  // ── PDF image extractor ──
+  // Finds the largest embedded image in the first 2 pages (typically the hotel photo).
+  async function extractBestImageFromPdf(pdf) {
+    let bestImg = null, bestArea = 0;
+    const imgOps = [pdfjsLib.OPS.paintJpegXObject, pdfjsLib.OPS.paintImageXObject];
+
+    for (let pageNum = 1; pageNum <= Math.min(pdf.numPages, 2); pageNum++) {
+      const page   = await pdf.getPage(pageNum);
+      const opList = await page.getOperatorList();
+
+      for (let i = 0; i < opList.fnArray.length; i++) {
+        if (!imgOps.includes(opList.fnArray[i])) continue;
+        const name = opList.argsArray[i][0];
+        try {
+          const img = await new Promise((resolve, reject) => {
+            page.objs.get(name, resolve);
+            setTimeout(() => reject(new Error('timeout')), 2000);
+          });
+          if (img && img.data && img.width * img.height > bestArea) {
+            bestArea = img.width * img.height;
+            bestImg  = img;
+          }
+        } catch (_) {}
+      }
+    }
+
+    if (!bestImg || bestImg.width < 80 || bestImg.height < 80) return null;
+
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width  = bestImg.width;
+      canvas.height = bestImg.height;
+      const ctx = canvas.getContext('2d');
+      const len = bestImg.data.length;
+      let rgba;
+      if (len === bestImg.width * bestImg.height * 4) {
+        rgba = new Uint8ClampedArray(bestImg.data);
+      } else if (len === bestImg.width * bestImg.height * 3) {
+        rgba = new Uint8ClampedArray(bestImg.width * bestImg.height * 4);
+        for (let j = 0, k = 0; j < len; j += 3, k += 4) {
+          rgba[k] = bestImg.data[j]; rgba[k+1] = bestImg.data[j+1];
+          rgba[k+2] = bestImg.data[j+2]; rgba[k+3] = 255;
+        }
+      } else { return null; }
+      ctx.putImageData(new ImageData(rgba, bestImg.width, bestImg.height), 0, 0);
+      return canvas.toDataURL('image/jpeg', 0.82);
+    } catch (e) {
+      console.warn('Image conversion failed:', e);
+      return null;
+    }
+  }
+
+  // ── Smart quote parser ──
+  function escapeRegex(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function parseQuoteText(rawText) {
+    const result = {};
+
+    // ── Pre-process: strip Private Use Area glyphs (icon fonts) ──
+    // PDF icon fonts embed decorative symbols in U+E000–U+F8FF. These leak
+    // into extracted text lines and corrupt field values such as hotel name.
+    const text = rawText
+      .replace(/[\uE000-\uF8FF]/g, ' ')        // Private Use Area (icon fonts)
+      .replace(/[\u200B-\u200D\uFEFF\u00AD]/g, '') // Zero-width / soft-hyphen
+      .replace(/[ \t]{2,}/g, ' ')               // Collapse multiple spaces
+      .replace(/\n{3,}/g, '\n\n');              // Collapse excess blank lines
+
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+    // ── Section detection ──
+    // Splits the document into named zones using heading anchors.
+    // getSectionLines() is then used for field extraction within a named zone,
+    // preventing cross-section contamination (e.g. flight text leaking into inclusions).
+    const SECTION_DEFS = [
+      { key: 'header',     re: /your\s+holiday\s+to/i },
+      { key: 'summary',    re: /holiday\s+summary/i },
+      { key: 'flights',    re: /flight\s+details/i },
+      { key: 'pricing',    re: /payable\s+to\s+your/i },
+      { key: 'highlights', re: /property\s+highlights?|about\s+this\s+(?:hotel|property)/i },
+      { key: 'facilities', re: /restaurants?\s*[&]\s*bars?|pool\s+areas?|spa\b|gym\b/i },
+      { key: 'additional', re: /additional\s+(?:info(?:rmation)?|details?)/i },
+    ];
+    const sectionMap = {};
+    for (let i = 0; i < lines.length; i++) {
+      for (const { key, re } of SECTION_DEFS) {
+        if (!sectionMap[key] && re.test(lines[i])) { sectionMap[key] = i; break; }
+      }
+    }
+    function getSectionLines(key) {
+      const start = sectionMap[key];
+      if (start == null) return [];
+      let end = lines.length;
+      for (const { key: k } of SECTION_DEFS) {
+        const s = sectionMap[k];
+        if (k !== key && s != null && s > start && s < end) end = s;
+      }
+      return lines.slice(start + 1, end);
+    }
+    function getSectionText(key) { return getSectionLines(key).join('\n'); }
+
+    // ── 1. Hotel & destination ──
+    // Header zone: "Your holiday to...\n[Hotel Name]\n[Destination, Region]"
+    if (sectionMap.header != null) {
+      const candidates = lines
+        .slice(sectionMap.header + 1, sectionMap.header + 8)
+        .map(l => l.replace(/[★*✦✩⭐]+/g, '').trim())
+        .filter(l => l.length >= 4 && !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(l));
+      if (candidates[0]) result.hotel = candidates[0];
+      if (candidates[1] && !/^(?:our\s+rating|jet2|official|tripadvisor)/i.test(candidates[1])) {
+        result.destination = candidates[1];
+      }
+    }
+    if (!result.hotel) {
+      const m = text.match(/(?:hotel|property|accommodation)[:\s]+([^\n\r]{2,80})/i);
+      if (m) result.hotel = m[1].replace(/[★*]+$/, '').trim();
+    }
+    if (!result.destination) {
+      const m = text.match(/(?:destination|location)[:\s]+([^\n\r]{2,60})/i);
+      if (m) result.destination = m[1].trim();
+    }
+
+    // ── 2. Star rating ──
+    // Priority: Jet2Holidays rating > Official/key rating > "N-star" word > ★ symbols
+    const jet2RatingM  = text.match(/jet2(?:holidays?)?\s+rating[:\s]*(\d)/i);
+    const officialKeyM = text.match(/official\s+rating[:\s]*(\d+)\s*(?:key|star)?/i);
+    const starWordM    = text.match(/(\d)\s*[-–]?\s*star/i);
+    const starSymbolM  = text.match(/(★{1,5})(?!\w)/);
+    if      (jet2RatingM)  result.stars = Math.min(5, parseInt(jet2RatingM[1]));
+    else if (officialKeyM) result.stars = Math.min(5, parseInt(officialKeyM[1]));
+    else if (starWordM)    result.stars = Math.min(5, parseInt(starWordM[1]));
+    else if (starSymbolM)  result.stars = starSymbolM[1].length;
+
+    // ── 3. Board basis ──
+    // Search within Holiday summary section; do NOT default to any value if not found.
+    const summaryLines = getSectionLines('summary');
+    // Content-based boundary: stop summary at first flight-marker line even if the
+    // "Flight details" heading wasn't detected (handles heading formatting variations).
+    const FLIGHT_MARKER_RE = /^(?:going\s+out|coming\s+back|departs?[:\s]|arrives?[:\s]|flight\s+details?)/i;
+    const summaryStop = summaryLines.findIndex(l => FLIGHT_MARKER_RE.test(l));
+    const cleanSummaryLines = summaryStop >= 0 ? summaryLines.slice(0, summaryStop) : summaryLines;
+    const boardSearchText = cleanSummaryLines.length > 0 ? cleanSummaryLines.join('\n')
+                          : sectionMap.summary != null ? getSectionText('summary') : text;
+    if      (/all[\s-]?inclus/i.test(boardSearchText))                           result.board = 'All Inclusive';
+    else if (/full[\s-]?board/i.test(boardSearchText))                           result.board = 'Full Board';
+    else if (/half[\s-]?board/i.test(boardSearchText))                           result.board = 'Half Board';
+    else if (/b\s*[&+]\s*b|bed\s+(?:and|&)\s+breakfast/i.test(boardSearchText)) result.board = 'Bed & Breakfast';
+    else if (/self[\s-]?cater/i.test(boardSearchText))                           result.board = 'Self Catering';
+    else if (/room[\s-]?only/i.test(boardSearchText))                            result.board = 'Room only';
+    // No fallback default — leave undefined if not found
+
+    // ── 4. Room type ──
+    // Jet2: "1 x Apartment - Sleeps up to 4" — strip the "N x " prefix.
+    const roomLines = cleanSummaryLines.filter(l =>
+      /^\d+\s*x\s*/i.test(l) &&
+      /apartment|room|suite|cabin|villa|studio|bungalow|chalet|sleeps/i.test(l)
+    );
+    if (roomLines.length) {
+      result.room = roomLines[0].replace(/^\d+\s*x\s*/i, '').trim();
+    } else {
+      const roomLabel = text.match(/(?:room(?:\s+type)?|accommodation\s+type)[:\s]+([^\n\r]+)/i);
+      if (roomLabel) result.room = roomLabel[1].trim();
+    }
+
+    // ── 5. Nights & dates ──
+    // "4 nights from 3rd Apr 2026" — extract only the trip start date, not return.
+    const cleanSummaryText = cleanSummaryLines.join('\n') || text;
+    const nightsFromM = cleanSummaryText.match(
+      /(\d+)\s*nights?\s+from\s+(\d{1,2}(?:st|nd|rd|th)?\s+\w+\s+\d{4})/i
+    );
+    if (nightsFromM) {
+      result.nights = parseInt(nightsFromM[1]);
+      result.dates  = nightsFromM[2].trim();
+    }
+    if (!result.nights) {
+      const nm = cleanSummaryText.match(/(\d+)\s*nights?/i) || text.match(/(\d+)\s*nights?/i);
+      if (nm) result.nights = parseInt(nm[1]);
+    }
+    if (!result.dates) {
+      const checkIn = text.match(/(?:check[\s-]?in|arrival)[:\s]+([^\n\r]+)/i);
+      if (checkIn) result.dates = checkIn[1].trim();
+    }
+
+    // ── 6. Flights ──
+    // Extract outbound + inbound from the Flight details section and format as
+    // a structured two-line string. Never return a bare section heading.
+    const flightSectionLines = getSectionLines('flights');
+    // If section heading wasn't detected, fall back to content-based detection
+    const effectiveFlightLines = flightSectionLines.length > 0
+      ? flightSectionLines
+      : (() => {
+          const idx = lines.findIndex(l => /^going\s+out/i.test(l));
+          return idx >= 0 ? lines.slice(idx) : [];
+        })();
+
+    if (effectiveFlightLines.length > 0) {
+      // Parse leg blocks: "Going out" → outbound, "Coming back" → inbound
+      let currentLeg = null;
+      const legs = { outbound: {}, inbound: {} };
+      const IATA_ROUTE_RE = /([A-Z][a-zA-Z\s]+\b[A-Z]{3})\s+to\s+([A-Z][a-zA-Z\s()]+\b[A-Z]{3})/;
+
+      for (const line of effectiveFlightLines) {
+        if (/^going\s+out/i.test(line))   { currentLeg = 'outbound'; continue; }
+        if (/^coming\s+back/i.test(line)) { currentLeg = 'inbound';  continue; }
+        if (!currentLeg) continue;
+        const leg = legs[currentLeg];
+
+        const routeM = line.match(IATA_ROUTE_RE);
+        if (routeM && !leg.route) { leg.route = line.trim(); continue; }
+
+        const depM = line.match(/departs?[:\s]+(.+)/i);
+        if (depM && !leg.departs) { leg.departs = depM[1].trim(); continue; }
+
+        const arrM = line.match(/arrives?[:\s]+(.+)/i);
+        if (arrM && !leg.arrives) { leg.arrives = arrM[1].trim(); continue; }
+      }
+
+      const parts = [];
+      if (legs.outbound.route) {
+        let s = `Out: ${legs.outbound.route}`;
+        if (legs.outbound.departs) s += ` | dep ${legs.outbound.departs}`;
+        if (legs.outbound.arrives) s += ` | arr ${legs.outbound.arrives}`;
+        parts.push(s);
+      }
+      if (legs.inbound.route) {
+        let s = `Back: ${legs.inbound.route}`;
+        if (legs.inbound.departs) s += ` | dep ${legs.inbound.departs}`;
+        if (legs.inbound.arrives) s += ` | arr ${legs.inbound.arrives}`;
+        parts.push(s);
+      }
+      if (parts.length > 0) result.flights = parts.join('\n');
+    }
+
+    // Global fallback for non-Jet2 quotes (no Going out/Coming back structure)
+    if (!result.flights) {
+      const IATA_ROUTE_RE = /([A-Z][a-zA-Z\s]+\b[A-Z]{3})\s+to\s+([A-Z][a-zA-Z\s()]+\b[A-Z]{3})/;
+      const routeM = text.match(IATA_ROUTE_RE);
+      if (routeM) result.flights = `${routeM[1].trim()} to ${routeM[2].trim()}`;
+    }
+
+    // Validation: reject if the value is just a generic section heading token.
+    // This prevents the label fallback from storing "details" or "flight details".
+    if (result.flights && /^(?:details|flight\s+details?|flights?|included?)$/i.test(result.flights.trim())) {
+      result.flights = undefined;
+    }
+
+    // ── 7. Prices ──
+    // PPP: "Price per person payable to your travel agent £517"
+    const pppM =
+      text.match(/price\s+per\s+person\s+payable[\s\S]{0,80}?£\s*([\d,]+)/i) ||
+      text.match(/price\s+per\s+person[\s\S]{0,120}?£\s*([\d,]+)/i) ||
+      text.match(/(?:per\s+person|p\.?p\.?)\s*[:\s]*£?\s*([\d,]+)/i) ||
+      text.match(/£\s*([\d,]+)\s*(?:per\s+person|p\.?p\.?)/i);
+    if (pppM) result.ppp = parseFloat(pppM[1].replace(/,/g, ''));
+
+    // Total: prefer "Total holiday cost is £X" (includes tourist tax) over
+    // "Payable to your travel agent £X" (excludes tourist tax).
+    // For Jet2 quotes these differ — e.g. £1,557 vs £1,551 — and the canonical
+    // total is the one that includes all payables at the destination.
+    const totalM =
+      text.match(/total\s+holiday\s+cost\s+is\s+£\s*([\d,]+)/i) ||
+      text.match(/payable\s+to\s+your\s+(?:travel\s+)?agent[\s\S]{0,60}?£\s*([\d,]+)/i) ||
+      text.match(/(?:total(?:\s+(?:price|cost|package|amount))?|grand\s+total)[:\s]*£?\s*([\d,]+)/i);
+    if (totalM) {
+      result.total = parseFloat(totalM[1].replace(/,/g, ''));
+    } else {
+      const allPrices = [...text.matchAll(/£\s*([\d,]+(?:\.\d{1,2})?)/g)]
+        .map(m => parseFloat(m[1].replace(/,/g, ''))).filter(n => n > 100);
+      if (allPrices.length === 1 && !result.ppp) result.total = allPrices[0];
+    }
+
+    // Was/original: only when there is an explicit prior/strike-through price label.
+    const wasM = text.match(/(?:^|\s)(?:was|original\s+price|rrp)[:\s]*£?\s*([\d,]+)/im);
+    if (wasM) result.was = parseFloat(wasM[1].replace(/,/g, ''));
+
+    // ── 8. Inclusions (What's included) ──
+    // Use cleanSummaryLines (bounded before any flight-marker content).
+    // Denylist removes board/date/pax/heading/flight lines.
+    const INCL_SKIP = [
+      /^\d+\s+nights?\s+from/i,
+      /\d+\s+adults?.*(?:\d+\s+child|infant)/i,
+      /^(?:all[\s-]?inclus|full[\s-]?board|half[\s-]?board|b\s*&\s*b|self[\s-]?cater|room[\s-]?only)/i,
+      /^(?:flight\s+details?|holiday\s+summary|your\s+holiday)/i,
+      /^\d{1,2}\/\d{1,2}\/\d{4}/,
+      /our\s+rating/i, /tripadvisor/i, /^\d+\s+reviews?/i,
+      // Explicit flight content guards (belt-and-braces if section boundary missed):
+      /^(?:going\s+out|coming\s+back)/i,
+      /^(?:departs?|arrives?)[:\s]/i,
+      /\b[A-Z]{3}\s+to\s+[A-Z]/,           // IATA route (e.g. "STN to HER")
+    ];
+    if (cleanSummaryLines.length) {
+      const inclusions = cleanSummaryLines
+        .map(l => l.replace(/^[\uE000-\uF8FF]+/, '').trim())
+        .filter(l => {
+          if (l.length <= 3 || l.length >= 120) return false;
+          if (INCL_SKIP.some(re => re.test(l))) return false;
+          // Also skip if the line is just the hotel name or destination header
+          if (result.hotel && l.toLowerCase() === result.hotel.toLowerCase()) return false;
+          return true;
+        });
+      if (inclusions.length) result.inclusions = inclusions.slice(0, 12);
+    }
+    if (!result.inclusions || !result.inclusions.length) {
+      const inclM = text.match(
+        /(?:includ(?:es?|ing|ed)|what(?:'s|\s+is)?\s+included|package\s+includes?)[:\s]*([\s\S]+?)(?:\n{2,}|$)/i
+      );
+      if (inclM) {
+        result.inclusions = inclM[1].split('\n')
+          .map(l => l.replace(/^\s*[-•*◦▪✓✔\d.)]+\s*/, '').trim())
+          .filter(l => l.length > 3 && l.length < 150);
+      }
+    }
+
+    // ── 9. Property highlights (Why I recommend this) ──
+    // From explicit "Property highlights" section if present. Otherwise scan lines
+    // AFTER the main data sections (typically the right column on Jet2 PDFs).
+    // Strictly exclude: hotel name, destination, airport codes, route strings.
+    const IATA_CODE_RE = /\b[A-Z]{3}\b/;
+    const stripBullet  = l => l.replace(/^[\uE000-\uF8FF\-•*◦▪✓✔\s]+/, '').trim();
+
+    const isHighlightCandidate = (raw) => {
+      const c = stripBullet(raw);
+      if (c.length < 5 || c.length > 80) return false;
+      if (!/[a-z]{2}/i.test(c)) return false;
+      if (/^\d/.test(c)) return false;
+      if (IATA_CODE_RE.test(c)) return false;                      // airport code
+      if (/\bto\s+[A-Z][a-z]/.test(c) && IATA_CODE_RE.test(c)) return false; // route
+      if (/(?:payable|£|\d+\s*kg|baggage|transfer|airport|nights?|adults?|children|rating|jet2|official|pool|restaurant|bar|review|tripadvisor|check\s*in|check\s*out|flight|departs?|arrives?|going\s+out|coming\s+back)/i.test(c)) return false;
+      if (result.hotel && c.toLowerCase().includes(result.hotel.toLowerCase())) return false;
+      if (result.destination && c.toLowerCase().includes(result.destination.toLowerCase())) return false;
+      return true;
+    };
+
+    let highlightLines = getSectionLines('highlights')
+      .map(stripBullet).filter(c => c.length >= 5 && isHighlightCandidate(c));
+
+    if (!highlightLines.length) {
+      // Fallback: look in lines after the main content sections (right-column territory)
+      const mainEnd = Math.max(
+        sectionMap.pricing  ?? sectionMap.flights  ?? 0,
+        sectionMap.flights  ?? sectionMap.summary  ?? 0,
+        sectionMap.summary  ?? 0
+      );
+      highlightLines = lines
+        .slice(mainEnd + 1)
+        .filter(isHighlightCandidate)
+        .map(stripBullet)
+        .filter(Boolean);
+      if (highlightLines.length < 2) highlightLines = [];
+      else highlightLines = highlightLines.slice(0, 6);
+    }
+    if (highlightLines.length) result.highlights = highlightLines;
+
+    return result;
+  }
+
+  // ── Populate form fields from parsed data ──
+  function populateFromParsed(id, parsed) {
+    const filled = [];
+
+    function flashField(el) {
+      el.style.transition = 'border-color 200ms, background 200ms';
+      el.style.borderColor = '#1f6f8b';
+      el.style.background  = 'rgba(31,111,139,0.07)';
+      setTimeout(() => {
+        el.style.borderColor = '';
+        el.style.background  = '';
+      }, 2000);
+    }
+
+    function setField(fieldId, value, label) {
+      if (value == null || value === '') return;
+      if (typeof value === 'number' && value === 0) return;
+      const el = document.getElementById(fieldId);
+      if (!el) return;
+      if (el.tagName === 'SELECT') {
+        const prev = el.value;
+        el.value = value;
+        if (el.value !== prev) { filled.push(label); flashField(el); }
+      } else {
+        el.value = value;
+        filled.push(label);
+        flashField(el);
+      }
+    }
+
+    setField(`dest-${id}`,    parsed.destination, 'Destination');
+    setField(`hotel-${id}`,   parsed.hotel,        'Hotel');
+    setField(`board-${id}`,   parsed.board,        'Board basis');
+    setField(`room-${id}`,    parsed.room,         'Room type');
+    setField(`dates-${id}`,   parsed.dates,        'Dates');
+    setField(`nights-${id}`,  parsed.nights,       'Nights');
+    setField(`flights-${id}`, parsed.flights,      'Flights');
+    setField(`ppp-${id}`,     parsed.ppp,          'Price per person');
+    setField(`total-${id}`,   parsed.total,        'Total price');
+    setField(`was-${id}`,     parsed.was,          'Was price');
+
+    if (parsed.stars && parsed.stars >= 1 && parsed.stars <= 5) {
+      setStar(id, parsed.stars);
+      filled.push('Star rating');
+    }
+
+    if (parsed.inclusions && parsed.inclusions.length) {
+      const el = document.getElementById(`inclusions-${id}`);
+      if (el) {
+        el.value = parsed.inclusions.join('\n');
+        filled.push('Inclusions');
+        flashField(el);
+      }
+    }
+
+    if (parsed.highlights && parsed.highlights.length) {
+      const el = document.getElementById(`highlights-${id}`);
+      if (el) {
+        el.value = parsed.highlights.join('\n');
+        filled.push('Why I recommend');
+        flashField(el);
+      }
+    }
+
+    updateHeader(id);
+
+    if (filled.length > 0) {
+      showBanner(id, 'success',
+        `${filled.length} field${filled.length !== 1 ? 's' : ''} extracted — review and adjust below`,
+        filled
+      );
+    } else {
+      showBanner(id, 'error',
+        'No fields could be extracted automatically. Try pasting the quote text directly — plain text works best.'
+      );
+    }
+  }
+
+  // ── Banner / processing UI helpers ──
+  function showBanner(id, type, message, fields) {
+    const banner = document.getElementById(`extract-banner-${id}`);
+    if (!banner) return;
+    banner.className = `extract-banner extract-banner--${type}`;
+    const tagsHtml = fields && fields.length
+      ? `<div class="extract-tags">${fields.map(f => `<span class="extract-tag">${f}</span>`).join('')}</div>`
+      : '';
+    banner.innerHTML =
+      `<span class="extract-banner-icon">${type === 'success' ? '✓' : '!'}</span>` +
+      `<span>${message}</span>${tagsHtml}`;
+    banner.style.display = 'flex';
+  }
+
+  function hideBanner(id) {
+    const banner = document.getElementById(`extract-banner-${id}`);
+    if (banner) { banner.style.display = 'none'; banner.innerHTML = ''; }
+  }
+
+  function showProcessing(id, show) {
+    const proc = document.getElementById(`extract-processing-${id}`);
+    const zone = document.getElementById(`upload-zone-${id}`);
+    if (proc) proc.style.display = show ? 'flex' : 'none';
+    if (zone) zone.style.opacity = show ? '0.45' : '';
+  }
+</script>
+</body>
+</html>

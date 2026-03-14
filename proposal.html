@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Your Holiday Proposal — Crafted Horizons</title>
+  <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg:    #fbf7f2;
+      --card:  #ffffff;
+      --text:  #1b1f24;
+      --muted: #5b6775;
+      --line:  rgba(27,31,36,0.10);
+      --teal:  #1f6f8b;
+      --terra: #c26d3b;
+      --ease:  cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, #0d1f2d 0%, #1f6f8b 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 52px 0 56px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(194,109,59,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-brand {
+      display: flex; align-items: center; gap: 9px;
+      margin-bottom: 36px;
+    }
+    .hero-brand img {
+      width: 30px; height: 30px; object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+    }
+    .hero-brand-name {
+      font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 14px;
+    }
+    .hero-h1 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 800; color: #fff; line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .hero-sub {
+      font-size: 15px; color: rgba(255,255,255,0.65);
+      margin-bottom: 26px;
+      max-width: 560px;
+    }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 5px 13px;
+      font-size: 13px; color: rgba(255,255,255,0.88); font-weight: 500;
+    }
+    .hero-chip svg { opacity: 0.7; flex-shrink: 0; }
+
+    /* ── Personal note band ── */
+    .note-band {
+      background: rgba(255,255,255,0.07);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 28px 0;
+      /* same dark bg continuation */
+      background: #0e2231;
+    }
+    .note-inner {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+    .note-quote {
+      font-size: 16px; font-style: italic; color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      position: relative;
+      padding-left: 22px;
+    }
+    .note-quote::before {
+      content: '\201C';
+      position: absolute; left: 0; top: -4px;
+      font-size: 36px; color: var(--terra); opacity: 0.7;
+      font-style: normal; line-height: 1;
+    }
+    .note-attribution {
+      margin-top: 10px;
+      font-size: 13px; color: rgba(255,255,255,0.45);
+      padding-left: 22px;
+    }
+
+    /* ── Main content ── */
+    .main-section {
+      padding: 48px 0 64px;
+    }
+    .main-inner {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    /* ── Option card ── */
+    .opt-card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(27,31,36,0.09);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    .opt-card-hero {
+      min-height: 180px;
+      position: relative;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 20px 20px 18px;
+    }
+
+    .opt-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      color: #fff; text-transform: uppercase;
+    }
+
+    .opt-destination {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 5px;
+    }
+    .opt-hotel {
+      font-size: 22px; font-weight: 800; color: #fff; line-height: 1.2;
+      margin-bottom: 7px;
+    }
+    .opt-stars {
+      color: rgba(255,220,80,0.9);
+      font-size: 14px; letter-spacing: 2px;
+    }
+
+    /* ── Card body ── */
+    .opt-body {
+      padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 16px;
+      flex: 1;
+    }
+
+    .facts-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px;
+    }
+    .fact-item { }
+    .fact-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 2px;
+    }
+    .fact-value {
+      font-size: 13px; color: var(--text); font-weight: 500;
+    }
+
+    .dates-line {
+      font-size: 13px; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .dates-line svg { flex-shrink: 0; }
+
+    /* ── Price block ── */
+    .price-block {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .price-main { }
+    .price-total {
+      font-size: 26px; font-weight: 800; color: var(--text); line-height: 1.1;
+    }
+    .price-ppp {
+      font-size: 12px; color: var(--muted); margin-top: 3px;
+    }
+    .price-saving { text-align: right; }
+    .price-was {
+      font-size: 13px; color: var(--muted); text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+    .price-save-badge {
+      display: inline-block;
+      background: #e8f5e9; color: #2e7d32;
+      font-size: 12px; font-weight: 700;
+      padding: 3px 9px; border-radius: 999px;
+    }
+
+    /* ── Inclusions ── */
+    .inclusions { }
+    .inclusions-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .inclusions-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .inclusions-list li {
+      font-size: 13px; color: var(--text);
+      display: flex; align-items: flex-start; gap: 7px;
+    }
+    .inclusions-list li .check {
+      color: #2d7a5a; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* ── Highlights ── */
+    .highlights {
+      font-size: 13px; font-style: italic; color: var(--muted);
+      border-left: 3px solid var(--line);
+      padding-left: 12px;
+      line-height: 1.6;
+    }
+
+    /* ── CTA button ── */
+    .opt-cta {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; border: none; border-radius: 999px;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      color: #fff; cursor: pointer;
+      padding: 13px 20px;
+      text-decoration: none;
+      transition: opacity 160ms, transform 100ms;
+      margin-top: auto;
+    }
+    .opt-cta:hover { opacity: 0.88; }
+    .opt-cta:active { transform: scale(0.97); }
+
+    /* ── Contact card ── */
+    .contact-card {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(27,31,36,0.07);
+      padding: 28px 28px;
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    }
+    .contact-qr { flex-shrink: 0; }
+    .contact-qr canvas,
+    .contact-qr img { border-radius: 10px; display: block; }
+    .contact-text { flex: 1; min-width: 200px; }
+    .contact-heading {
+      font-size: 19px; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .contact-para {
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 16px; line-height: 1.6;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #25d366; color: #fff;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      border: none; border-radius: 999px; cursor: pointer;
+      padding: 11px 22px; text-decoration: none;
+      transition: opacity 160ms;
+    }
+    .btn-wa:hover { opacity: 0.9; }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+      padding: 22px 0;
+      text-align: center;
+      font-size: 12px; color: var(--muted);
+    }
+
+    /* ── Error state ── */
+    .error-state {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 24px; text-align: center;
+    }
+    .error-icon {
+      font-size: 48px; margin-bottom: 16px;
+    }
+    .error-heading {
+      font-size: 22px; font-weight: 700; color: var(--text);
+      margin-bottom: 10px;
+    }
+    .error-sub {
+      font-size: 15px; color: var(--muted); margin-bottom: 28px; max-width: 360px;
+    }
+    .error-link {
+      font-size: 14px; color: var(--teal); text-decoration: none; font-weight: 600;
+    }
+    .error-link:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .hero { padding: 40px 0 44px; }
+      .opt-hotel { font-size: 18px; }
+      .contact-card { flex-direction: column; align-items: flex-start; }
+      .options-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Agent toolbar ── */
+    body { padding-top: 44px; }
+    .agent-toolbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(27,31,36,0.96); backdrop-filter: blur(8px);
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 20px; font-size: 13px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .agent-toolbar-label { color: rgba(255,255,255,0.5); font-size: 12px; flex: 1; }
+    .agent-pdf-btn {
+      background: #1f6f8b; color: #fff; border: none; border-radius: 8px;
+      padding: 7px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+      font-family: inherit; white-space: nowrap;
+    }
+    .agent-pdf-btn:hover { opacity: 0.88; }
+
+    /* ── Print styles ── */
+    @media print {
+      .agent-toolbar { display: none !important; }
+      body { padding-top: 0 !important; }
+      .opt-cta { display: none !important; }
+      .contact-card { display: none !important; }
+      .footer a { color: inherit !important; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .opt-card { break-inside: avoid; page-break-inside: avoid; }
+      .options-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Agent toolbar (hidden in print) -->
+<div class="agent-toolbar">
+  <span class="agent-toolbar-label">Crafted Horizons — Agent View</span>
+  <button class="agent-pdf-btn" onclick="window.print()">Save as PDF</button>
+</div>
+
+<!-- Content injected by JS -->
+<div id="app"></div>
+
+<script>
+  // ── Helpers ──
+  function esc(str) {
+    if (!str && str !== 0) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function decodeData(str) {
+    try {
+      return JSON.parse(decodeURIComponent(atob(str)));
+    } catch(e) { return null; }
+  }
+
+  function stars(n) {
+    if (!n || n < 1) return '';
+    return '★'.repeat(Math.min(5, n));
+  }
+
+  function fmtPrice(n) {
+    if (!n && n !== 0) return '';
+    return '£' + Number(n).toLocaleString('en-GB');
+  }
+
+  const ACCENT_COLORS   = ['#1f6f8b', '#c26d3b', '#2d7a5a', '#6b4f9e'];
+  const GRADIENT_DARK   = ['#0d2c3b', '#3d2415', '#0c2e20', '#1e1233'];
+
+  function gradientForIdx(i) {
+    const c = ACCENT_COLORS[i % ACCENT_COLORS.length];
+    const d = GRADIENT_DARK[i % GRADIENT_DARK.length];
+    return `linear-gradient(160deg, ${d} 0%, ${c} 100%)`;
+  }
+
+  // ── WA message ──
+  const WA_NUMBER = '447424907184';
+  function contactWaHref() {
+    const text = encodeURIComponent('Hi Aditi, I came across my proposal and would love to chat about my holiday options.');
+    return `https://wa.me/${WA_NUMBER}?text=${text}`;
+  }
+  function optionWaHref(hotel, destination) {
+    const text = encodeURIComponent(`Hi Aditi, I've had a look at my options and I'm interested in ${hotel} in ${destination}. Can we discuss?`);
+    return `https://wa.me/${WA_NUMBER}?text=${text}`;
+  }
+
+  // ── Render error ──
+  function renderError() {
+    document.getElementById('app').innerHTML = `
+      <div class="error-state">
+        <div class="error-icon">🔗</div>
+        <div class="error-heading">This link has expired</div>
+        <div class="error-sub">This proposal link is no longer valid or may have been changed. Please ask your travel advisor for a fresh link.</div>
+        <a href="https://crafted-horizons.com" class="error-link">← Back to Crafted Horizons</a>
+      </div>
+    `;
+    document.title = 'Link Expired — Crafted Horizons';
+  }
+
+  // ── Render proposal ──
+  function renderProposal(data) {
+    document.title = `Your Holiday Proposal — Crafted Horizons`;
+
+    // Chips
+    let chipsHtml = '';
+    const chips = [];
+    if (data.travelers)  chips.push({ icon: peopleSvg(),  text: esc(data.travelers) });
+    if (data.tripDates)  chips.push({ icon: calSvg(),     text: esc(data.tripDates) });
+    if (data.budget)     chips.push({ icon: budgetSvg(),  text: esc(data.budget) });
+    if (chips.length) {
+      chipsHtml = `<div class="hero-chips">${chips.map(c => `<span class="hero-chip">${c.icon}${c.text}</span>`).join('')}</div>`;
+    }
+
+    // Note band
+    let noteBandHtml = '';
+    if (data.personalNote) {
+      noteBandHtml = `
+        <div class="note-band">
+          <div class="note-inner">
+            <div class="note-quote">${esc(data.personalNote)}</div>
+            <div class="note-attribution">— Aditi, Crafted Horizons</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Options
+    const optionsHtml = (data.options || []).map((opt, i) => renderOption(opt, i)).join('');
+
+    const html = `
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-brand">
+            <img src="assets/brand/crafted-horizons-icon-1024.png" alt="Crafted Horizons" />
+            <span class="hero-brand-name">Crafted Horizons — by Aditi</span>
+          </div>
+          <div class="hero-eyebrow">Your personalised holiday options</div>
+          <h1 class="hero-h1">Hi ${esc(data.clientName)}, here's what I've found for you.</h1>
+          <p class="hero-sub">Prepared on ${esc(data.createdDate)}. These are personal recommendations, not search results.</p>
+          ${chipsHtml}
+        </div>
+      </div>
+
+      ${noteBandHtml}
+
+      <!-- Main -->
+      <div class="main-section">
+        <div class="main-inner">
+          <div class="options-grid">
+            ${optionsHtml}
+          </div>
+
+          <!-- Contact Aditi -->
+          <div class="contact-card">
+            <div class="contact-qr" id="contact-qr"></div>
+            <div class="contact-text">
+              <div class="contact-heading">Have a question? Let's talk.</div>
+              <p class="contact-para">I'm here to help you choose the right option and take care of everything from there. Drop me a message and we'll get the ball rolling.</p>
+              <a href="${contactWaHref()}" class="btn-wa" target="_blank" rel="noopener">
+                ${waSvg()}
+                Message Aditi on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        Prepared by Aditi Desai &middot; <a href="https://crafted-horizons.com" style="color:inherit">crafted-horizons.com</a> &middot; Prices subject to availability at time of booking.
+      </div>
+    `;
+
+    document.getElementById('app').innerHTML = html;
+
+    // Render contact QR
+    requestAnimationFrame(() => {
+      const qrDiv = document.getElementById('contact-qr');
+      if (qrDiv) {
+        qrDiv.innerHTML = '';
+        try {
+          new QRCode(qrDiv, {
+            text:         contactWaHref(),
+            width:        110,
+            height:       110,
+            colorDark:    '#1b1f24',
+            colorLight:   '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+        } catch (e) {
+          qrDiv.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  function renderOption(opt, i) {
+    const gradient  = gradientForIdx(i);
+    const accentCol = ACCENT_COLORS[i % ACCENT_COLORS.length];
+
+    // Badge
+    const badgeHtml = opt.badge
+      ? `<div class="opt-badge">${esc(opt.badge)}</div>`
+      : '';
+
+    // Stars
+    const starsHtml = (opt.stars && opt.stars > 0)
+      ? `<div class="opt-stars">${stars(opt.stars)}</div>`
+      : '';
+
+    // Facts grid — only show fields that have values
+    const factItems = [];
+    if (opt.room)   factItems.push({ label: 'Room',    value: esc(opt.room) });
+    if (opt.board)  factItems.push({ label: 'Board',   value: esc(opt.board) });
+    if (opt.nights && opt.nights > 0) factItems.push({ label: 'Nights', value: esc(opt.nights) });
+    if (opt.flights) factItems.push({ label: 'Flights', value: esc(opt.flights) });
+
+    const factsHtml = factItems.length
+      ? `<div class="facts-grid">${factItems.map(f => `
+          <div class="fact-item">
+            <div class="fact-label">${f.label}</div>
+            <div class="fact-value">${f.value}</div>
+          </div>`).join('')}
+        </div>`
+      : '';
+
+    // Dates
+    const datesHtml = opt.dates
+      ? `<div class="dates-line">${calSvg()}<span>${esc(opt.dates)}</span></div>`
+      : '';
+
+    // Price block
+    let priceHtml = '';
+    if (opt.total) {
+      const saving   = opt.was && opt.was > opt.total ? opt.was - opt.total : 0;
+      const savingHtml = saving
+        ? `<div class="price-saving">
+             <div class="price-was">${fmtPrice(opt.was)}</div>
+             <div class="price-save-badge">Save ${fmtPrice(saving)}</div>
+           </div>`
+        : '';
+      const pppHtml = opt.ppp
+        ? `<div class="price-ppp">${fmtPrice(opt.ppp)} per person</div>`
+        : '';
+      priceHtml = `
+        <div class="price-block">
+          <div class="price-main">
+            <div class="price-total">${fmtPrice(opt.total)}</div>
+            ${pppHtml}
+          </div>
+          ${savingHtml}
+        </div>`;
+    }
+
+    // Inclusions
+    let inclusionsHtml = '';
+    if (opt.inclusions && opt.inclusions.length > 0) {
+      inclusionsHtml = `
+        <div class="inclusions">
+          <div class="inclusions-label">What's included</div>
+          <ul class="inclusions-list">
+            ${opt.inclusions.map(item => `<li><span class="check">✓</span><span>${esc(item)}</span></li>`).join('')}
+          </ul>
+        </div>`;
+    }
+
+    // Highlights
+    const highlightsHtml = opt.highlights
+      ? `<div class="highlights" style="border-left-color:${accentCol}20">${esc(opt.highlights)}</div>`
+      : '';
+
+    // CTA
+    const ctaHref = optionWaHref(opt.hotel, opt.destination);
+    const ctaHtml = `
+      <a href="${ctaHref}" class="opt-cta" style="background:${accentCol}" target="_blank" rel="noopener">
+        I'm interested in this option →
+      </a>`;
+
+    const safeImg = (opt.imageUrl || '').replace(/["'<>]/g, '');
+    const heroStyle = safeImg
+      ? `background:linear-gradient(to bottom,rgba(13,44,59,0.25) 0%,rgba(13,44,59,0.78) 100%),url("${safeImg}") center/cover no-repeat`
+      : `background:${gradient}`;
+
+    return `
+      <div class="opt-card">
+        <div class="opt-card-hero" style="${heroStyle}">
+          ${badgeHtml}
+          <div class="opt-destination">${esc(opt.destination)}</div>
+          <div class="opt-hotel">${esc(opt.hotel)}</div>
+          ${starsHtml}
+        </div>
+        <div class="opt-body">
+          ${factsHtml}
+          ${datesHtml}
+          ${priceHtml}
+          ${inclusionsHtml}
+          ${highlightsHtml}
+          ${ctaHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  // ── SVG icons ──
+  function peopleSvg() {
+    return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+  }
+  function calSvg() {
+    return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  }
+  function budgetSvg() {
+    return `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`;
+  }
+  function waSvg() {
+    return `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  }
+
+  // ── Boot ──
+  (function init() {
+    // Prefer sessionStorage (set by proposal-builder for local preview).
+    // Fall back to URL hash for any previously generated links.
+    let data = null;
+    try {
+      const stored = sessionStorage.getItem('ch_proposal');
+      if (stored) data = JSON.parse(stored);
+    } catch (_) {}
+    if (!data) {
+      const hash = window.location.hash.slice(1);
+      if (hash) data = decodeData(hash);
+    }
+    if (!data || !data.clientName || !data.options || data.options.length === 0) {
+      renderError();
+      return;
+    }
+    renderProposal(data);
+    if (new URLSearchParams(window.location.search).has('print')) {
+      setTimeout(() => window.print(), 800);
+    }
+  })();
+</script>
+</body>
+</html>
