@@ -968,6 +968,7 @@ JSON keys and rules:
     const encoded     = LZString.compressToEncodedURIComponent(JSON.stringify(shareableData));
     const proposalUrl = `https://crafted-horizons.com/proposal.html#${encoded}`;
     console.log('QR URL length:', proposalUrl.length);
+    sessionStorage.setItem('ch_proposal_url', proposalUrl);
 
     // Render QR code — use CorrectLevel.L (fewest modules) and large size for easy scanning
     const qrDiv = document.getElementById('proposal-qr');
