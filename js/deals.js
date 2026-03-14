@@ -200,7 +200,7 @@ const DEALS_CONFIG = {
     travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
     status:        "draft",         // ← change to "live" when ready to publish
 
-    badge:         "Live deal",
+    badge:         "Best Value",
     badgeStyle:    "blue",          // green | blue | terra | amber
     editorsPick:   false,
 
@@ -253,7 +253,7 @@ const DEALS_CONFIG = {
     travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
     status:        "draft",         // ← change to "live" when ready to publish
 
-    badge:         "Live deal",
+    badge:         "Premium",
     badgeStyle:    "blue",          // green | blue | terra | amber
     editorsPick:   false,
 
@@ -267,7 +267,7 @@ const DEALS_CONFIG = {
     nights:        4,
     travelDate:    "3rd Apr 2026",
     returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
-    flightSummary: "Out: London Gatwick LGW to Crete (Heraklion) HER | dep Fri 3rd Apr 2026 08:20 | arr 14:50 | Back: Crete HER to London LGW | dep Tue 7th Apr 2026 14:05 | arr 16:25",
+    flightSummary: "Out: London Gatwick LGW to Crete (Heraklion) HER | dep Fri 3rd Apr 2026 08:20 | arr Fri 3rd Apr 2026 14:50 | Back: Crete HER to London LGW | dep Tue 7th Apr 2026 14:05 | arr Tue 7th Apr 2026 16:25",
 
     totalPrice:    2151,
     pricePerPerson: 705,
@@ -301,59 +301,115 @@ const DEALS_CONFIG = {
     ctaLabel: "Ask about this deal",
   },
 
-    /* ── Deal 1: Crete — Maria Lambis Apartments ─────────────────────────── */
-    {
-      id:            "crete-maria-lambis",
-      campaign:      "easter-2026",
-      travelDateRaw: "2026-04-03",            // YYYY-MM-DD — used for auto-expiry
+  // ── Fuengirola, Costa Del Sol · Ramada Hotel Suites Costa Del Sol ──────────────────────────────
+  {
+    id:            "ramada-hotel-suites-costa-del-sol-fuengirola-costa",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
+    status:        "draft",         // ← change to "live" when ready to publish
 
-      status:        "live",                  // "live" | "draft"
+    badge:         "Our Pick",
+    badgeStyle:    "blue",          // green | blue | terra | amber
+    editorsPick:   false,
 
-      badge:         "Great value",
-      badgeStyle:    "green",                 // "green" | "blue" | "terra" | "amber"
-      editorsPick:   false,
+    destination:   "Fuengirola, Costa Del Sol",
+    region:        "",              // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Ramada Hotel Suites Costa Del Sol",
+    starRating:    3,
+    roomType:      "Superior Two Bedroom apartment",
+    boardBasis:    "Self Catering",
 
-      destination:   "Stalis, Crete",
-      region:        "Heraklion Area",
-      hotelName:     "Maria Lambis Apartments",
-      starRating:    3,
-      roomType:      "Apartment — sleeps up to 4",
-      boardBasis:    "Self Catering",
+    nights:        4,
+    travelDate:    "5th Apr 2026",
+    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    flightSummary: "Out: London Gatwick LGW to Malaga AGP | dep Sun 5th Apr 2026 at 08:05 | arr 12:10 | Back: Malaga AGP to London Gatwick LGW | dep Thu 9th Apr 2026 at 13:00 | arr 14:50",
 
-      nights:        4,
-      travelDate:    "3 Apr 2026",
-      returnDate:    "7 Apr 2026",
-      flightSummary: "London Stansted (STN) → Heraklion (HER)",
+    totalPrice:    1341,
+    pricePerPerson: 447,
+    wasPrice:      null,
+    currency:      "GBP",
 
-      totalPrice:    1557,
-      pricePerPerson: 517,
-      wasPrice:      null,                    // null = no crossed-out price shown
-      currency:      "GBP",
+    includes: [
+      "1 x Free Child Place",
+      "Coach Transfers",
+      "4 x 10kg Hand Baggage",
+      "4 x 22kg Bag Allowance",
+    ],
 
-      includes: [
-        "1 × Free Child Place",
-        "Coach Transfers",
-        "4 × 10kg Hand Baggage",
-        "4 × 22kg Bag Allowance",
-      ],
+    highlights: [
+      "Great entertainment",
+      "Perfect for families",
+      "Close to the beach",
+      "On-site pizzeria and bakery",
+      "Well-equipped apartments",
+      "Free Wi-Fi",
+    ],
 
-      highlights: [
-        "Traditional charm & pretty gardens",
-        "Quiet, relaxing location in Stalis",
-        "Walking distance to local tavernas",
-        "Free Wi-Fi throughout",
-      ],
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
 
-      whyIPicked: "A genuinely good-value short break for families who want simplicity and warmth. Stalis is one of the more relaxed resorts on Crete — great if you want to explore local tavernas rather than a big resort complex.",
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "",  // ← e.g. "London Gatwick"
 
-      familyFriendly:   true,
-      flightsIncluded:  true,
-      departureAirport: "London Stansted",
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
 
-      category: ["family", "beach", "self-catering"],
+    ctaLabel: "Ask about this deal",
+  },
 
-      ctaLabel: "Ask about this deal",
-    },
+  // ── Fuengirola, Costa Del Sol · Wyndham Grand Costa Del Sol ──────────────────────────────
+  {
+    id:            "wyndham-grand-costa-del-sol-fuengirola-costa-del-s",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
+    status:        "draft",         // ← change to "live" when ready to publish
+
+    badge:         "Our Pick",
+    badgeStyle:    "blue",          // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Fuengirola, Costa Del Sol",
+    region:        "",              // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Wyndham Grand Costa Del Sol",
+    starRating:    3,
+    roomType:      "Deluxe One Bedroom suite",
+    boardBasis:    "",
+
+    nights:        4,
+    travelDate:    "5th Apr 2026",
+    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    flightSummary: "Out: London Gatwick LGW to Malaga AGP | dep Sun 5th Apr 2026 at 08:05 | arr 12:10 | Back: Malaga AGP to London Gatwick LGW | dep Thu 9th Apr 2026 at 13:00 | arr 14:50",
+
+    totalPrice:    1592,
+    pricePerPerson: 398,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "4 x 10kg Hand Baggage",
+      "4 x 22kg Bag Allowance",
+      "Coach Transfers",
+    ],
+
+    highlights: [
+      "Wide range of facilities available",
+      "Close to the beach",
+      "Great for self catering",
+      "Well-maintained gardens",
+      "Relaxed atmosphere",
+      "Free Wi-Fi",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "",  // ← e.g. "London Gatwick"
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+     
 
 
     /*
