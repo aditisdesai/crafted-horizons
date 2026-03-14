@@ -158,6 +158,13 @@
     .dh-btn-outline:hover { border-color: #fff; transform: translateY(-1px); }
 
     /* ─────────────────────────────────────────────────────────────────────────
+       DEALS AREA — contains tab bar + campaign content; scopes sticky
+    ───────────────────────────────────────────────────────────────────────── */
+    .dh-deals-area {
+      position: relative; /* sticky child is scoped to this container */
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
        TAB BAR
     ───────────────────────────────────────────────────────────────────────── */
     .dh-tab-bar-wrap {
@@ -638,61 +645,64 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
-       TAB BAR — rendered by renderTabs()
+       DEALS AREA — tab bar sticks only within this container
   ════════════════════════════════════════════════════════════════════════════ -->
-  <div class="dh-tab-bar-wrap" role="navigation" aria-label="Campaign tabs">
-    <div class="dh-wrap">
-      <div class="dh-tab-bar-inner" id="tab-bar" role="tablist"></div>
-    </div>
-  </div>
+  <div class="dh-deals-area">
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       CAMPAIGN CONTENT — story + filters + deals grid
-  ════════════════════════════════════════════════════════════════════════════ -->
-  <div class="dh-campaign">
-
-    <!-- Story block — populated by renderStory() -->
-    <div id="campaign-story" class="dh-story" hidden>
-      <div class="dh-wrap--text" style="position:relative;">
-        <div class="dh-story-quote" aria-hidden="true">&ldquo;</div>
-        <div class="dh-story-eyebrow"></div>
-        <h2 class="dh-story-title"></h2>
-        <div class="dh-story-body"></div>
-      </div>
-    </div>
-
-    <!-- Deals section -->
-    <section id="deals-section" aria-label="Current deals">
+    <!-- TAB BAR — rendered by renderTabs() -->
+    <div class="dh-tab-bar-wrap" role="navigation" aria-label="Campaign tabs">
       <div class="dh-wrap">
-
-        <!-- Filter bar + sort -->
-        <div class="dh-deals-toolbar">
-          <div class="dh-filters" role="group" aria-label="Filter deals">
-            <button class="dh-filter-chip active" data-filter="all">All</button>
-            <button class="dh-filter-chip" data-filter="beach">Beach</button>
-            <button class="dh-filter-chip" data-filter="all-inclusive">All Inclusive</button>
-            <button class="dh-filter-chip" data-filter="self-catering">Self Catering</button>
-            <button class="dh-filter-chip" data-filter="half-board">Half Board</button>
-          </div>
-          <div class="dh-sort-wrap">
-            <label for="deal-sort" class="visually-hidden">Sort deals</label>
-            <select id="deal-sort" aria-label="Sort deals">
-              <option value="recommended">Recommended</option>
-              <option value="price-low">Lowest price</option>
-              <option value="nights">Most nights</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Deal count -->
-        <p class="dh-deals-count" id="deals-count" aria-live="polite"></p>
-
-        <!-- Deals grid — populated by renderDeals() -->
-        <div class="dh-grid" id="deals-grid" aria-label="Deal cards"></div>
-
+        <div class="dh-tab-bar-inner" id="tab-bar" role="tablist"></div>
       </div>
-    </section>
-  </div>
+    </div>
+
+    <!-- CAMPAIGN CONTENT — story + filters + deals grid -->
+    <div class="dh-campaign">
+
+      <!-- Story block — populated by renderStory() -->
+      <div id="campaign-story" class="dh-story" hidden>
+        <div class="dh-wrap--text" style="position:relative;">
+          <div class="dh-story-quote" aria-hidden="true">&ldquo;</div>
+          <div class="dh-story-eyebrow"></div>
+          <h2 class="dh-story-title"></h2>
+          <div class="dh-story-body"></div>
+        </div>
+      </div>
+
+      <!-- Deals section -->
+      <section id="deals-section" aria-label="Current deals">
+        <div class="dh-wrap">
+
+          <!-- Filter bar + sort -->
+          <div class="dh-deals-toolbar">
+            <div class="dh-filters" role="group" aria-label="Filter deals">
+              <button class="dh-filter-chip active" data-filter="all">All</button>
+              <button class="dh-filter-chip" data-filter="beach">Beach</button>
+              <button class="dh-filter-chip" data-filter="all-inclusive">All Inclusive</button>
+              <button class="dh-filter-chip" data-filter="self-catering">Self Catering</button>
+              <button class="dh-filter-chip" data-filter="half-board">Half Board</button>
+            </div>
+            <div class="dh-sort-wrap">
+              <label for="deal-sort" class="visually-hidden">Sort deals</label>
+              <select id="deal-sort" aria-label="Sort deals">
+                <option value="recommended">Recommended</option>
+                <option value="price-low">Lowest price</option>
+                <option value="nights">Most nights</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Deal count -->
+          <p class="dh-deals-count" id="deals-count" aria-live="polite"></p>
+
+          <!-- Deals grid — populated by renderDeals() -->
+          <div class="dh-grid" id="deals-grid" aria-label="Deal cards"></div>
+
+        </div>
+      </section>
+    </div>
+
+  </div><!-- /.dh-deals-area -->
 
   <!-- ═══════════════════════════════════════════════════════════════════════
        MID-PAGE CTA BANNER
