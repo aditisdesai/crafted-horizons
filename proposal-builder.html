@@ -7,6 +7,7 @@
   <title>Proposal Builder — Crafted Horizons Agent Tool</title>
   <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
     :root {
@@ -941,7 +942,7 @@ JSON keys and rules:
       imageUrl: (opt.imageUrl && !opt.imageUrl.startsWith('data:')) ? opt.imageUrl : '',
     }));
     const shareableData = { ...data, options: shareableOptions };
-    const encoded     = btoa(encodeURIComponent(JSON.stringify(shareableData)));
+    const encoded     = LZString.compressToEncodedURIComponent(JSON.stringify(shareableData));
     const proposalUrl = `https://crafted-horizons.com/proposal.html#${encoded}`;
 
     // Render QR code

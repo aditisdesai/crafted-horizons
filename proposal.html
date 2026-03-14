@@ -7,6 +7,7 @@
   <title>Your Holiday Proposal — Crafted Horizons</title>
   <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
   <style>
     :root {
       --bg:    #fbf7f2;
@@ -391,6 +392,11 @@
 
   function decodeData(str) {
     try {
+      // Try LZString (new compressed format) then fall back to legacy btoa format
+      const lz = typeof LZString !== 'undefined'
+        ? LZString.decompressFromEncodedURIComponent(str)
+        : null;
+      if (lz) return JSON.parse(lz);
       return JSON.parse(decodeURIComponent(atob(str)));
     } catch(e) { return null; }
   }
