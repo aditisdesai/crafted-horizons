@@ -349,9 +349,9 @@ const DEALS_CONFIG = {
 
     familyFriendly:   true,
     flightsIncluded:  true,
-    departureAirport: "",  // ← e.g. "London Gatwick"
+    departureAirport: "London Gatwick",
 
-    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+    category: ["family", "beach", "self-catering"],
 
     ctaLabel: "Ask about this deal",
   },
@@ -359,9 +359,9 @@ const DEALS_CONFIG = {
   // ── Fuengirola, Costa Del Sol · Wyndham Grand Costa Del Sol ──────────────────────────────
   {
     id:            "wyndham-grand-costa-del-sol-fuengirola-costa-del-s",
-    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
-    status:        "draft",         // ← change to "live" when ready to publish
+    campaign:      "easter-2026",
+    travelDateRaw: "2026-04-05",
+    status:        "live",
 
     badge:         "Our Pick",
     badgeStyle:    "blue",          // green | blue | terra | amber
@@ -372,11 +372,11 @@ const DEALS_CONFIG = {
     hotelName:     "Wyndham Grand Costa Del Sol",
     starRating:    3,
     roomType:      "Deluxe One Bedroom suite",
-    boardBasis:    "",
+    boardBasis:    "Self Catering",
 
     nights:        4,
-    travelDate:    "5th Apr 2026",
-    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    travelDate:    "5 Apr 2026",
+    returnDate:    "9 Apr 2026",
     flightSummary: "Out: London Gatwick LGW to Malaga AGP | dep Sun 5th Apr 2026 at 08:05 | arr 12:10 | Back: Malaga AGP to London Gatwick LGW | dep Thu 9th Apr 2026 at 13:00 | arr 14:50",
 
     totalPrice:    1592,
@@ -403,13 +403,12 @@ const DEALS_CONFIG = {
 
     familyFriendly:   true,
     flightsIncluded:  true,
-    departureAirport: "",  // ← e.g. "London Gatwick"
+    departureAirport: "London Gatwick",
 
-    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+    category: ["family", "beach", "self-catering"],
 
     ctaLabel: "Ask about this deal",
   },
-     
 
 
     /*
