@@ -607,7 +607,7 @@
     if (!key) return null;
 
     const systemPrompt = `You are a travel quote data extractor for a UK travel agent.
-Extract fields from the supplier holiday quote and return ONLY a valid JSON object with no other text.
+Extract fields from the supplier holiday quote or marketing copy and return ONLY a valid JSON object with no other text.
 Use null for any field not clearly stated in the quote.
 
 JSON keys and rules:
@@ -616,16 +616,32 @@ JSON keys and rules:
 - stars: integer 1–5 (prefer Jet2Holidays rating if present, else official/key rating)
 - board: EXACTLY one of "Room only" | "Bed & Breakfast" | "Half Board" | "Full Board" | "All Inclusive" | "Self Catering"
 - room: room type, strip leading quantity e.g. "Apartment - Sleeps up to 4"
-- dates: trip START date only e.g. "3rd Apr 2026"
 - nights: integer
-- flights: outbound and inbound routes with times, one per line e.g.
-    "Out: London Stansted STN to Crete (Heraklion) HER | dep Fri 3rd Apr 15:30 | arr 21:35\nBack: Crete HER to London STN | dep Tue 7th Apr 12:55 | arr 15:05"
-- ppp: price per person as number (prefer "price per person payable to travel agent")
-- total: total price as number (prefer "total holiday cost" incl. local taxes over "payable to agent")
-- was: original/was price as number, null unless explicitly a prior struck price
-- inclusions: array of package entitlement strings e.g. ["1 x Free Child Place","Coach Transfers"]
-- highlights: array of property selling points e.g. ["Traditional charm","Free Wi-Fi"]
-  (NEVER include hotel name, destination, airport codes, or flight routes here)`;
+- inclusions: array of package entitlement strings e.g. ["1 x Free Child Place","Coach Transfers","Baggage included"]
+- highlights: array of property selling points e.g. ["Traditional charm","Rooftop pool","Great nightlife access"]
+  (NEVER include hotel name, destination, airport codes, or flight routes here)
+
+MULTI-DEPARTURE DEALS: If the text lists multiple departure airports or departure dates with different prices, set the "departures" key to an array. Each item contains the fields specific to that departure option. Put shared fields (hotel, destination, stars, board, room, nights, inclusions, highlights) at the top level.
+Each departure object:
+  - departureAirport: departure city/airport name e.g. "Manchester" or "London Gatwick"
+  - travelDateRaw: ISO date "YYYY-MM-DD" of outbound flight
+  - returnDate: human-readable return date e.g. "25 Apr 2026" (infer from nights + departure date)
+  - dates: human-readable start date e.g. "18 Apr 2026"
+  - total: total price as a number (include locally payable amounts in the total)
+  - ppp: price per person as number (total ÷ 2 for couples if not stated)
+  - was: original/was price as number, null if not stated
+  - flights: brief flight summary e.g. "Out: Manchester MAN to Mykonos JMK | dep 18 Apr"
+
+SINGLE-DEPARTURE DEALS: If only one departure, omit "departures" and put all fields at top level including:
+  - departureAirport: departure city/airport name
+  - travelDateRaw: ISO date "YYYY-MM-DD"
+  - returnDate: human-readable return date
+  - dates: human-readable start date e.g. "3rd Apr 2026"
+  - flights: outbound and inbound routes with times e.g.
+      "Out: London Stansted STN to Crete HER | dep Fri 3rd Apr 15:30\\nBack: Crete HER to STN | dep Tue 7th Apr 12:55"
+  - ppp: price per person as number
+  - total: total price as number
+  - was: original/was price as number, null if not stated`;
 
     const userContent = `Quote text:\n${text.substring(0, 9000)}`;
 
@@ -776,16 +792,34 @@ JSON keys and rules:
 
         <div class="field-row cols-3">
           <div>
-            <label>Dates</label>
-            <input type="text" id="dates-${id}" placeholder="e.g. 14–21 Jun 2026" />
+            <label>Departure date</label>
+            <input type="text" id="dates-${id}" placeholder="e.g. 18 Apr 2026" />
           </div>
           <div>
             <label>Nights</label>
             <input type="number" id="nights-${id}" placeholder="7" min="1" max="365" />
           </div>
           <div>
+            <label>Return date</label>
+            <input type="text" id="returnDate-${id}" placeholder="e.g. 25 Apr 2026" />
+          </div>
+        </div>
+
+        <div class="field-row cols-2">
+          <div>
+            <label>Departure airport</label>
+            <input type="text" id="departureAirport-${id}" placeholder="e.g. Manchester or London Gatwick" />
+          </div>
+          <div>
+            <label>Outbound date <span style="color:var(--muted);font-weight:400;font-size:11px">YYYY-MM-DD · used for auto-expiry on deals page</span></label>
+            <input type="date" id="travelDateRaw-${id}" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
             <label>Flights</label>
-            <textarea id="flights-${id}" rows="2" placeholder="e.g. Out: London STN to Crete HER, dep 15:30&#10;Back: Crete HER to London STN, dep 12:55"></textarea>
+            <textarea id="flights-${id}" rows="2" placeholder="e.g. Out: Manchester MAN to Mykonos JMK | dep 18 Apr&#10;Back: Mykonos JMK to Manchester MAN | dep 25 Apr"></textarea>
           </div>
         </div>
 
@@ -1078,38 +1112,54 @@ JSON keys and rules:
       const highlightsRaw = (document.getElementById(`highlights-${id}`)?.value || '');
       const highlights = highlightsRaw.split('\n').map(s => s.trim()).filter(Boolean);
 
-      const nights  = parseInt(document.getElementById(`nights-${id}`)?.value  || '0') || 0;
-      const stars   = parseInt(document.getElementById(`star-val-${id}`)?.value || '0') || 0;
-      const total   = parseFloat(document.getElementById(`total-${id}`)?.value  || '0') || 0;
-      const ppp     = parseFloat(document.getElementById(`ppp-${id}`)?.value    || '0') || 0;
-      const was     = parseFloat(document.getElementById(`was-${id}`)?.value    || '0') || 0;
-      const board   = document.getElementById(`board-${id}`)?.value  || '';
-      const room    = (document.getElementById(`room-${id}`)?.value    || '').trim();
-      const dates   = (document.getElementById(`dates-${id}`)?.value   || '').trim();
-      const flights = (document.getElementById(`flights-${id}`)?.value || '').trim();
-      const badgeVal = document.getElementById(`badge-${id}`)?.value || '';
-      const badge   = (badgeVal && badgeVal !== '— None —') ? badgeVal : 'Live deal';
+      const nights          = parseInt(document.getElementById(`nights-${id}`)?.value          || '0') || 0;
+      const stars           = parseInt(document.getElementById(`star-val-${id}`)?.value        || '0') || 0;
+      const total           = parseFloat(document.getElementById(`total-${id}`)?.value         || '0') || 0;
+      const ppp             = parseFloat(document.getElementById(`ppp-${id}`)?.value           || '0') || 0;
+      const was             = parseFloat(document.getElementById(`was-${id}`)?.value           || '0') || 0;
+      const board           = document.getElementById(`board-${id}`)?.value                    || '';
+      const room            = (document.getElementById(`room-${id}`)?.value                    || '').trim();
+      const dates           = (document.getElementById(`dates-${id}`)?.value                   || '').trim();
+      const returnDate      = (document.getElementById(`returnDate-${id}`)?.value              || '').trim();
+      const flights         = (document.getElementById(`flights-${id}`)?.value                 || '').trim();
+      const departureAirport = (document.getElementById(`departureAirport-${id}`)?.value       || '').trim();
+      const travelDateRaw   = (document.getElementById(`travelDateRaw-${id}`)?.value           || '').trim();
+      const badgeVal        = document.getElementById(`badge-${id}`)?.value || '';
+      const badge           = (badgeVal && badgeVal !== '— None —') ? badgeVal : 'Live deal';
 
-      // Generate a URL-safe id slug from hotel + destination
-      const slug = (hotel + '-' + dest)
-        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
+      // Generate a URL-safe id slug from hotel + destination + departure airport (for uniqueness)
+      const slugBase = [hotel, dest, departureAirport].filter(Boolean).join('-');
+      const slug = slugBase.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').substring(0, 50);
 
-      const esc = s => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      const esc = s => String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
+      // travelDateRaw: use extracted value or leave with a prompt comment
+      const travelDateLine = travelDateRaw
+        ? `    travelDateRaw: "${travelDateRaw}",`
+        : `    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD"`;
+
+      const returnDateLine = returnDate
+        ? `    returnDate:    "${esc(returnDate)}",`
+        : `    returnDate:    "",              // ← fill in e.g. "25 Apr 2026"`;
+
+      const airportLine = departureAirport
+        ? `    departureAirport: "${esc(departureAirport)}",`
+        : `    departureAirport: "",  // ← e.g. "London Gatwick"`;
 
       lines.push(
-`  // ── ${dest} · ${hotel} ──────────────────────────────
+`  // ── ${dest} · ${hotel}${departureAirport ? ' · ' + departureAirport : ''} ──────────────────────────────
   {
     id:            "${slug}",
     campaign:      "easter-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
-    status:        "draft",         // ← change to "live" when ready to publish
+${travelDateLine}
+    status:        "draft",          // ← change to "live" when ready to publish
 
     badge:         "${esc(badge)}",
-    badgeStyle:    "blue",          // green | blue | terra | amber
+    badgeStyle:    "blue",           // green | blue | terra | amber
     editorsPick:   false,
 
     destination:   "${esc(dest)}",
-    region:        "",              // ← optional: area name e.g. "Heraklion Area"
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
     hotelName:     "${esc(hotel)}",
     starRating:    ${stars},
     roomType:      "${esc(room)}",
@@ -1117,7 +1167,7 @@ JSON keys and rules:
 
     nights:        ${nights},
     travelDate:    "${esc(dates)}",
-    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+${returnDateLine}
     flightSummary: "${esc(flights.replace(/\n/g, ' | '))}",
 
     totalPrice:    ${total},
@@ -1137,7 +1187,7 @@ ${highlights.map(h => `      "${esc(h)}",`).join('\n')}
 
     familyFriendly:   true,
     flightsIncluded:  ${flights.length > 0},
-    departureAirport: "",  // ← e.g. "London Gatwick"
+${airportLine}
 
     category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
 
@@ -1300,7 +1350,36 @@ ${highlights.map(h => `      "${esc(h)}",`).join('\n')}
     } else {
       parsed = parseQuoteText(text);
     }
-    if (parsed) populateFromParsed(id, parsed);
+    if (parsed) {
+      const deps = Array.isArray(parsed.departures) ? parsed.departures : [];
+
+      if (deps.length > 1) {
+        // Multi-departure: create one option card per departure
+        const shared = { ...parsed };
+        delete shared.departures;
+
+        // Populate the current (first) card
+        populateFromParsed(id, { ...shared, ...deps[0] });
+
+        // Create and populate an extra card for each additional departure
+        for (let i = 1; i < deps.length; i++) {
+          addOption();
+          const newId = optionIds[optionIds.length - 1];
+          populateFromParsed(newId, { ...shared, ...deps[i] });
+        }
+
+        showBanner(id, 'success',
+          `${deps.length} departure options found — ${deps.length} cards created (one per departure airport)`,
+          deps.map(d => d.departureAirport || 'Departure')
+        );
+      } else if (deps.length === 1) {
+        // Single departure returned as array — merge and populate
+        const { departures: _, ...shared } = parsed;
+        populateFromParsed(id, { ...shared, ...deps[0] });
+      } else {
+        populateFromParsed(id, parsed);
+      }
+    }
     showProcessing(id, false);
   }
 
@@ -1768,16 +1847,24 @@ ${highlights.map(h => `      "${esc(h)}",`).join('\n')}
       }
     }
 
-    setField(`dest-${id}`,    parsed.destination, 'Destination');
-    setField(`hotel-${id}`,   parsed.hotel,        'Hotel');
-    setField(`board-${id}`,   parsed.board,        'Board basis');
-    setField(`room-${id}`,    parsed.room,         'Room type');
-    setField(`dates-${id}`,   parsed.dates,        'Dates');
-    setField(`nights-${id}`,  parsed.nights,       'Nights');
-    setField(`flights-${id}`, parsed.flights,      'Flights');
-    setField(`ppp-${id}`,     parsed.ppp,          'Price per person');
-    setField(`total-${id}`,   parsed.total,        'Total price');
-    setField(`was-${id}`,     parsed.was,          'Was price');
+    setField(`dest-${id}`,             parsed.destination,      'Destination');
+    setField(`hotel-${id}`,            parsed.hotel,            'Hotel');
+    setField(`board-${id}`,            parsed.board,            'Board basis');
+    setField(`room-${id}`,             parsed.room,             'Room type');
+    setField(`dates-${id}`,            parsed.dates,            'Departure date');
+    setField(`nights-${id}`,           parsed.nights,           'Nights');
+    setField(`returnDate-${id}`,       parsed.returnDate,       'Return date');
+    setField(`departureAirport-${id}`, parsed.departureAirport, 'Departure airport');
+    setField(`flights-${id}`,          parsed.flights,          'Flights');
+    setField(`ppp-${id}`,              parsed.ppp,              'Price per person');
+    setField(`total-${id}`,            parsed.total,            'Total price');
+    setField(`was-${id}`,              parsed.was,              'Was price');
+
+    // travelDateRaw: date input expects "YYYY-MM-DD"
+    if (parsed.travelDateRaw) {
+      const el = document.getElementById(`travelDateRaw-${id}`);
+      if (el) { el.value = parsed.travelDateRaw; filled.push('Outbound date (ISO)'); flashField(el); }
+    }
 
     if (parsed.stars && parsed.stars >= 1 && parsed.stars <= 5) {
       setStar(id, parsed.stars);

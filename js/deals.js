@@ -181,6 +181,26 @@ const DEALS_CONFIG = {
       enquiryDefaultMessage: "Hi Aditi, I'm interested in May Half Term 2026 options for my family. Can you help?",
     },
 
+     {
+    id:          "Spring-2026",               // unique id — match this in deal.campaign fields
+    label:       "Spring 2026",               // full tab label
+    shortLabel:  "Spring'26",               // shorter label (future mobile use)
+    active:      true,                       // true = tab visible | false = tab hidden
+
+    accentColor: "#c26d3b",                   // active tab colour: "#c26d3b" terra | "#1f6f8b" teal
+
+    heroHeadline: "Spring 2026 deals — coming soon",
+    heroSub:      "I'm putting options together now. Get in touch if you'd like me to start searching for your dates.",
+
+    storyEyebrow: "From Aditi's desk",
+    storyTitle:   "Spring 2026",
+    storyParas: [
+      "I'm working on Spring 2026 deals now. Watch this space — or get in touch and I'll start searching for your family's specific dates and airport.",
+    ],
+
+    enquiryDefaultMessage: "Hi Aditi, I'm interested in Spring 2026 holiday options for my family. Can you help?",
+  },
+
   ],
 
 
@@ -406,6 +426,260 @@ const DEALS_CONFIG = {
     departureAirport: "London Gatwick",
 
     category: ["family", "beach", "self-catering"],
+
+    ctaLabel: "Ask about this deal",
+  },
+  // ── Mykonos Town, Mykonos · Tagoo Hotel · Manchester ──────────────────────────────
+  {
+    id:            "tagoo-hotel-mykonos-town-mykonos-manchester",
+    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-04-18",
+    status:        "live",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Mykonos Town, Mykonos",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Tagoo Hotel",
+    starRating:    4,
+    roomType:      "Double",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        7,
+    travelDate:    "18 Apr 2026",
+    returnDate:    "25 Apr 2026",
+    flightSummary: "Out: Manchester to Mykonos | dep 18 Apr",
+
+    totalPrice:    1492,
+    pricePerPerson: 746,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "Flights from the UK",
+      "Baggage included",
+      "Transfers included",
+    ],
+
+    highlights: [
+      "Relax by the pool",
+      "Explore the charming streets of Mykonos Town",
+      "Soak up the Greek sunshine",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Manchester",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Mykonos Town, Mykonos · Tagoo Hotel · Gatwick ──────────────────────────────
+  {
+    id:            "tagoo-hotel-mykonos-town-mykonos-gatwick",
+    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-04-22",
+    status:        "live",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Mykonos Town, Mykonos",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Tagoo Hotel",
+    starRating:    4,
+    roomType:      "Double",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        7,
+    travelDate:    "22 Apr 2026",
+    returnDate:    "29 Apr 2026",
+    flightSummary: "Out: Gatwick to Mykonos | dep 22 Apr",
+
+    totalPrice:    1455,
+    pricePerPerson: 727.5,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "Flights from the UK",
+      "Baggage included",
+      "Transfers included",
+    ],
+
+    highlights: [
+      "Relax by the pool",
+      "Explore the charming streets of Mykonos Town",
+      "Soak up the Greek sunshine",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Gatwick",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+    // ── Santorini · Grand Ambassador Santorini · London Gatwick ──────────────────────────────
+  {
+    id:            "grand-ambassador-santorini-santorini-london-gatwic",
+    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2024-05-02",
+    status:        "live",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Santorini",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Grand Ambassador Santorini",
+    starRating:    0,
+    roomType:      "Petite Suite with Private Pool & Jacuzzi",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        7,
+    travelDate:    "2nd May",
+    returnDate:    "9th May 2024",
+    flightSummary: "Out: London Gatwick to Santorini | Back: Santorini to London Gatwick",
+
+    totalPrice:    2823,
+    pricePerPerson: 1411.5,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "Bags",
+      "transfers included",
+    ],
+
+    highlights: [
+      "Panoramic views across Santorini",
+      "Infinity swimming pool with sunbeds & umbrellas",
+      "Luxury Cave Spa",
+      "Fully equipped gym",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "London Gatwick",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Santorini · Grand Ambassador Santorini · London Heathrow ──────────────────────────────
+  {
+    id:            "grand-ambassador-santorini-santorini-london-heathr",
+    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2024-05-02",
+    status:        "live",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Santorini",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Grand Ambassador Santorini",
+    starRating:    0,
+    roomType:      "Petite Suite with Private Pool & Jacuzzi",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        7,
+    travelDate:    "2nd May",
+    returnDate:    "9th May 2024",
+    flightSummary: "Out: London Heathrow to Santorini | Back: Santorini to London Heathrow",
+
+    totalPrice:    3038,
+    pricePerPerson: 1519,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "Bags",
+      "transfers included",
+    ],
+
+    highlights: [
+      "Panoramic views across Santorini",
+      "Infinity swimming pool with sunbeds & umbrellas",
+      "Luxury Cave Spa",
+      "Fully equipped gym",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "London Heathrow",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Santorini · Grand Ambassador Santorini · Manchester ──────────────────────────────
+  {
+    id:            "grand-ambassador-santorini-santorini-manchester",
+    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2024-05-02",
+    status:        "live",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Santorini",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "Grand Ambassador Santorini",
+    starRating:    0,
+    roomType:      "Petite Suite with Private Pool & Jacuzzi",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        7,
+    travelDate:    "2nd May",
+    returnDate:    "9th May 2024",
+    flightSummary: "Out: Manchester to Santorini | Back: Santorini to Manchester",
+
+    totalPrice:    3175,
+    pricePerPerson: 1587.5,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "Bags",
+      "transfers included",
+    ],
+
+    highlights: [
+      "Panoramic views across Santorini",
+      "Infinity swimming pool with sunbeds & umbrellas",
+      "Luxury Cave Spa",
+      "Fully equipped gym",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Manchester",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
 
     ctaLabel: "Ask about this deal",
   },

@@ -161,15 +161,14 @@
        DEALS AREA — contains tab bar + campaign content; scopes sticky
     ───────────────────────────────────────────────────────────────────────── */
     .dh-deals-area {
-      position: relative; /* sticky child is scoped to this container */
+      position: relative;
     }
 
     /* ─────────────────────────────────────────────────────────────────────────
-       TAB BAR
+       TAB BAR — static, scrolls with the page
     ───────────────────────────────────────────────────────────────────────── */
     .dh-tab-bar-wrap {
-      position: sticky;
-      top: 65px; /* sits just below the site nav (~65px tall); adjusted via JS after nav renders */
+      position: relative;
       z-index: 50;
       background: #fff;
       border-bottom: 1px solid rgba(27,31,36,0.10);
@@ -1262,12 +1261,6 @@
       // Init sticky WA bar
       initStickyWa();
 
-      // Adjust tab bar top to sit precisely below the site nav (measured after render)
-      requestAnimationFrame(function() {
-        var nav    = document.querySelector('.nav');
-        var tabBar = document.querySelector('.dh-tab-bar-wrap');
-        if (nav && tabBar) tabBar.style.top = nav.offsetHeight + 'px';
-      });
     });
   </script>
 
