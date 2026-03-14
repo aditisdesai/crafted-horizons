@@ -182,7 +182,7 @@ const DEALS_CONFIG = {
     },
 
      {
-    id:          "Spring-2026",               // unique id — match this in deal.campaign fields
+    id:          "spring-2026",               // unique id — match this in deal.campaign fields
     label:       "Spring 2026",               // full tab label
     shortLabel:  "Spring'26",               // shorter label (future mobile use)
     active:      true,                       // true = tab visible | false = tab hidden
@@ -432,7 +432,7 @@ const DEALS_CONFIG = {
   // ── Mykonos Town, Mykonos · Tagoo Hotel · Manchester ──────────────────────────────
   {
     id:            "tagoo-hotel-mykonos-town-mykonos-manchester",
-    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    campaign:      "spring-2026",
     travelDateRaw: "2026-04-18",
     status:        "live",          // ← change to "live" when ready to publish
 
@@ -483,7 +483,7 @@ const DEALS_CONFIG = {
   // ── Mykonos Town, Mykonos · Tagoo Hotel · Gatwick ──────────────────────────────
   {
     id:            "tagoo-hotel-mykonos-town-mykonos-gatwick",
-    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
+    campaign:      "spring-2026",
     travelDateRaw: "2026-04-22",
     status:        "live",          // ← change to "live" when ready to publish
 
@@ -534,8 +534,8 @@ const DEALS_CONFIG = {
     // ── Santorini · Grand Ambassador Santorini · London Gatwick ──────────────────────────────
   {
     id:            "grand-ambassador-santorini-santorini-london-gatwic",
-    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "2024-05-02",
+    campaign:      "spring-2026",
+    travelDateRaw: "2026-05-02",
     status:        "live",          // ← change to "live" when ready to publish
 
     badge:         "Live deal",
@@ -550,8 +550,8 @@ const DEALS_CONFIG = {
     boardBasis:    "Bed & Breakfast",
 
     nights:        7,
-    travelDate:    "2nd May",
-    returnDate:    "9th May 2024",
+    travelDate:    "2nd May 2026",
+    returnDate:    "9th May 2026",
     flightSummary: "Out: London Gatwick to Santorini | Back: Santorini to London Gatwick",
 
     totalPrice:    2823,
@@ -585,8 +585,8 @@ const DEALS_CONFIG = {
   // ── Santorini · Grand Ambassador Santorini · London Heathrow ──────────────────────────────
   {
     id:            "grand-ambassador-santorini-santorini-london-heathr",
-    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "2024-05-02",
+    campaign:      "spring-2026",
+    travelDateRaw: "2026-05-02",
     status:        "live",          // ← change to "live" when ready to publish
 
     badge:         "Live deal",
@@ -601,8 +601,8 @@ const DEALS_CONFIG = {
     boardBasis:    "Bed & Breakfast",
 
     nights:        7,
-    travelDate:    "2nd May",
-    returnDate:    "9th May 2024",
+    travelDate:    "2nd May 2026",
+    returnDate:    "9th May 2026",
     flightSummary: "Out: London Heathrow to Santorini | Back: Santorini to London Heathrow",
 
     totalPrice:    3038,
@@ -636,8 +636,8 @@ const DEALS_CONFIG = {
   // ── Santorini · Grand Ambassador Santorini · Manchester ──────────────────────────────
   {
     id:            "grand-ambassador-santorini-santorini-manchester",
-    campaign:      "Spring-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "2024-05-02",
+    campaign:      "spring-2026",
+    travelDateRaw: "2026-05-02",
     status:        "live",          // ← change to "live" when ready to publish
 
     badge:         "Live deal",
@@ -652,8 +652,8 @@ const DEALS_CONFIG = {
     boardBasis:    "Bed & Breakfast",
 
     nights:        7,
-    travelDate:    "2nd May",
-    returnDate:    "9th May 2024",
+    travelDate:    "2nd May 2026",
+    returnDate:    "9th May 2026",
     flightSummary: "Out: Manchester to Santorini | Back: Santorini to Manchester",
 
     totalPrice:    3175,
