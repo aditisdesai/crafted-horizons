@@ -23,6 +23,8 @@
   <meta name="twitter:card"       content="summary_large_image" />
 
   <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png" />
+  <!-- Site-wide styles — provides nav, footer, .wrap, and design tokens -->
+  <link rel="stylesheet" href="css/styles.css" />
 
   <style>
     /* ─────────────────────────────────────────────────────────────────────────
@@ -42,6 +44,7 @@
        RESET & BASE
     ───────────────────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     html, body {
       min-height: 100%;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -159,7 +162,7 @@
     ───────────────────────────────────────────────────────────────────────── */
     .dh-tab-bar-wrap {
       position: sticky;
-      top: 0;
+      top: 65px; /* sits just below the site nav (~65px tall); adjusted via JS after nav renders */
       z-index: 50;
       background: #fff;
       border-bottom: 1px solid rgba(27,31,36,0.10);
@@ -253,7 +256,8 @@
     /* ─────────────────────────────────────────────────────────────────────────
        DEALS SECTION
     ───────────────────────────────────────────────────────────────────────── */
-    #deals-section { padding: 8px 0 64px; background: #fbf7f2; }
+    #deals-section { padding: 24px 0 64px; background: #fbf7f2; scroll-margin-top: 115px; }
+    #enquire { scroll-margin-top: 80px; }
 
     .dh-deals-toolbar {
       display: flex;
@@ -651,7 +655,7 @@
     <div id="campaign-story" class="dh-story" hidden>
       <div class="dh-wrap--text" style="position:relative;">
         <div class="dh-story-quote" aria-hidden="true">&ldquo;</div>
-        <div class="dh-story-eyebrow dh-story-eyebrow"></div>
+        <div class="dh-story-eyebrow"></div>
         <h2 class="dh-story-title"></h2>
         <div class="dh-story-body"></div>
       </div>
@@ -1247,6 +1251,13 @@
 
       // Init sticky WA bar
       initStickyWa();
+
+      // Adjust tab bar top to sit precisely below the site nav (measured after render)
+      requestAnimationFrame(function() {
+        var nav    = document.querySelector('.nav');
+        var tabBar = document.querySelector('.dh-tab-bar-wrap');
+        if (nav && tabBar) tabBar.style.top = nav.offsetHeight + 'px';
+      });
     });
   </script>
 
