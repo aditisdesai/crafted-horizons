@@ -7,6 +7,7 @@
   <title>Proposal Builder — Crafted Horizons Agent Tool</title>
   <link rel="icon" href="assets/brand/favicon-32x32.png" type="image/png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --bg:    #fbf7f2;
@@ -233,6 +234,24 @@
       margin-top: 8px;
     }
 
+    /* ── QR panel ── */
+    .qr-panel {
+      display: none;
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(27,31,36,0.07);
+      padding: 28px;
+      margin-top: 20px;
+      border: 2px solid rgba(31,111,139,0.18);
+    }
+    .qr-panel.visible { display: flex; align-items: flex-start; gap: 28px; flex-wrap: wrap; }
+    .qr-panel-qr canvas,
+    .qr-panel-qr img { border-radius: 10px; display: block; }
+    .qr-panel-text { flex: 1; min-width: 200px; }
+    .qr-panel-title { font-size: 18px; font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+    .qr-panel-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+    .qr-panel-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
     /* ── Validation errors ── */
     .field-error {
       font-size: 12px; color: #c0392b; margin-top: 4px; display: none;
@@ -450,7 +469,20 @@
   <!-- Actions -->
   <div class="actions-bar" style="margin-top: 24px;">
     <button class="btn btn-secondary" onclick="clearAll()">Clear all</button>
-    <button class="btn btn-primary" onclick="generateProposal()">Preview proposal →</button>
+    <button class="btn btn-primary" onclick="generateProposal()">Generate proposal →</button>
+  </div>
+
+  <!-- QR panel -->
+  <div class="qr-panel" id="qr-panel">
+    <div class="qr-panel-qr" id="proposal-qr"></div>
+    <div class="qr-panel-text">
+      <div class="qr-panel-title">Proposal ready ✓</div>
+      <p class="qr-panel-sub">Download the QR code and send it to your client on WhatsApp. They scan it to open their proposal on crafted-horizons.com — no link needed.</p>
+      <div class="qr-panel-actions">
+        <button class="btn btn-primary" onclick="downloadQrCode()">Download QR code</button>
+        <button class="btn btn-secondary" onclick="previewProposal()">Preview proposal ↗</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -900,8 +932,54 @@ JSON keys and rules:
       options:      validOptions,
     };
 
+    // Store full data (incl. data-URL images) for local preview
     sessionStorage.setItem('ch_proposal', JSON.stringify(data));
+
+    // Build shareable URL — exclude data-URL images (too large for QR)
+    const shareableOptions = validOptions.map(opt => ({
+      ...opt,
+      imageUrl: (opt.imageUrl && !opt.imageUrl.startsWith('data:')) ? opt.imageUrl : '',
+    }));
+    const shareableData = { ...data, options: shareableOptions };
+    const encoded     = btoa(encodeURIComponent(JSON.stringify(shareableData)));
+    const proposalUrl = `https://crafted-horizons.com/proposal.html#${encoded}`;
+
+    // Render QR code
+    const qrDiv = document.getElementById('proposal-qr');
+    qrDiv.innerHTML = '';
+    try {
+      new QRCode(qrDiv, {
+        text:         proposalUrl,
+        width:        180,
+        height:       180,
+        colorDark:    '#1b1f24',
+        colorLight:   '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    } catch (e) {
+      console.warn('QR code unavailable:', e.message);
+    }
+
+    const panel = document.getElementById('qr-panel');
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function previewProposal() {
     window.open('proposal.html', '_blank');
+  }
+
+  function downloadQrCode() {
+    const canvas = document.querySelector('#proposal-qr canvas');
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = 'proposal-qr.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function encodeData(data) {
+    return btoa(encodeURIComponent(JSON.stringify(data)));
   }
   function clearAll() {
     if (!confirm('Clear all data and start over?')) return;
@@ -913,6 +991,7 @@ JSON keys and rules:
     document.getElementById('options-container').innerHTML = '';
     optionIds = [];
     optionCount = 0;
+    document.getElementById('qr-panel').classList.remove('visible');
     clearErrors();
     addOption();
   }
