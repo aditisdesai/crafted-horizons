@@ -196,9 +196,9 @@ const DEALS_CONFIG = {
       // ── Stalis, Crete Heraklion Area · Maria Lambis Apartments ──────────────────────────────
   {
     id:            "maria-lambis-apartments-stalis-crete-heraklion-are",
-    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
-    status:        "draft",         // ← change to "live" when ready to publish
+    campaign:      "easter-2026",
+    travelDateRaw: "2026-04-03",
+    status:        "live",
 
     badge:         "Best Value",
     badgeStyle:    "blue",          // green | blue | terra | amber
@@ -213,7 +213,7 @@ const DEALS_CONFIG = {
 
     nights:        4,
     travelDate:    "3rd Apr 2026",
-    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    returnDate:    "7 Apr 2026",
     flightSummary: "Out: London Stansted STN to Crete (Heraklion) HER | dep Fri 3rd Apr 15:30 | arr 21:35 | Back: Crete HER to London STN | dep Tue 7th Apr 12:55 | arr 15:05",
 
     totalPrice:    1557,
@@ -239,9 +239,9 @@ const DEALS_CONFIG = {
 
     familyFriendly:   true,
     flightsIncluded:  true,
-    departureAirport: "",  // ← e.g. "London Gatwick"
+    departureAirport: "London Stansted",
 
-    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+    category: ["family", "beach", "self-catering"],
 
     ctaLabel: "Ask about this deal",
   },
@@ -249,9 +249,9 @@ const DEALS_CONFIG = {
   // ── Analipsis, Crete Heraklion Area · Stella Village Seaside Hotel ──────────────────────────────
   {
     id:            "stella-village-seaside-hotel-analipsis-crete-herak",
-    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
-    status:        "draft",         // ← change to "live" when ready to publish
+    campaign:      "easter-2026",
+    travelDateRaw: "2026-04-03",
+    status:        "live",
 
     badge:         "Premium",
     badgeStyle:    "blue",          // green | blue | terra | amber
@@ -266,7 +266,7 @@ const DEALS_CONFIG = {
 
     nights:        4,
     travelDate:    "3rd Apr 2026",
-    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    returnDate:    "7 Apr 2026",
     flightSummary: "Out: London Gatwick LGW to Crete (Heraklion) HER | dep Fri 3rd Apr 2026 08:20 | arr Fri 3rd Apr 2026 14:50 | Back: Crete HER to London LGW | dep Tue 7th Apr 2026 14:05 | arr Tue 7th Apr 2026 16:25",
 
     totalPrice:    2151,
@@ -294,9 +294,9 @@ const DEALS_CONFIG = {
 
     familyFriendly:   true,
     flightsIncluded:  true,
-    departureAirport: "",  // ← e.g. "London Gatwick"
+    departureAirport: "London Gatwick",
 
-    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+    category: ["family", "beach", "all-inclusive"],
 
     ctaLabel: "Ask about this deal",
   },
@@ -304,9 +304,9 @@ const DEALS_CONFIG = {
   // ── Fuengirola, Costa Del Sol · Ramada Hotel Suites Costa Del Sol ──────────────────────────────
   {
     id:            "ramada-hotel-suites-costa-del-sol-fuengirola-costa",
-    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
-    travelDateRaw: "",               // ← REQUIRED for auto-expiry: "YYYY-MM-DD" e.g. "2026-04-03"
-    status:        "draft",         // ← change to "live" when ready to publish
+    campaign:      "easter-2026",
+    travelDateRaw: "2026-04-05",
+    status:        "live",
 
     badge:         "Our Pick",
     badgeStyle:    "blue",          // green | blue | terra | amber
@@ -320,8 +320,8 @@ const DEALS_CONFIG = {
     boardBasis:    "Self Catering",
 
     nights:        4,
-    travelDate:    "5th Apr 2026",
-    returnDate:    "",              // ← fill in e.g. "10 Apr 2026"
+    travelDate:    "5 Apr 2026",
+    returnDate:    "9 Apr 2026",
     flightSummary: "Out: London Gatwick LGW to Malaga AGP | dep Sun 5th Apr 2026 at 08:05 | arr 12:10 | Back: Malaga AGP to London Gatwick LGW | dep Thu 9th Apr 2026 at 13:00 | arr 14:50",
 
     totalPrice:    1341,
