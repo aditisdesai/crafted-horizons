@@ -15,12 +15,35 @@
 ### 1. Install Python dependencies
 
 ```bash
-pip install anthropic requests
+pip install requests
 ```
 
-### 2. Get your Anthropic API key
+### 2. Run the setup wizard
 
-Log in at https://console.anthropic.com → API Keys → Create key.
+```bash
+python3 tools/instagram_agent.py --setup
+```
+
+This walks you through choosing a provider, model, and saving your API keys to
+`~/.craftedhorizons/config.json` (owner-readable only, never committed to git).
+
+Supported providers (same as the proposal builder):
+
+| Provider | Models | Key required |
+|---|---|---|
+| `anthropic` | claude-haiku / sonnet / opus | Yes — console.anthropic.com |
+| `openai` | gpt-4o / gpt-4o-mini | Yes — platform.openai.com |
+| `groq` | llama-3.3-70b-versatile | Yes (free tier) — console.groq.com |
+| `openrouter` | Any model | Yes — openrouter.ai |
+| `ollama` | llama3.2 / mistral / etc. | No — runs locally |
+
+You can also override provider and model per-run without changing your config:
+
+```bash
+python3 tools/instagram_agent.py --provider groq --model llama-3.3-70b-versatile
+python3 tools/instagram_agent.py --provider openai --model gpt-4o-mini
+python3 tools/instagram_agent.py --provider ollama --model llama3.2
+```
 
 ### 3. Get your Instagram credentials
 
