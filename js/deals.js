@@ -683,6 +683,233 @@ const DEALS_CONFIG = {
 
     ctaLabel: "Ask about this deal",
   },
+    // ── Bangkok; Koh Samui; Koh Tao; Koh Phangan · 4* Hotels · London Heathrow ──────────────────────────────
+  {
+    id:            "4-hotels-bangkok-koh-samui-koh-tao-koh-phangan-lon",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-09-17",
+    status:        "draft",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Bangkok; Koh Samui; Koh Tao; Koh Phangan",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "4* Hotels",
+    starRating:    4,
+    roomType:      "",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        12,
+    travelDate:    "17 Sep 2026",
+    returnDate:    "30 Sep 2026",
+    flightSummary: "Out: London Heathrow to Bangkok | dep 17 Sep 2026",
+
+    totalPrice:    2249,
+    pricePerPerson: 2249,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "9 nights tour accommodation",
+      "9 breakfasts and 1 lunch",
+      "Organised activities and guided sightseeing",
+      "Snorkel to spot turtles, reef sharks and barracudas",
+      "Services of local guides",
+      "Transfers and internal flight",
+      "Return flights from the UK",
+    ],
+
+    highlights: [
+      "Discover the wonders of bustling Bangkok",
+      "Snorkel in Koh Tao's coral-rich waters",
+      "Relax on the white sands of Koh Phangan",
+      "4x4 adventure to Samui's Secret Buddha Garden",
+      "Traditional Thai lunch and coconut oil demonstration",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "London Heathrow",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Bangkok; Koh Samui; Koh Tao; Koh Phangan ·  · Manchester ──────────────────────────────
+  {
+    id:            "bangkok-koh-samui-koh-tao-koh-phangan-manchester",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-09-17",
+    status:        "draft",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Bangkok; Koh Samui; Koh Tao; Koh Phangan",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "",
+    starRating:    4,
+    roomType:      "",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        12,
+    travelDate:    "17 Sep 2026",
+    returnDate:    "30 Sep 2026",
+    flightSummary: "Out: Manchester to Bangkok | dep 17 Sep 2026",
+
+    totalPrice:    2299,
+    pricePerPerson: 2299,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "9 nights tour accommodation",
+      "9 breakfasts and 1 lunch",
+      "Organised activities and guided sightseeing",
+      "Snorkel to spot turtles, reef sharks and barracudas",
+      "Services of local guides",
+      "Transfers and internal flight",
+      "Return flights from the UK",
+    ],
+
+    highlights: [
+      "Discover the wonders of bustling Bangkok",
+      "Snorkel in Koh Tao's coral-rich waters",
+      "Relax on the white sands of Koh Phangan",
+      "4x4 adventure to Samui's Secret Buddha Garden",
+      "Traditional Thai lunch and coconut oil demonstration",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Manchester",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Bangkok; Koh Samui; Koh Tao; Koh Phangan ·  · Edinburgh ──────────────────────────────
+  {
+    id:            "bangkok-koh-samui-koh-tao-koh-phangan-edinburgh",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-09-17",
+    status:        "draft",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Bangkok; Koh Samui; Koh Tao; Koh Phangan",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "",
+    starRating:    4,
+    roomType:      "",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        12,
+    travelDate:    "17 Sep 2026",
+    returnDate:    "30 Sep 2026",
+    flightSummary: "Out: Edinburgh to Bangkok | dep 17 Sep 2026",
+
+    totalPrice:    2499,
+    pricePerPerson: 2499,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "9 nights tour accommodation",
+      "9 breakfasts and 1 lunch",
+      "Organised activities and guided sightseeing",
+      "Snorkel to spot turtles, reef sharks and barracudas",
+      "Services of local guides",
+      "Transfers and internal flight",
+      "Return flights from the UK",
+    ],
+
+    highlights: [
+      "Discover the wonders of bustling Bangkok",
+      "Snorkel in Koh Tao's coral-rich waters",
+      "Relax on the white sands of Koh Phangan",
+      "4x4 adventure to Samui's Secret Buddha Garden",
+      "Traditional Thai lunch and coconut oil demonstration",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Edinburgh",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
+
+  // ── Bangkok; Koh Samui; Koh Tao; Koh Phangan ·  · Dublin ──────────────────────────────
+  {
+    id:            "bangkok-koh-samui-koh-tao-koh-phangan-dublin",
+    campaign:      "easter-2026",    // ← update to match campaign id in deals.js
+    travelDateRaw: "2026-09-17",
+    status:        "draft",          // ← change to "live" when ready to publish
+
+    badge:         "Live deal",
+    badgeStyle:    "blue",           // green | blue | terra | amber
+    editorsPick:   false,
+
+    destination:   "Bangkok; Koh Samui; Koh Tao; Koh Phangan",
+    region:        "",               // ← optional: area name e.g. "Heraklion Area"
+    hotelName:     "",
+    starRating:    4,
+    roomType:      "",
+    boardBasis:    "Bed & Breakfast",
+
+    nights:        12,
+    travelDate:    "17 Sep 2026",
+    returnDate:    "30 Sep 2026",
+    flightSummary: "Out: Dublin to Bangkok | dep 17 Sep 2026",
+
+    totalPrice:    2249,
+    pricePerPerson: 2249,
+    wasPrice:      null,
+    currency:      "GBP",
+
+    includes: [
+      "9 nights tour accommodation",
+      "9 breakfasts and 1 lunch",
+      "Organised activities and guided sightseeing",
+      "Snorkel to spot turtles, reef sharks and barracudas",
+      "Services of local guides",
+      "Transfers and internal flight",
+      "Return flights from the UK",
+    ],
+
+    highlights: [
+      "Discover the wonders of bustling Bangkok",
+      "Snorkel in Koh Tao's coral-rich waters",
+      "Relax on the white sands of Koh Phangan",
+      "4x4 adventure to Samui's Secret Buddha Garden",
+      "Traditional Thai lunch and coconut oil demonstration",
+    ],
+
+    whyIPicked: "",  // ← add your personal note here (shown italic on card)
+
+    familyFriendly:   true,
+    flightsIncluded:  true,
+    departureAirport: "Dublin",
+
+    category: ["family", "beach"],  // ← beach | all-inclusive | self-catering | half-board
+
+    ctaLabel: "Ask about this deal",
+  },
 
 
     /*
