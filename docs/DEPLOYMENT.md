@@ -74,7 +74,6 @@ Visit each page and verify it loads correctly:
 #### C. Link Tests
 - Click WhatsApp link → Opens WhatsApp with pre-filled message
 - Click email links → Opens email client with aditi@crafted-horizons.com
-- Click "The Latitude Collective" → Opens external site in new tab
 - Click all navigation links → Verify they work
 
 #### D. Image Tests
@@ -155,7 +154,6 @@ First submission will require email confirmation from FormSubmit.co.
 - **Robots.txt:** https://crafted-horizons.com/robots.txt
 - **WhatsApp:** https://wa.me/447825422655
 - **Email:** aditi@crafted-horizons.com
-- **The Latitude Collective:** https://www.thelatitudecollective.com
 
 ## 🆘 Troubleshooting
 

@@ -263,8 +263,7 @@ function testImagePaths() {
     'images/hero-crafted-horizons-mobile.jpg',
     'images/inspiration/moreholidays/IMG_1986.jpg',
     'images/ME/mehollywood.jpg',
-    'images/inspiration/Swiss/3C3EB254-4EE7-4A9D-B65D-B6C65F64916E_1_105_c.jpeg',
-    'images/opportunity/latitude-opportunity-1.jpg'
+    'images/inspiration/Swiss/3C3EB254-4EE7-4A9D-B65D-B6C65F64916E_1_105_c.jpeg'
   ];
 
   imagePaths.forEach(imagePath => {
@@ -311,16 +310,6 @@ function testLinks() {
     const content = readFile('planning.html');
     if (content.includes('wa.me/447424907184')) {
       pass('planning.html: WhatsApp link in support card');
-    }
-  }
-
-  // Check Latitude Collective link on homepage
-  if (fileExists('index.html')) {
-    const content = readFile('index.html');
-    if (content.includes('thelatitudecollective.com')) {
-      pass('index.html: Latitude Collective link present');
-    } else {
-      fail('index.html: Latitude Collective link missing');
     }
   }
 }

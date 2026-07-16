@@ -21,14 +21,6 @@ const headerHTML = `<!-- Navigation -->
       <a href="planning.html" class="nav-link">Travel Planning</a>
       <a href="about.html" class="nav-link">About</a>
       <a
-        href="https://www.thelatitudecollective.com"
-        class="nav-link nav-link-external"
-        target="_blank"
-        rel="noopener"
-      >
-        The Latitude Collective ✨
-      </a>
-      <a
         href="https://wa.me/447424907184?text=Hi%20Aditi%2C%20I%27d%20love%20help%20planning%20a%20trip."
         class="nav-link nav-whatsapp"
         target="_blank"

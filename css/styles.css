@@ -1139,6 +1139,11 @@ li { margin: 6px 0; }
   gap: 1.5rem;
 }
 
+.two-ways-grid--single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 560px;
+}
+
 .two-way-card {
   display: flex;
   flex-direction: column;
@@ -1228,11 +1233,6 @@ li { margin: 6px 0; }
 
 .two-way-media.crop-left img {
   object-position: 25% 50%;
-}
-
-/* For the Latitude card only */
-.two-way-card.latitude .two-way-media img {
-  object-position: 65% 50%;
 }
 
 /* Mobile */
